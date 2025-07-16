@@ -21,13 +21,13 @@
 - 💾 Git & GitHub
 
 ## 📊 GitHub Stats:
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=Hussain-Nazary&show_icons=true&theme=radical)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=HussainNazary2&show_icons=true&theme=radical)
 
 ## 🏆 GitHub Trophies:
-![GitHub Trophies]( https://github-profile-trophy.vercel.app/?username=Hussain-Nazary&theme=dark&row=1&column=6)
+![GitHub Trophies]( https://github-profile-trophy.vercel.app/?username=HussainNazary2&theme=dark&row=1&column=6)
 
 ## 🧑‍💻 Most Used Languages:
-![Top Langs]( https://github-readme-stats.vercel.app/api/top-langs/?username=Hussain-Nazary&layout=compact&theme=onedark)
+![Top Langs]( https://github-readme-stats.vercel.app/api/top-langs/?username=HussainNazary2&layout=compact&theme=onedark)
 
 ## 💬 Random Dev Quote:
 > Should array indices start at 0 or 1? My compromise of 0.5 was rejected without, I thought, proper consideration.
