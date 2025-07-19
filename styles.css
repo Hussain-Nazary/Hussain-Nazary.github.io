@@ -363,8 +363,7 @@ body {
     background: linear-gradient(90deg, #3498db, #2980b9);
     border-radius: 10px;
     transition: width 2s ease;
-    animation: fillBar 2s ease-in-out;
-    animation-play-state: paused;
+    animation: fillBar 2s ease-in-out paused;
 }
 
 .stat-value {
@@ -375,6 +374,7 @@ body {
 
 @keyframes fillBar {
     from { width: 0; }
+    to { width: 100%; }
 }
 
 /* Projects Section */
@@ -411,7 +411,6 @@ body {
 }
 
 .project-icon {
-    display: inline-block;
     width: 60px;
     height: 60px;
     background: #3498db;
@@ -619,6 +618,7 @@ body {
 .contact-card a:hover {
     text-decoration: underline;
 }
+
 /* Posts Section */
 .posts {
     padding: 80px 0;
@@ -731,41 +731,6 @@ body {
     color: #7f8c8d;
 }
 
-/* Responsive Design for Posts */
-@media (max-width: 768px) {
-    .posts-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .post-banner {
-        padding: 1.2rem 1.5rem;
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-    }
-    
-    .post-content {
-        padding: 1.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .post-card {
-        margin: 0 5px;
-    }
-    
-    .post-banner {
-        padding: 1rem;
-    }
-    
-    .post-content {
-        padding: 1.2rem;
-    }
-    
-    .post-content h3 {
-        font-size: 1.2rem;
-    }
-}
 /* Footer */
 .footer {
     background: #1a252f;
@@ -839,6 +804,21 @@ body {
     .stat-visual {
         margin: 0;
     }
+    
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .post-banner {
+        padding: 1.2rem 1.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .post-content {
+        padding: 1.5rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -876,5 +856,21 @@ body {
     
     .gguf-stats {
         padding: 1.5rem;
+    }
+    
+    .post-card {
+        margin: 0 5px;
+    }
+    
+    .post-banner {
+        padding: 1rem;
+    }
+    
+    .post-content {
+        padding: 1.2rem;
+    }
+    
+    .post-content h3 {
+        font-size: 1.2rem;
     }
 }
