@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Revolution Continues: Key Models and Updates in July 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .blog-post {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            position: relative;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 1.6rem;
+            margin: 30px 0 15px 0;
+            padding-left: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .model-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 0%, rgba(52, 152, 219, 0.05) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .model-card:hover::before {
+            opacity: 1;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .features-list {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .features-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .benchmark-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .benchmark-table th,
+        .benchmark-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .benchmark-table th {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .benchmark-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .section-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .references {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .references h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .references ol {
+            padding-left: 20px;
+        }
+
+        .references li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .references a {
+            color: #3498db;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .references a:hover {
+            text-decoration: underline;
+        }
+
+        .author-info {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .author-info p {
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 40px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.4rem;
+            }
+
+            .hero-image {
+                height: 250px;
+            }
+
+            .section-image {
+                height: 200px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="blog-post fade-in">
+            <header class="header">
+                <h1>The AI Revolution Continues: Key Models and Updates in July 2025</h1>
+                <p>Exploring the latest advancements in artificial intelligence models, groundbreaking research, and strategic moves by major tech players that are reshaping the future of intelligent technology.</p>
+            </header>
+
+            <div class="content">
+                <img src="blog_images/AI_Models_Comparison.jpg" alt="AI Models Comparison" class="hero-image">
+
+                <p>Artificial Intelligence continues its relentless march forward, transforming industries and reshaping our daily lives at an unprecedented pace. July 2025 has been a particularly dynamic month, witnessing significant advancements in AI models, groundbreaking research, and strategic moves by major tech players. From enhanced reasoning capabilities to more accessible development tools, the landscape of AI is evolving rapidly. This post delves into the most impactful updates and new models that have emerged this month, providing a comprehensive overview of the cutting edge of artificial intelligence.</p>
+
+                <p>We'll explore the latest iterations of leading AI models, examine their unique strengths and applications, and highlight the key innovations that are setting new benchmarks in the field. Whether you're a developer, researcher, or simply an enthusiast keen on staying abreast of AI's progress, this guide will provide valuable insights into the forces shaping the future of intelligent technology.</p>
+
+                <h2>Top AI Models of July 2025: A Deep Dive</h2>
+
+                <p>July 2025 has seen a fierce competition among AI developers, leading to remarkable improvements and new releases across the board. The leading models—Claude 4, Grok 4, GPT-4.5/o3, Llama 4, Gemini 2.5 Pro, and DeepSeek R1—each bring unique strengths to different use cases, from multimodal understanding to reasoning depth and cost efficiency.</p>
+
+                <div class="model-card">
+                    <h3>1. Claude 4: Anthropic's Coding Powerhouse</h3>
+                    
+                    <img src="blog_images/AI_Technology.jpeg" alt="AI Technology" class="section-image">
+
+                    <p>Anthropic's Claude 4 family, released in May 2025, represents a significant leap in AI-powered software development. The series includes <strong>Claude Opus 4</strong> and <strong>Claude Sonnet 4</strong>, both featuring hybrid architecture with instant responses and extended thinking capabilities.</p>
+
+                    <div class="features-list">
+                        <h4>Key Features & Capabilities:</h4>
+                        <ul>
+                            <li><strong>Claude Opus 4</strong> is hailed as the world's best coding model, achieving 72.5% on SWE-bench Verified</li>
+                            <li>Can work continuously for several hours on complex projects</li>
+                            <li>90% accuracy on the AIME 2025 mathematics competition</li>
+                            <li>Extended thinking with tool use during reasoning</li>
+                            <li><strong>Claude Sonnet 4</strong> offers 72.7% on SWE-bench (80.2% with parallel compute)</li>
+                            <li>64,000 output tokens for comprehensive code generation</li>
+                        </ul>
+                    </div>
+
+                    <table class="benchmark-table">
+                        <thead>
+                            <tr>
+                                <th>Benchmark</th>
+                                <th>Claude Opus 4</th>
+                                <th>Claude Sonnet 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SWE-bench Verified</td>
+                                <td>72.5%</td>
+                                <td>72.7%</td>
+                            </tr>
+                            <tr>
+                                <td>AIME 2025</td>
+                                <td>90%</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>GPQA Diamond</td>
+                                <td>83-84%</td>
+                                <td>83-84%</td>
+                            </tr>
+                            <tr>
+                                <td>TAU-bench</td>
+                                <td>80.5-81.4%</td>
+                                <td>80.5-81.4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>Best Use Cases:</strong> Complex software development, multi-step coding projects, AI agent development, code review, debugging, and technical documentation generation.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>2. Grok 4: xAI's Reasoning Revolution</h3>
+
+                    <p>Released in July 2025, Grok 4 represents xAI's most ambitious AI project, trained on the massive Colossus supercomputer. It emphasizes truth-seeking AI with powerful reasoning capabilities and is surprisingly conversational and witty, often making it the most fun to interact with.</p>
+
+                    <div class="features-list">
+                        <h4>Key Features & Capabilities:</h4>
+                        <ul>
+                            <li><strong>Grok 4 Reasoning Beta</strong> boasts 93.3% performance on AIME 2025 mathematics</li>
+                            <li>84.6% on GPQA graduate-level reasoning</li>
+                            <li>79.4% on LiveCodeBench coding challenges</li>
+                            <li>Real-time X platform data integration</li>
+                            <li>1 million token context window</li>
+                            <li><strong>Think Mode</strong> for extended reasoning</li>
+                            <li><strong>Big Brain Mode</strong> for maximum computational resources</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Unique Advantages:</strong> Real-time information access through X integration, uncensored responses, massive computational infrastructure, and advanced reasoning modes. Grok 4 is also redefining AI coding through its integration with tools like Cursor, assisting with multi-file navigation and deep repository-level debugging.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>3. GPT Family: OpenAI's Evolution Continues</h3>
+
+                    <p>OpenAI's 2025 offerings include refinements to the GPT-4 series and the introduction of o3/o4-mini reasoning models, maintaining their position as versatile, general-purpose AI assistants. GPT-4o still leads in natural interaction, especially for voice-based communication, having been trained end-to-end on text, audio, and images.</p>
+
+                    <div class="features-list">
+                        <h4>Current Model Lineup:</h4>
+                        <ul>
+                            <li><strong>GPT-4.5</strong> (Expected 2025): Enhanced reasoning, conversational capabilities</li>
+                            <li>Improved multimodal understanding and better instruction following</li>
+                            <li><strong>o3/o4-mini Reasoning Models</strong>: Specialized for complex reasoning tasks</li>
+                            <li>Competitive with DeepSeek R1 on mathematical benchmarks</li>
+                            <li>Cost-effective reasoning capabilities</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Performance Highlights:</strong> Strong performance across general benchmarks, excellent conversational AI capabilities, robust multimodal processing (text, images, code), and industry-standard for many enterprise applications. GPT-4o scores 90.2% on HumanEval for code generation.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>4. Llama 4: Meta's Multimodal Marvel</h3>
+
+                    <p>Meta's Llama 4, launched in April 2025, marks a significant evolution with native multimodal capabilities and mixture-of-experts architecture. The series includes Scout, Maverick, and the upcoming Behemoth variants.</p>
+
+                    <div class="features-list">
+                        <h4>Key Innovations:</h4>
+                        <ul>
+                            <li><strong>Early Fusion Multimodality</strong>: Native text and vision integration</li>
+                            <li><strong>Open Source License</strong>: Free for most commercial use</li>
+                            <li><strong>MoE Architecture</strong>: Efficiency with power</li>
+                            <li><strong>12 Language Support</strong>: Global accessibility</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Performance Benchmarks:</strong> Competitive with GPT-4o on coding benchmarks, superior multimodal understanding, strong performance on reasoning tasks, and excellent cost-efficiency ratio.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>5. Gemini 2.5 Pro: Google's Reasoning Renaissance</h3>
+
+                    <p>Google's Gemini 2.5 Pro, enhanced with Deep Think mode in 2025, represents a significant leap in AI reasoning capabilities, combining massive context windows with advanced thinking processes. It is the most advanced multimodal model, seamlessly processing and generating content across text, images, audio, and video.</p>
+
+                    <div class="features-list">
+                        <h4>Core Capabilities:</h4>
+                        <ul>
+                            <li><strong>Deep Think Mode</strong>: Parallel hypothesis testing before responding</li>
+                            <li>84% on USAMO 2025 mathematics competition</li>
+                            <li>85% on GPQA Diamond</li>
+                            <li><strong>Massive Context Window</strong>: 1 million token context window</li>
+                            <li><strong>Video Understanding</strong>: Directly processes and understands video content</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Best Use Cases:</strong> Complex problem-solving, long-form content analysis, video content summarization, advanced coding, and scientific research.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>6. DeepSeek R1: The Cost-Effective Contender</h3>
+
+                    <p>DeepSeek R1, released in March 2025, has rapidly gained traction as a highly efficient and cost-effective alternative to larger models, offering comparable performance for many tasks at a fraction of the price.</p>
+
+                    <div class="features-list">
+                        <h4>Key Features & Capabilities:</h4>
+                        <ul>
+                            <li><strong>Mixture-of-Experts (MoE) Architecture</strong>: Efficient resource utilization</li>
+                            <li><strong>Strong Reasoning</strong>: Competitive on mathematical and logical reasoning benchmarks</li>
+                            <li><strong>Cost-Effectiveness</strong>: Significantly lower pricing than competitors</li>
+                            <li><strong>Open-Source Availability</strong>: Encourages broad adoption and innovation</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>Performance Benchmarks:</strong> 88% on AIME 2025 and 82% on GPQA Diamond, making it competitive with top models while offering an industry-leading cost-performance ratio.</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>7. Kiro Amazon: AWS's New AI Coding Tool</h3>
+
+                    <p><strong>Kiro</strong> is a new AI coding tool and integrated development environment (IDE) launched by Amazon Web Services (AWS) in July 2025. It is designed to assist developers in writing code with the help of artificial intelligence, focusing on a concept called "spec-driven development" [4]. Kiro utilizes autonomous agents to generate and maintain project plans, specifications, and code, and is primarily powered by Anthropic's Claude Sonnet 4 [4].</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>8. Kimi K2: Moonshot AI’s Trillion-Parameter Model</h3>
+
+                    <p><strong>Kimi K2</strong> is a new large language model developed by Beijing-based Moonshot AI, launched around July 11, 2025. It is an open-weight, Mixture-of-Experts (MoE) model with 1 trillion total parameters, activating 32 billion parameters per inference [5]. Kimi K2 is specifically designed for tool use, reasoning, and autonomous problem-solving, and its open-source nature aims to disrupt the market by offering comparable performance at a lower cost [5].</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>9. ChatGPT Agent: OpenAI’s New Agentic Model</h3>
+
+                    <p><strong>ChatGPT Agent</strong> is a new agentic model introduced by OpenAI on July 17, 2025. It is designed to bridge the gap between research and action, allowing ChatGPT to complete complex online tasks on behalf of the user [6]. The agent can intelligently navigate websites, run code, conduct analysis, and even generate editable presentations and slideshows, seamlessly switching between different tools and modes to accomplish tasks [6].</p>
+                </div>
+
+                <h2>Other Significant AI Updates in July 2025</h2>
+
+                <p>Beyond the advancements in core AI models, July 2025 has also seen a flurry of other significant developments across various sectors of artificial intelligence. These updates highlight the expanding applications and increasing integration of AI into diverse fields.</p>
+
+                <h3>Google AI Updates</h3>
+
+                <p>Google has continued to push the boundaries of AI, with several key announcements in June that are now impacting July's AI landscape:</p>
+
+                <div class="features-list">
+                    <ul>
+                        <li><strong>Expanded Gemini 2.5 family of models</strong>: Made Gemini 2.5 Flash and Pro generally available</li>
+                        <li><strong>Gemini CLI</strong>: Open-source AI agent for developers</li>
+                        <li><strong>Imagen 4</strong>: Best text-to-image model with improved text rendering</li>
+                        <li><strong>AI Mode Enhancements</strong>: Voice search and interactive charts</li>
+                        <li><strong>Improved Ask Photos</strong>: Better photo search with complex queries</li>
+                        <li><strong>Chromebook Plus with AI Features</strong>: Smart grouping and AI image editing</li>
+                        <li><strong>AlphaGenome</strong>: DNA sequence model for genome research</li>
+                        <li><strong>Weather Lab</strong>: AI weather models for cyclone prediction</li>
+                        <li><strong>Gemini Robotics On-Device</strong>: AI for robots with general-purpose dexterity</li>
+                    </ul>
+                </div>
+
+                <div class="conclusion">
+                    <h2>Conclusion: The Accelerating Pace of AI Innovation</h2>
+                    <p>July 2025 has undeniably been a pivotal month for artificial intelligence, marked by significant advancements across various fronts. The continuous evolution of models like Claude, Grok, GPT, Llama, Gemini, DeepSeek, Kiro, Kimi, and ChatGPT Agent underscores a competitive yet highly innovative environment. These developments are not just incremental improvements; they represent fundamental shifts in AI capabilities, from enhanced reasoning and multimodal understanding to more efficient and accessible tools for developers.</p>
+                    
+                    <p>Beyond the models themselves, the broader AI ecosystem is thriving with innovations in specialized applications, ethical considerations, and regulatory frameworks. The increasing focus on areas like AI in healthcare, energy efficiency in large language models, and the development of robust AI agents signifies a maturing field that is becoming increasingly integrated into every facet of technology and society.</p>
+                    
+                    <p>As we move forward, the pace of AI innovation is only expected to accelerate. Staying informed about these rapid changes will be crucial for anyone looking to leverage the power of AI, whether for personal, professional, or research endeavors. The breakthroughs of July 2025 serve as a powerful reminder of AI's transformative potential and the exciting future it promises.</p>
+                </div>
+
+                <div class="references">
+                    <h2>References</h2>
+                    <ol>
+                        <li>Collabnix. (2025, July 1). <em>AI Models Comparison 2025: Claude, Grok, GPT & More</em>. Retrieved from <a href="https://collabnix.com/comparing-top-ai-models-in-2025-claude-grok-gpt-llama-gemini-and-deepseek-the-ultimate-guide/">https://collabnix.com/comparing-top-ai-models-in-2025-claude-grok-gpt-llama-gemini-and-deepseek-the-ultimate-guide/</a></li>
+                        <li>Google Blog. (2025, July 2). <em>The latest AI news we announced in June</em>. Retrieved from <a href="https://blog.google/technology/ai/google-ai-updates-june-2025/">https://blog.google/technology/ai/google-ai-updates-june-2025/</a></li>
+                        <li>Fello AI. (2025, July 15). <em>We Tested Grok 4, Claude, Gemini, GPT-4o: Which AI Should You Use In July 2025?</em>. Retrieved from <a href="https://felloai.com/2025/07/we-tested-grok-4-claude-gemini-gpt-4o-which-ai-should-you-use-in-july-2025/">https://felloai.com/2025/07/we-tested-grok-4-claude-gemini-gpt-4o-which-ai-should-you-use-in-july-2025/</a></li>
+                        <li>CRN. (2025). <em>AWS Kiro: 5 Key Features To Amazon's New AI Coding Tool</em>. Retrieved from <a href="https://www.crn.com/news/cloud/2025/aws-kiro-5-key-features-to-amazon-s-new-ai-coding-tool">https://www.crn.com/news/cloud/2025/aws-kiro-5-key-features-to-amazon-s-new-ai-coding-tool</a></li>
+                        <li>Nature. (2025, July 11). <em>'Another DeepSeek moment': Chinese AI model Kimi K2</em>. Retrieved from <a href="https://www.nature.com/articles/d41586-025-02275-6">https://www.nature.com/articles/d41586-025-02275-6</a></li>
+                        <li>OpenAI. (2025, July 17). <em>Introducing ChatGPT agent: bridging research and action</em>. Retrieved from <a href="https://openai.com/index/introducing-chatgpt-agent/">https://openai.com/index/introducing-chatgpt-agent/</a></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="author-info">
+                <p>Written by <strong>Hussain Nazary</strong> | July 19, 2025</p>
+                <p>Stay updated with the latest in AI technology and innovation</p>
+            </div>
+        </article>
+    </div>
+
+    <script>
+        // Add smooth scrolling and fade-in animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add fade-in animation to elements as they come into view
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all model cards and sections
+            document.querySelectorAll('.model-card, h2, .conclusion').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+
