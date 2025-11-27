@@ -4,36 +4,48 @@
     <loc>https://Hussain-Nazary.github.io/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2025-10-06</lastmod>
+    <lastmod>2025-11-27</lastmod>
   </url>
   <url>
-    <loc>https://Hussain-Nazary.github.io/projects</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-    <lastmod>2025-10-06</lastmod>
-  </url>
-  <url>
-    <loc>https://Hussain-Nazary.github.io/ai-ide-comparison-October-2025-github-copilot-vs-cursor-vs-jetbrains-ai-vs-amazon-kiro.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-    <lastmod>2025-10-06</lastmod>
-  </url>
-  <url>
-    <loc>https://Hussain-Nazary.github.io/blog</loc>
-    <priority>0.7</priority>
+    <loc>https://Hussain-Nazary.github.io/index.html</loc>
+    <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2025-10-06</lastmod>
+    <lastmod>2025-11-27</lastmod>
   </url>
   <url>
-    <loc>https://Hussain-Nazary.github.io/about</loc>
-    <priority>0.6</priority>
-    <changefreq>yearly</changefreq>
-    <lastmod>2025-10-06</lastmod>
+    <loc>https://Hussain-Nazary.github.io/#skills</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2025-11-27</lastmod>
   </url>
   <url>
-    <loc>https://Hussain-Nazary.github.io/contact</loc>
-    <priority>0.5</priority>
+    <loc>https://Hussain-Nazary.github.io/#projects</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2025-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/#blog</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2025-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/#contact</loc>
+    <priority>0.7</priority>
     <changefreq>yearly</changefreq>
-    <lastmod>2025-10-06</lastmod>
+    <lastmod>2025-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/ai-ide-comparison-November-2025-github-copilot-vs-cursor-vs-jetbrains-ai-vs-amazon-kiro.html</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2025-11-27</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/november-2025-ai-model-updates-gpt6-claude45-llama5-grok5-gemini3-chatgpt5-agent.html</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2025-11-27</lastmod>
   </url>
 </urlset>
