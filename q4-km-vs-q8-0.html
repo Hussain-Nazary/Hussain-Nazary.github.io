@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q4_K_M vs Q8_0: Which Quantization Should You Download?</title>
+    <meta name="description" content="Q4_K_M vs Q8_0 with real numbers: file size, memory, quality loss, task sensitivity — plus a decision guide for picking the right GGUF quant in 2026.">
+    <meta name="keywords" content="q4_k_m vs q8_0, gguf quantization, q4_k_m, q8_0, quantization comparison, local llm, gguf, which quantization to use, quantization quality, llama.cpp quant">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/q4-km-vs-q8-0.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Q4_K_M vs Q8_0: Which Quantization Should You Download?">
+    <meta property="og:description" content="Q4_K_M vs Q8_0 compared with real numbers: file size, memory, quality loss, and task sensitivity — plus a decision guide for picking the right GGUF quant.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/q4-km-vs-q8-0.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Q4_K_M vs Q8_0: Which Quantization Should You Download?">
+    <meta name="twitter:description" content="Q4_K_M vs Q8_0 compared with real numbers: file size, memory, quality loss, and task sensitivity — plus a decision guide.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Q4_K_M vs Q8_0: Which Quantization Should You Download?",
+          "description": "Q4_K_M vs Q8_0 with real numbers: file size, memory, quality loss, task sensitivity — plus a decision guide for picking the right GGUF quant in 2026.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/q4-km-vs-q8-0.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Which is better, Q4_K_M or Q8_0?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Q8_0 is higher quality, but Q4_K_M is the better default for most people. Q4_K_M keeps roughly 95-97% of full-precision quality at about a third of the memory cost, which is the best quality-per-GB trade-off. Choose Q8_0 when you have the RAM/VRAM to spare and the task is sensitive — coding, math, or long structured reasoning."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much RAM do I need for Q8_0 vs Q4_K_M on a 7B model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A 7B model at Q4_K_M is about 3.9GB of weights (roughly 5-6GB total with context and overhead), while Q8_0 is about 7.4GB of weights (roughly 8-9GB total). On a 16GB machine, Q8_0 is usually fine; on 8GB, Q4_K_M is the safer choice."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can you notice the difference between Q4_K_M and Q8_0?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For chat and summarization, most people cannot tell the difference. For coding, math, and long multi-step reasoning, the difference is measurable: Q8_0 is effectively lossless (within ~0.1-0.3% perplexity of full precision), while Q4_K_M shows more degradation on these precise tasks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Q4_K_M good enough for coding?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Q4_K_M works for simple completions but shows cracks on complex, multi-file coding tasks where a single wrong token breaks the logic. For coding models, Q5_K_M or higher is the community recommendation when your hardware allows it."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does Q8_0 exist if Q4_K_M is the default?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Because quality-per-GB is not the only goal. Q8_0 is effectively lossless, so it is the right choice when quality is critical and memory is available — production serving, benchmarking, or tasks where precision errors cascade. Q4_K_M exists to fit more models on modest hardware."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I know which quantization to download?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Start with Q4_K_M: it runs almost everywhere and is the default on Ollama and most model hubs. If your RAM/VRAM usage is under ~60%, step up to Q5_K_M or Q6_K. Only use Q8_0 when you have clear headroom and a precision-sensitive task. A smaller model at a higher quant usually beats a larger model at a low quant."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Q4_K_M vs Q8_0: Which Quantization Should You Download?</h1>
+        <p><strong>Published: August 8, 2026</strong> — You've picked a model. Now you're staring at a download page with the same file repeated in a dozen flavors: <code>Q4_K_M.gguf</code>, <code>Q5_K_M.gguf</code>, <code>Q6_K.gguf</code>, <code>Q8_0.gguf</code>. The two you'll actually choose between are <strong>Q4_K_M</strong> and <strong>Q8_0</strong>. This post gives you the real numbers — file size, memory, quality loss, and task sensitivity — so you can stop guessing.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Q4_K_M keeps ~95–97% of full-precision quality at ~a third of the memory cost</strong> — the best quality-per-GB deal in the GGUF ecosystem</li>
+                <li><strong>Q8_0 is effectively lossless</strong> — within ~0.1–0.3% perplexity of full precision — but costs roughly 2× the RAM of Q4_K_M</li>
+                <li><strong>On a 7B model:</strong> Q4_K_M ≈ 3.9GB of weights, Q8_0 ≈ 7.4GB (add 1–2GB for context and overhead)</li>
+                <li><strong>For chat and summarization, most people can't tell the difference.</strong> For coding, math, and long reasoning, Q8_0 earns its space</li>
+                <li><strong>Default pick:</strong> download Q4_K_M first. Step up only when your hardware has clear headroom</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="names">
+            <h2>First, Decode the Names</h2>
+            <p>Both are <a href="what-is-gguf.html">GGUF</a> quantization levels produced by the llama.cpp toolchain. The names tell you how the weights are stored:</p>
+            <ul>
+                <li><strong>Q4_K_M</strong> — weights compressed to ~4-bit precision using <em>k-quantization</em>, with the <em>medium</em> (M) mix of precision levels. K-quants keep the sensitive attention layers at higher precision and compress the tolerant feed-forward layers harder, which is why a Q4 <em>K</em> quant beats a naive 4-bit round.</li>
+                <li><strong>Q8_0</strong> — weights stored at ~8-bit precision with the simple, classic per-block scheme (the <code>0</code> marks the legacy basic quant). No mixed-precision tricks needed — at 8 bits there's very little quality to save.</li>
+            </ul>
+            <p>The practical difference is simple: <strong>Q4_K_M packs ~0.56 bytes per parameter; Q8_0 uses ~1.06 bytes per parameter</strong> — almost twice the memory for roughly double the precision.</p>
+        </section>
+
+        <section id="numbers">
+            <h2>File Size and Memory: The Real Numbers</h2>
+            <p>The table below shows GGUF weights in bytes per parameter and typical sizes for common model families. These are weight sizes — add <strong>1–2GB for the context window (KV cache) and runtime overhead</strong>.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Quant</th>
+                        <th>Bytes/param</th>
+                        <th>7B model</th>
+                        <th>14B model</th>
+                        <th>70B model</th>
+                        <th>Quality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>F16</strong> (baseline)</td>
+                        <td>2.00</td>
+                        <td>14.0 GB</td>
+                        <td>28.0 GB</td>
+                        <td>140 GB</td>
+                        <td>Reference</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q8_0</strong></td>
+                        <td>1.06</td>
+                        <td>7.4 GB</td>
+                        <td>14.8 GB</td>
+                        <td>74.2 GB</td>
+                        <td>Effectively lossless</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q6_K</strong></td>
+                        <td>0.81</td>
+                        <td>5.7 GB</td>
+                        <td>11.3 GB</td>
+                        <td>56.7 GB</td>
+                        <td>Very good</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q5_K_M</strong></td>
+                        <td>0.69</td>
+                        <td>4.8 GB</td>
+                        <td>9.7 GB</td>
+                        <td>48.3 GB</td>
+                        <td>Good</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q4_K_M</strong></td>
+                        <td>0.56</td>
+                        <td>3.9 GB</td>
+                        <td>7.8 GB</td>
+                        <td>39.2 GB</td>
+                        <td>Acceptable for most tasks</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q3_K_M</strong></td>
+                        <td>0.44</td>
+                        <td>3.1 GB</td>
+                        <td>6.2 GB</td>
+                        <td>30.8 GB</td>
+                        <td>Noticeable loss</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q2_K</strong></td>
+                        <td>0.31</td>
+                        <td>2.2 GB</td>
+                        <td>4.3 GB</td>
+                        <td>21.7 GB</td>
+                        <td>Significant loss</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box info">
+                <p><strong>💡 Context matters:</strong> a 7B model at Q4_K_M shows 3.9GB of weights, but in practice needs ~5–6GB with context and overhead. A 7B at Q8_0 needs ~8–9GB total. That's why Q8_0 is comfortable on 16GB machines but tight on 8GB ones.</p>
+            </div>
+        </section>
+
+        <section id="quality">
+            <h2>Quality: How Much Do You Actually Lose?</h2>
+            <p>Here's what the benchmarks say (2026 sources):</p>
+            <ul>
+                <li><strong>Q8_0</strong> — effectively lossless. Perplexity increases roughly <strong>0.1–0.3%</strong> versus full precision, which is within measurement noise for most tasks. In blind tests, people generally cannot distinguish Q8_0 from the original model.</li>
+                <li><strong>Q4_K_M</strong> — keeps roughly <strong>95–97% of full-precision quality</strong> at ~35% of the memory cost, with 2–3× the throughput. For chat, summarization, and general assistance, the loss is barely noticeable. The degradation shows up on precision-critical tasks.</li>
+            </ul>
+            <p>But "quality" is not one number — it depends on what you're doing. Task sensitivity is the real deciding factor:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Sensitivity to quantization</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Coding</strong></td>
+                        <td>Highest — one wrong token breaks the logic</td>
+                        <td>Q5_K_M or higher; Q8_0 if you have the RAM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Math &amp; reasoning</strong></td>
+                        <td>High — small errors cascade through long chains</td>
+                        <td>Q5_K_M or Q6_K for chain-of-thought models</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Creative writing</strong></td>
+                        <td>Moderate — nuance and rhythm degrade</td>
+                        <td>Q4_K_M acceptable; Q5+ for serious work</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chat &amp; conversation</strong></td>
+                        <td>Low — language tolerates small variations</td>
+                        <td>Q4_K_M is perfectly adequate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Summarization &amp; extraction</strong></td>
+                        <td>Lowest — broad patterns, not fine precision</td>
+                        <td>Q4_K_M handles it well</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="decision">
+            <h2>The Decision Guide</h2>
+            <p>Use your memory situation, not a fixed rule:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your RAM/VRAM situation</th>
+                        <th>Pick</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Model uses less than ~60% of available memory</td>
+                        <td><strong>Q6_K or Q8_0</strong> — you have headroom, spend it on quality. Q6_K is the better default (marginal gain from Q6→Q8, more room for context)</td>
+                    </tr>
+                    <tr>
+                        <td>Model uses ~60–80% of available memory</td>
+                        <td><strong>Q5_K_M</strong> — the sweet spot between Q4 and Q6</td>
+                    </tr>
+                    <tr>
+                        <td>Model uses ~80–95% of available memory</td>
+                        <td><strong>Q4_K_M</strong> — the most tested, recommended quant for constrained hardware</td>
+                    </tr>
+                    <tr>
+                        <td>Model barely fits even at Q4</td>
+                        <td><strong>Reconsider the model</strong> — a smaller model at Q5/Q6 usually beats a bigger one at Q2/Q3</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>🎯 The rule that beats all tables:</strong> <em>a smaller model at a higher quant beats a larger model at a low quant.</em> A sharp 8B model at Q6_K will outperform a mediocre 14B model at Q3_K — and run faster doing it. When in doubt, download <strong>Q4_K_M first</strong>, run it, and only step up if you can name the quality problem you're seeing.</p>
+            </div>
+        </section>
+
+        <section id="how-to">
+            <h2>How to Compare on Your Own Machine</h2>
+            <ul>
+                <li><strong>Measure perplexity or speed:</strong> llama.cpp ships <code>llama-bench</code> for speed and perplexity comparisons between quant levels.</li>
+                <li><strong>Inspect a GGUF file:</strong> <code>gguf-parser</code> shows exact file metadata, tensor types, and estimated memory use before you commit.</li>
+                <li><strong>In a GUI:</strong> LM Studio shows a color-coded RAM fit indicator per quant; <a href="https://ggufloader.github.io" target="_blank" rel="noopener">GGUF Loader</a> shows a live RAM/VRAM dashboard as the model loads — no CLI needed.</li>
+            </ul>
+            <p>Need the full setup walkthrough? Our <a href="how-to-run-gguf-models-locally-2026-guide.html">guide to running GGUF models locally</a> covers install, model picks, and troubleshooting, and <a href="ollama-vs-llamacpp-2026.html">Ollama vs llama.cpp</a> helps you choose a runtime. For downloads, <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone</a> lists quantized GGUF files with direct links.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Which is better, Q4_K_M or Q8_0?</h3>
+            <p>Q8_0 is higher quality, but Q4_K_M is the better default for most people. Q4_K_M keeps roughly 95–97% of full-precision quality at about a third of the memory cost — the best quality-per-GB trade-off. Choose Q8_0 when you have the RAM/VRAM to spare and the task is sensitive (coding, math, or long structured reasoning).</p>
+
+            <h3>How much RAM do I need for Q8_0 vs Q4_K_M on a 7B model?</h3>
+            <p>A 7B model at Q4_K_M is about 3.9GB of weights (roughly 5–6GB total with context and overhead), while Q8_0 is about 7.4GB of weights (roughly 8–9GB total). On a 16GB machine, Q8_0 is usually fine; on 8GB, Q4_K_M is the safer choice.</p>
+
+            <h3>Can you notice the difference between Q4_K_M and Q8_0?</h3>
+            <p>For chat and summarization, most people cannot. For coding, math, and long multi-step reasoning, the difference is measurable: Q8_0 is effectively lossless (within ~0.1–0.3% perplexity of full precision), while Q4_K_M shows more degradation on these precise tasks.</p>
+
+            <h3>Is Q4_K_M good enough for coding?</h3>
+            <p>Q4_K_M works for simple completions but shows cracks on complex, multi-file coding tasks where a single wrong token breaks the logic. For coding models, Q5_K_M or higher is the community recommendation when your hardware allows it.</p>
+
+            <h3>Why does Q8_0 exist if Q4_K_M is the default?</h3>
+            <p>Because quality-per-GB is not the only goal. Q8_0 is effectively lossless, so it is the right choice when quality is critical and memory is available — production serving, benchmarking, or tasks where precision errors cascade. Q4_K_M exists to fit more models on modest hardware.</p>
+
+            <h3>How do I know which quantization to download?</h3>
+            <p>Start with Q4_K_M: it runs almost everywhere and is the default on Ollama and most model hubs. If your RAM/VRAM usage is under ~60%, step up to Q5_K_M or Q6_K. Only use Q8_0 when you have clear headroom and a precision-sensitive task. A smaller model at a higher quant usually beats a larger model at a low quant.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://willitrunai.com/blog/quantization-guide-gguf-explained" target="_blank" rel="noopener">GGUF Quantization Guide (2026): Q4_K_M Saves 72% VRAM — Will It Run AI</a></li>
+                <li><a href="https://www.kunalganglani.com/blog/llm-quantization-levels-q4-q8-fp16" target="_blank" rel="noopener">LLM Quantization Levels Compared: Q4_K_M vs Q8_0 vs FP16 (July 2026)</a></li>
+                <li><a href="https://www.sitepoint.com/q4-vs-q6-vs-q8-quantization-local-llms/" target="_blank" rel="noopener">Q4 vs Q6 vs Q8: The Quantization Decision Framework (SitePoint, 2026)</a></li>
+                <li><a href="https://github.com/ggml-org/llama.cpp/discussions/2094" target="_blank" rel="noopener">llama.cpp discussion: difference in quantization methods</a></li>
+                <li><a href="https://ggufloader.github.io/what-is-gguf.html" target="_blank" rel="noopener">GGUF Loader: What is GGUF? memory-requirement table</a></li>
+                <li><a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone — GGUF model directory</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

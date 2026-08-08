@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)</title>
+    <meta name="description" content="Top 10 AI models you can run locally in 2026: Qwen3, GPT-OSS, GLM, Gemma, DeepSeek, Llama 4, Mistral, and more — ranked by hardware tier and use case.">
+    <meta name="keywords" content="top 10 local ai models 2026, best local llm, run llm locally, qwen3, gpt-oss, glm, gemma, deepseek, llama 4, mistral, local ai, gguf models, best local models 8gb ram">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/top-10-local-ai-models-2026.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)">
+    <meta property="og:description" content="Top 10 AI models you can actually run on your own hardware in 2026 — ranked by hardware tier and use case, from Qwen3 to embeddings.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/top-10-local-ai-models-2026.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)">
+    <meta name="twitter:description" content="Top 10 AI models you can actually run on your own hardware in 2026 — ranked by hardware tier and use case.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)",
+          "description": "Top 10 AI models you can run locally in 2026: Qwen3, GPT-OSS, GLM, Gemma, DeepSeek, Llama 4, Mistral, and more — ranked by hardware tier and use case.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/top-10-local-ai-models-2026.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the best local AI model in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen3 is the best overall local model family in 2026 — it spans 4B to 235B parameters, so there's a size for every hardware tier, with strong multilingual and coding performance across the range. GPT-OSS 20B (A3B) and GLM 4.7 Flash (30B-A3B) are the best efficient MoE options for 16GB machines."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What AI models can I run on 8GB of RAM?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Small quantized models: Qwen3 4B, Gemma 3 4B, or Phi-4-mini at Q4. Add an embedding model like nomic-embed-text (274MB) and you can build a working local RAG system on 8GB."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best local AI model for coding?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen3-Coder is the strongest local coding pick, with Qwen3-Coder-480B-A35B leading open-model single-attempt coding scores in mid-2026 rankings. For 16GB machines, GPT-OSS 20B (A3B) and Qwen3-14B handle solid code completion and editing locally."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are local AI models as good as ChatGPT?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For many tasks, yes. Qwen3, GPT-OSS, GLM, and Gemma handle chat, writing, summarization, and RAG workflows competitively with frontier cloud models. The frontier models still lead on the hardest reasoning and coding problems, but local models are genuinely useful — and private."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where can I download local AI models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Hugging Face hosts GGUF files for nearly every open-weight model, and Ollama pulls them with a single command. Curated directories like Local AI Zone list quantized GGUF models with direct download links and daily updates."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a GPU to run these models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Quantized models up to ~8B run on CPU with 8-16GB RAM. A GPU speeds things up and unlocks bigger models — a 24GB card runs ~30B models at Q4 — but it's not required to get started."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Forget the cloud. Every model on this list runs on <strong>your own hardware</strong> — fully offline, free, and private. 2026 is the year open-weight models became genuinely competitive with the frontier, and quantization makes them fit machines people actually own. This is the list of models you can really use: ranked by what they're best at and what hardware they need.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Best overall:</strong> Qwen3 — one family from 4B to 235B, a size for every machine</li>
+                <li><strong>Best for 16GB:</strong> GPT-OSS 20B (A3B) and GLM 4.7 Flash (30B-A3B) — MoE efficiency</li>
+                <li><strong>Best for coding:</strong> Qwen3-Coder, with GPT-OSS for smaller machines</li>
+                <li><strong>Best for 8GB:</strong> Qwen3 4B, Gemma 3 4B, plus tiny embedding models for RAG</li>
+                <li><strong>Best reasoning:</strong> DeepSeek-R1 distills and Qwen3 32B for big rigs</li>
+                <li>Every pick runs via <a href="ollama-vs-llamacpp-2026.html">Ollama or llama.cpp</a> as a <a href="what-is-gguf.html">GGUF</a> file</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="how-to-read">
+            <h2>How to Read This List</h2>
+            <p>Three rules before the rankings:</p>
+            <ul>
+                <li><strong>RAM comes first.</strong> A <a href="q4-km-vs-q8-0.html">Q4_K_M quantized model</a> needs roughly its parameter count in GB — a 7B model in ~4GB, an 8B in ~5GB. Match the model to your machine, not to marketing.</li>
+                <li><strong>MoE models are the 2026 cheat code.</strong> Mixture-of-Experts models like GPT-OSS 20B (A3B) and GLM 4.7 Flash (30B-A3B) activate only ~3B parameters per token, so they punch far above their size — the "A3B" suffix means 3B active.</li>
+                <li><strong>Everything is a GGUF file.</strong> <a href="what-is-gguf.html">One format runs everywhere</a> — download it and point Ollama, llama.cpp, LM Studio, or <a href="https://ggufloader.github.io" target="_blank" rel="noopener">GGUF Loader</a> at it. No framework lock-in.</li>
+            </ul>
+        </section>
+
+        <section id="top10">
+            <h2>Top 10 Local AI Models (2026)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Model</th>
+                        <th>Best for</th>
+                        <th>Sizes that run locally</th>
+                        <th>Hardware tier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>Qwen3</strong></td>
+                        <td>Best overall — chat, multilingual, coding, agents</td>
+                        <td>0.6B → 4B → 8B → 14B → 32B → 235B</td>
+                        <td>Every tier: 8GB to multi-GPU</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>GPT-OSS 20B (A3B)</strong></td>
+                        <td>Efficient MoE — near-30B quality in a 16GB budget</td>
+                        <td>20B-A3B (also a 120B for big rigs)</td>
+                        <td>16GB RAM/GPU</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>GLM 4.7 Flash (30B-A3B)</strong></td>
+                        <td>Efficient MoE with strong reasoning</td>
+                        <td>30B-A3B</td>
+                        <td>16GB RAM/GPU</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>Gemma 3 / Gemma 4</strong></td>
+                        <td>Small, capable, great on modest hardware</td>
+                        <td>4B, 12B, 27B (Gemma 3); 31B (Gemma 4)</td>
+                        <td>8GB (4B) to 24GB GPU</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>DeepSeek-R1 / V3</strong></td>
+                        <td>Reasoning — chain-of-thought at its best</td>
+                        <td>R1-distill 1.5B/8B/14B/32B; V3 for big rigs</td>
+                        <td>8GB (distills) to multi-GPU</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>Llama 4 Scout (109B-A17B)</strong></td>
+                        <td>Big MoE for high-RAM machines</td>
+                        <td>109B-A17B (quantized ~40-50GB)</td>
+                        <td>64GB RAM or 24-32GB GPU + offload</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>Qwen3-Coder</strong></td>
+                        <td>Best local coding — completion, editing, agents</td>
+                        <td>30B-A3B (also 480B-A35B for big rigs)</td>
+                        <td>16GB (A3B) to multi-GPU</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>Mistral</strong></td>
+                        <td>Classic dependable chat/instruct models</td>
+                        <td>7B, 12B</td>
+                        <td>8-16GB</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>Phi-4</strong> (Microsoft)</td>
+                        <td>Small-but-smart — math and reasoning in a small package</td>
+                        <td>14B, Phi-4-mini</td>
+                        <td>8-16GB</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>Kimi K2 series</strong> (Moonshot)</td>
+                        <td>Multimodal + multi-agent workflows (K2.6 in 2026 rankings)</td>
+                        <td>K2 sizes for big rigs; distills where available</td>
+                        <td>High-end / multi-GPU</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box info">
+                <p><strong>💡 Not chat models, but essential:</strong> the local stack also includes specialized models — <strong>embeddings</strong> (BGE-M3, nomic-embed-text, mxbai-embed-large) for semantic search, <strong>rerankers</strong> (BGE-Reranker-v2-M3, Qwen3-Reranker), <strong>speech</strong> (Whisper), and <strong>image</strong> (Flux, Stable Diffusion). See the use-case list below.</p>
+            </div>
+        </section>
+
+        <section id="by-use-case">
+            <h2>Top 10 by Use Case</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Need</th>
+                        <th>Best local pick</th>
+                        <th>Runner-up</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Everything / default</strong></td>
+                        <td>Qwen3 (8B or 14B)</td>
+                        <td>Mistral 12B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Coding</strong></td>
+                        <td>Qwen3-Coder 30B-A3B</td>
+                        <td>GPT-OSS 20B-A3B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reasoning &amp; math</strong></td>
+                        <td>DeepSeek-R1-Distill-14B</td>
+                        <td>Qwen3 32B (if you have the RAM)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Efficiency on 16GB</strong></td>
+                        <td>GPT-OSS 20B-A3B</td>
+                        <td>GLM 4.7 Flash 30B-A3B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multilingual</strong></td>
+                        <td>Qwen3 (100+ languages)</td>
+                        <td>Llama 4 Scout</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Embeddings / semantic search</strong></td>
+                        <td>BGE-M3 (dense + sparse, 100+ languages)</td>
+                        <td>nomic-embed-text (small, 8192 ctx)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reranking retrieval</strong></td>
+                        <td>BGE-Reranker-v2-M3</td>
+                        <td>Qwen3-Reranker</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speech-to-text</strong></td>
+                        <td>Whisper (via whisper.cpp)</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Image generation</strong></td>
+                        <td>Flux</td>
+                        <td>Stable Diffusion 3.5</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Document Q&amp;A (RAG)</strong></td>
+                        <td>Qwen3 8B + BGE-M3 + reranker</td>
+                        <td>Gemma 3 12B + nomic-embed-text</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The document-Q&amp;A stack is the one this blog is built around — see <a href="how-to-build-rag-system-30-minutes.html">the 30-minute RAG pipeline</a>, <a href="what-is-hybrid-search.html">hybrid search</a>, and <a href="reranking-in-rag.html">reranking</a> to assemble it.</p>
+        </section>
+
+        <section id="by-hardware">
+            <h2>Top 10 by Hardware Tier</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your machine</th>
+                        <th>What to run</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>8GB RAM (CPU only)</strong></td>
+                        <td>Qwen3 4B, Gemma 3 4B, Phi-4-mini, Mistral 7B (Q4) + nomic-embed-text for RAG</td>
+                    </tr>
+                    <tr>
+                        <td><strong>16GB RAM (CPU or GPU)</strong></td>
+                        <td>Qwen3 8B/14B, GPT-OSS 20B-A3B, GLM 4.7 Flash 30B-A3B, DeepSeek-R1-Distill-14B, Qwen3-Coder 30B-A3B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>24GB GPU (RTX 3090/4090)</strong></td>
+                        <td>Qwen3 32B, Gemma 3 27B / Gemma 4 31B, GPT-OSS 120B (tight, Q4)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>32GB+ GPU or 64GB RAM</strong></td>
+                        <td>Llama 4 Scout (109B-A17B), Qwen3 235B-A3B, DeepSeek-V3 quantized, Kimi K2 for agents</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>🎯 The rule that beats every table:</strong> <em>a smaller model at a higher quant beats a larger model at a low quant.</em> A sharp Qwen3 8B at Q6_K will outperform a cramped 14B at Q2 — and run faster. Start with the size that fits comfortably, then judge quality before upgrading.</p>
+            </div>
+        </section>
+
+        <section id="where">
+            <h2>Where to Get Them</h2>
+            <ul>
+                <li><strong>Ollama:</strong> <code>ollama run qwen3:8b</code> — downloads, quantizes, and runs with one command.</li>
+                <li><strong>Hugging Face:</strong> GGUF files for every model above — search <code>modelname gguf</code>.</li>
+                <li><strong>Local AI Zone:</strong> <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">local-ai-zone.github.io</a> — curated, daily-updated GGUF directory with direct download links and benchmark-based rankings.</li>
+                <li><strong>GGUF Loader:</strong> <a href="https://ggufloader.github.io" target="_blank" rel="noopener">ggufloader.github.io</a> — drag a GGUF in and chat, zero CLI.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Picking the right quantization?</h3>
+                <p>Our <a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0 guide</a> has the exact memory numbers per model size, and <a href="how-to-run-gguf-models-locally-2026-guide.html">the beginner's setup guide</a> walks through your first local model step by step. For the full runtime comparison, see <a href="best-local-llm-tools-2026.html">the 8 best local LLM tools</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is the best local AI model in 2026?</h3>
+            <p>Qwen3 is the best overall local model family in 2026 — it spans 4B to 235B parameters, so there's a size for every hardware tier, with strong multilingual and coding performance across the range. GPT-OSS 20B (A3B) and GLM 4.7 Flash (30B-A3B) are the best efficient MoE options for 16GB machines.</p>
+
+            <h3>What AI models can I run on 8GB of RAM?</h3>
+            <p>Small quantized models: Qwen3 4B, Gemma 3 4B, or Phi-4-mini at Q4. Add an embedding model like nomic-embed-text (274MB) and you can build a working local RAG system on 8GB.</p>
+
+            <h3>What is the best local AI model for coding?</h3>
+            <p>Qwen3-Coder is the strongest local coding pick, with Qwen3-Coder-480B-A35B leading open-model single-attempt coding scores in mid-2026 rankings. For 16GB machines, GPT-OSS 20B (A3B) and Qwen3-14B handle solid code completion and editing locally.</p>
+
+            <h3>Are local AI models as good as ChatGPT?</h3>
+            <p>For many tasks, yes. Qwen3, GPT-OSS, GLM, and Gemma handle chat, writing, summarization, and RAG workflows competitively with frontier cloud models. The frontier models still lead on the hardest reasoning and coding problems, but local models are genuinely useful — and private.</p>
+
+            <h3>Where can I download local AI models?</h3>
+            <p>Hugging Face hosts GGUF files for nearly every open-weight model, and Ollama pulls them with a single command. Curated directories like Local AI Zone list quantized GGUF models with direct download links and daily updates.</p>
+
+            <h3>Do I need a GPU to run these models?</h3>
+            <p>No. Quantized models up to ~8B run on CPU with 8–16GB RAM. A GPU speeds things up and unlocks bigger models — a 24GB card runs ~30B models at Q4 — but it's not required to get started.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://huggingface.co/blog/daya-shankar/open-source-llm-models-to-run-locally" target="_blank" rel="noopener">Best open-source and open-weight LLM models to run locally (Hugging Face, May 2026)</a></li>
+                <li><a href="https://www.faros.ai/blog/open-weight-models" target="_blank" rel="noopener">Best open-weight models for coding (Faros AI, Jul 2026)</a></li>
+                <li><a href="https://kilo.ai/open-source-models" target="_blank" rel="noopener">Best open-source AI models for coding 2026 (Kilo Code)</a></li>
+                <li><a href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Best Open Source LLMs 2026: ranked by benchmark and size (MorphLMM)</a></li>
+                <li><a href="https://onyx.app/self-hosted-llm-leaderboard" target="_blank" rel="noopener">Best Self-Hosted LLM Leaderboard 2026 (Onyx AI)</a></li>
+                <li><a href="https://tech-insider.org/best-open-source-llm-2026/" target="_blank" rel="noopener">Best Open Source LLM 2026: DeepSeek, Kimi, Qwen ranked</a></li>
+                <li><a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone — GGUF model directory</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

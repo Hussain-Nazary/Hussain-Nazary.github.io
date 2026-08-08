@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 GGUF Models Ranked by RAM Size (Download Guide)</title>
+    <meta name="description" content="Top 10 GGUF models ranked by RAM requirement with exact Q4_K_M file sizes: what to download for 8GB, 16GB, 24GB, and 64GB machines — a download-ready table.">
+    <meta name="keywords" content="top 10 gguf models, gguf by ram, q4_k_m file size, gguf download, best gguf models, local llm ram, qwen3 gguf, gpt-oss gguf, gemma gguf, llama 4 gguf, models for 8gb ram">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/top-10-gguf-models-by-ram.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Top 10 GGUF Models Ranked by RAM Size (Download Guide)">
+    <meta property="og:description" content="Top 10 GGUF models ranked by RAM requirement with exact Q4_K_M file sizes: what to download for 8GB, 16GB, 24GB, and 64GB machines — a download-ready table.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/top-10-gguf-models-by-ram.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Top 10 GGUF Models Ranked by RAM Size (Download Guide)">
+    <meta name="twitter:description" content="Top 10 GGUF models ranked by RAM requirement with exact Q4_K_M file sizes — a download-ready table for 8GB to 64GB machines.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Top 10 GGUF Models Ranked by RAM Size (Download Guide)",
+          "description": "Top 10 GGUF models ranked by RAM requirement with exact Q4_K_M file sizes: what to download for 8GB, 16GB, 24GB, and 64GB machines — a download-ready table.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/top-10-gguf-models-by-ram.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I know which GGUF file fits my RAM?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use the Q4_K_M rule of thumb: a Q4_K_M file is roughly 0.56 bytes per parameter, plus 1-2GB for the context window and overhead. A 7B model is about 3.9GB of weights — add 1-2GB, and it runs comfortably in 8GB of RAM. Check the actual file size on the download page before committing."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best GGUF model for 8GB of RAM?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen3 4B or Gemma 3 4B at Q4_K_M (~2.4GB each) are the best all-rounders. Phi-4-mini (~2.3GB) is strong at math. All three leave room for a context window and other apps."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best GGUF model for 16GB of RAM?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen3 14B (~7.9GB at Q4_K_M) is the quality pick. GPT-OSS 20B-A3B (~11GB) and GLM 4.7 Flash 30B-A3B (~17GB, tight) are efficient MoE options that punch above their size. All fit in 16GB with room for context."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why do MoE models need as much RAM as their total size?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A MoE model like GPT-OSS 20B-A3B activates only ~3B parameters per token, but all 20B of weights must be loaded into memory. Memory scales with total parameters; speed scales with active parameters. That's why 30B-A3B models still need ~17GB at Q4."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where do I download GGUF files?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Hugging Face hosts official GGUF repos for most models (look for the Q4_K_M file), and Ollama pulls them with one command. Curated directories like Local AI Zone list quantized GGUFs with direct download links and daily updates."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What if my model is slow or out of memory?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Lower the context size, pick a smaller quantization (Q4_K_M instead of Q8_0), or move to a smaller model. For memory: Q4 instead of Q8, 8B instead of 14B. For speed: enable GPU offload or reduce context. Our troubleshooting guide covers the full list."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Top 10 GGUF Models Ranked by RAM Size (Download Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Every local-AI download page shows the same model in twenty files, and the one that matters is the one that fits your RAM. This is the download-ready version of <a href="top-10-local-ai-models-2026.html">the 2026 local model rankings</a>: ten models ranked by RAM requirement, with the approximate Q4_K_M file size for each, so you know exactly what to grab.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>The rule:</strong> a Q4_K_M file is ~0.56 bytes/param — a 7B model is ~3.9GB of weights, plus 1–2GB for context and overhead</li>
+                <li><strong>8GB → Qwen3 4B or Gemma 3 4B</strong> (~2.4GB each)</li>
+                <li><strong>16GB → Qwen3 14B</strong> (~7.9GB), or GPT-OSS 20B-A3B (~11GB) for MoE efficiency</li>
+                <li><strong>24GB GPU → Qwen3 32B</strong> (~18GB) or Gemma 3 27B (~15GB)</li>
+                <li><strong>64GB → Llama 4 Scout</strong> (109B-A17B, ~61GB)</li>
+                <li>Check the actual file size on the download page — names vary, sizes don't lie</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="formula">
+            <h2>The 30-Second Sizing Rule</h2>
+            <p>Before the list, the math you'll use forever: a <a href="q4-km-vs-q8-0.html">Q4_K_M</a> GGUF file is roughly <strong>0.56 bytes per parameter</strong>. Multiply the parameter count by 0.56 to get the weight file size, then add <strong>1–2GB for the context window (KV cache) and runtime overhead</strong>.</p>
+            <pre><code>File size (Q4_K_M) ≈ parameters × 0.56
+RAM needed       ≈ file size + 1–2GB
+
+# Examples
+Qwen3 8B:   8 × 0.56 ≈ 4.9GB  → runs in ~6–7GB
+Qwen3 32B:  32 × 0.56 ≈ 18GB  → needs ~20GB free
+Llama 4 Scout (109B-A17B): 109 × 0.56 ≈ 61GB → needs ~64GB</code></pre>
+            <div class="highlight-box info">
+                <p><strong>💡 MoE caveat:</strong> a model like GPT-OSS 20B-A3B activates only ~3B parameters per token, but <em>all</em> 20B of weights load into memory. Memory scales with total parameters — that's why "A3B" models still need ~11GB at Q4. See <a href="what-is-gguf.html">the GGUF explainer</a> for how quantization makes these files at all.</p>
+            </div>
+        </section>
+
+        <section id="top10">
+            <h2>The Top 10, Ranked by RAM</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Model</th>
+                        <th>Q4_K_M file size</th>
+                        <th>Minimum RAM</th>
+                        <th>Best for</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>Qwen3 4B</strong></td>
+                        <td>~2.4GB</td>
+                        <td>6GB</td>
+                        <td>The 8GB all-rounder — chat, multilingual, agents</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>Gemma 3 4B</strong></td>
+                        <td>~2.4GB</td>
+                        <td>6GB</td>
+                        <td>Small and capable on modest hardware</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>Phi-4-mini</strong></td>
+                        <td>~2.3GB</td>
+                        <td>6GB</td>
+                        <td>Math and reasoning in a tiny package</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>Mistral 7B</strong></td>
+                        <td>~3.9GB</td>
+                        <td>8GB</td>
+                        <td>The dependable classic instruct model</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>DeepSeek-R1-Distill-8B</strong></td>
+                        <td>~4.5GB</td>
+                        <td>8–10GB</td>
+                        <td>Chain-of-thought reasoning on a laptop</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>Qwen3 8B</strong></td>
+                        <td>~4.9GB</td>
+                        <td>10–12GB</td>
+                        <td>The 16GB default — the best quality-per-GB</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>Qwen3 14B</strong></td>
+                        <td>~7.9GB</td>
+                        <td>16GB</td>
+                        <td>The 16GB quality pick</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>GPT-OSS 20B-A3B</strong></td>
+                        <td>~11GB</td>
+                        <td>16GB</td>
+                        <td>MoE efficiency — near-30B quality on 16GB</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>Qwen3 32B</strong></td>
+                        <td>~18GB</td>
+                        <td>24GB GPU</td>
+                        <td>The 24GB tier's best general model</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>Llama 4 Scout (109B-A17B)</strong></td>
+                        <td>~61GB</td>
+                        <td>64GB RAM / 32GB GPU + offload</td>
+                        <td>Big MoE for serious machines</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Honorable mentions by tier:</strong> GLM 4.7 Flash 30B-A3B (~17GB, fits 20GB+), Qwen3-Coder 30B-A3B (~17GB, coding on 20GB+), Gemma 3 27B (~15GB, 24GB GPU), Phi-4 14B (~7.9GB, 16GB), and Qwen3 235B-A3B (~131GB) for 128GB+ workstations.</p>
+        </section>
+
+        <section id="by-tier">
+            <h2>Download-Ready: Grab This File</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your hardware</th>
+                        <th>Grab this file</th>
+                        <th>Look for the suffix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>8GB RAM (laptop, CPU)</strong></td>
+                        <td>Qwen3 4B or Gemma 3 4B</td>
+                        <td><code>-Q4_K_M.gguf</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>12GB (older GPU or RAM)</strong></td>
+                        <td>Mistral 7B or Qwen3 8B (Q4)</td>
+                        <td><code>-Q4_K_M.gguf</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>16GB (CPU or GPU)</strong></td>
+                        <td>Qwen3 14B, or GPT-OSS 20B-A3B</td>
+                        <td><code>-Q4_K_M.gguf</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>20–24GB (RTX 3090/4090)</strong></td>
+                        <td>Qwen3 32B, or GLM 4.7 Flash 30B-A3B</td>
+                        <td><code>-Q4_K_M.gguf</code> (Q6_K if headroom)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>32GB GPU or 64GB RAM</strong></td>
+                        <td>Llama 4 Scout, or Qwen3 32B at Q6_K</td>
+                        <td><code>-Q4_K_M.gguf</code> or <code>-Q6_K.gguf</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>128GB+ workstation</strong></td>
+                        <td>Qwen3 235B-A3B, or DeepSeek-V3 quantized</td>
+                        <td><code>-Q4_K_M.gguf</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>🎯 Naming tip:</strong> official GGUF repos name files like <code>Qwen3-8B-Q4_K_M.gguf</code>; community uploaders vary. Don't trust the name alone — <strong>check the file size</strong> on the download page against the table above. Sizes don't lie.</p>
+            </div>
+        </section>
+
+        <section id="download">
+            <h2>Where to Download</h2>
+            <ul>
+                <li><strong>Hugging Face:</strong> search <code>modelname gguf</code> and open the model's GGUF repo — pick the <code>Q4_K_M</code> file that matches the size in this post.</li>
+                <li><strong>Ollama:</strong> <code>ollama run qwen3:8b</code> handles the download, quantization, and setup automatically — <a href="ollama-vs-llamacpp-2026.html">how Ollama works</a>.</li>
+                <li><strong>Local AI Zone:</strong> <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">local-ai-zone.github.io</a> — curated, daily-updated GGUF directory with direct download links, sorted by benchmark scores and hardware fit.</li>
+                <li><strong>GGUF Loader:</strong> <a href="https://ggufloader.github.io" target="_blank" rel="noopener">ggufloader.github.io</a> — drag the downloaded file in and chat; the live RAM/VRAM dashboard shows exactly what the model consumes.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 First time? Start here</h3>
+                <p>Our <a href="how-to-run-gguf-models-locally-2026-guide.html">beginner's guide</a> walks through the full setup, and <a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0</a> explains when to step up to a bigger quant. Running out of memory or seeing slow output? The <a href="how-to-run-gguf-models-locally-2026-guide.html">troubleshooting section</a> has the fixes.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>How do I know which GGUF file fits my RAM?</h3>
+            <p>Use the Q4_K_M rule of thumb: a Q4_K_M file is roughly 0.56 bytes per parameter, plus 1–2GB for the context window and overhead. A 7B model is about 3.9GB of weights — add 1–2GB, and it runs comfortably in 8GB of RAM. Check the actual file size on the download page before committing.</p>
+
+            <h3>What is the best GGUF model for 8GB of RAM?</h3>
+            <p>Qwen3 4B or Gemma 3 4B at Q4_K_M (~2.4GB each) are the best all-rounders. Phi-4-mini (~2.3GB) is strong at math. All three leave room for a context window and other apps.</p>
+
+            <h3>What is the best GGUF model for 16GB of RAM?</h3>
+            <p>Qwen3 14B (~7.9GB at Q4_K_M) is the quality pick. GPT-OSS 20B-A3B (~11GB) and GLM 4.7 Flash 30B-A3B (~17GB, tight) are efficient MoE options that punch above their size. All fit in 16GB with room for context.</p>
+
+            <h3>Why do MoE models need as much RAM as their total size?</h3>
+            <p>A MoE model like GPT-OSS 20B-A3B activates only ~3B parameters per token, but all 20B of weights must be loaded into memory. Memory scales with total parameters; speed scales with active parameters. That's why 30B-A3B models still need ~17GB at Q4.</p>
+
+            <h3>Where do I download GGUF files?</h3>
+            <p>Hugging Face hosts official GGUF repos for most models (look for the Q4_K_M file), and Ollama pulls them with one command. Curated directories like Local AI Zone list quantized GGUFs with direct download links and daily updates.</p>
+
+            <h3>What if my model is slow or out of memory?</h3>
+            <p>Lower the context size, pick a smaller quantization (Q4_K_M instead of Q8_0), or move to a smaller model. For memory: Q4 instead of Q8, 8B instead of 14B. For speed: enable GPU offload or reduce context. Our troubleshooting guide covers the full list.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://willitrunai.com/blog/quantization-guide-gguf-explained" target="_blank" rel="noopener">GGUF Quantization Guide: Q4_K_M saves 72% VRAM (size-per-parameter math)</a></li>
+                <li><a href="https://huggingface.co/blog/daya-shankar/open-source-llm-models-to-run-locally" target="_blank" rel="noopener">Best open-source models to run locally (Hugging Face, May 2026)</a></li>
+                <li><a href="https://onyx.app/self-hosted-llm-leaderboard" target="_blank" rel="noopener">Best Self-Hosted LLM Leaderboard 2026 (Onyx AI)</a></li>
+                <li><a href="https://ggufloader.github.io/what-is-gguf.html" target="_blank" rel="noopener">GGUF Loader: what-is-gguf memory-requirement table</a></li>
+                <li><a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone — GGUF model directory</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

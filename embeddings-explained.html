@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddings Explained: How Semantic Search Actually Works</title>
+    <meta name="description" content="Embeddings explained: how transformers turn text into vectors, how cosine similarity powers semantic search, and which embedding models to use in 2026.">
+    <meta name="keywords" content="embeddings explained, text embeddings, semantic search, cosine similarity, embedding models, bge-m3, nomic-embed-text, mxbai-embed-large, vector search, rag, sentence embeddings">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/embeddings-explained.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Embeddings Explained: How Semantic Search Actually Works">
+    <meta property="og:description" content="Embeddings explained: how transformers turn text into vectors, how cosine similarity powers semantic search, and which embedding models to use in 2026.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/embeddings-explained.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Embeddings Explained: How Semantic Search Actually Works">
+    <meta name="twitter:description" content="What embeddings are, how transformer models turn text into vectors, how cosine similarity powers semantic search, and which embedding models to use in 2026.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Embeddings Explained: How Semantic Search Actually Works",
+          "description": "Embeddings explained: how transformers turn text into vectors, how cosine similarity powers semantic search, and which embedding models to use in 2026.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/embeddings-explained.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is an embedding in simple terms?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "An embedding is a list of numbers (a vector) that represents the meaning of a piece of text. Texts with similar meanings get vectors that point in similar directions in a high-dimensional space, so 'car maintenance' and 'automobile repair' land near each other even though they share almost no words."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many dimensions do embeddings have?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It depends on the model: nomic-embed-text uses 768, mxbai-embed-large and BGE-M3 use 1024, and OpenAI's text-embedding-3-large uses 3072. More dimensions can capture more nuance but cost more memory and compute — 768-1024 is the practical sweet spot for most RAG systems."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is cosine similarity?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Cosine similarity measures the angle between two vectors, ignoring their length. It's the standard way to compare embeddings: identical directions score 1, perpendicular score 0, opposite score -1. Semantic search finds the documents whose embedding vectors have the highest cosine similarity to the query vector."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which embedding model should I use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For local RAG: BGE-M3 if you need multilingual and hybrid (dense + sparse) capability, mxbai-embed-large as the general-purpose default, or nomic-embed-text for a small model with an 8192-token context. For cloud, OpenAI's text-embedding-3 models are the standard benchmark."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can embeddings work across languages?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, with multilingual models. BGE-M3 supports 100+ languages in one model, and Qwen3-Embedding is particularly strong for Chinese. A cross-lingual embedding model maps 'how do I cancel' (English) and its Spanish or Dari equivalent into nearby vectors, enabling cross-language retrieval."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do embeddings work for images and audio too?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The same idea extends beyond text: CLIP-style models embed images and text into a shared space, and audio models embed sound. Any data that can be encoded as a vector can be searched semantically. In RAG pipelines, the embedding step is what turns raw documents into searchable knowledge."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Embeddings Explained: How Semantic Search Actually Works</h1>
+        <p><strong>Published: August 8, 2026</strong> — Every RAG system, every semantic search, every "chat with your documents" tool runs on the same foundation: <strong>embeddings</strong>. They're the reason a search engine can find "how do I get my money back" in a page titled "Refund Policy" — no shared words at all. This post explains what embeddings are, how a model creates them, how similarity gets measured, and which embedding models matter in 2026.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>An embedding is a list of numbers</strong> that represents a text's meaning — similar meanings get similar number-patterns</li>
+                <li><strong>Transformer encoders create them:</strong> tokens → context-aware representations → one pooled vector per text</li>
+                <li><strong>Similarity = vector geometry:</strong> cosine similarity measures the angle between embeddings; search finds the nearest neighbors</li>
+                <li><strong>Typical dimensions:</strong> 768–1024 for local models (nomic, mxbai, BGE-M3); 3072 for OpenAI's largest</li>
+                <li><strong>Embeddings are why RAG works</strong> — they're the step that turns documents into searchable knowledge</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="one-paragraph">
+            <h2>The One-Paragraph Answer</h2>
+            <p>An <strong>embedding</strong> is a dense vector — a fixed-length list of numbers — that represents the <em>meaning</em> of a piece of text. The trick is the geometry: texts with similar meanings produce vectors that point in similar directions in a high-dimensional space. "Car maintenance" and "automobile repair" barely share a word, but their embeddings land close together, because the model learned that they mean similar things. Semantic search is simply: turn the query into a vector, then find the documents whose vectors are closest to it.</p>
+        </section>
+
+        <section id="how-made">
+            <h2>How Embeddings Are Made</h2>
+            <p>Embeddings come from a <strong>transformer encoder</strong> — the same architecture family as ChatGPT, but optimized for understanding rather than generating. The process:</p>
+            <ol>
+                <li><strong>Tokenize.</strong> The text is split into tokens, and each token starts as a random-ish vector.</li>
+                <li><strong>Contextualize.</strong> Self-attention layers let every token "look at" every other token, so each token's representation becomes context-aware — "bank" near "river" means something different than "bank" near "loan".</li>
+                <li><strong>Pool.</strong> The final layer's token vectors are combined (mean pooling, or the CLS token) into one fixed-length vector: the embedding for the whole text.</li>
+            </ol>
+            <p>The model is trained so that texts retrieved together or judged similar end up with nearby vectors — that's the entire goal of contrastive training on pairs like (query, relevant document). The result is a <strong>bi-encoder</strong>: query and documents are embedded independently, which is what makes corpus-wide search fast and precomputable. (The trade-off versus joint-scoring cross-encoders is covered in <a href="reranking-in-rag.html">reranking in RAG</a>.)</p>
+        </section>
+
+        <section id="why-meaning">
+            <h2>Why Vectors Capture Meaning</h2>
+            <p>Here's the intuition: each dimension of the embedding space acts like a learned "dial" that responds to some aspect of meaning — grammatical role, domain, sentiment, topic. A model with 1024 dimensions has 1024 dials to represent what a text is about. Because the dials were tuned on billions of examples, similar texts reliably turn the same dials the same way.</p>
+            <p>This is why embeddings beat keyword search on paraphrase: keywords match <em>surface form</em>, embeddings match <em>underlying meaning</em>. It's also why they fail on rare exact strings — product codes, names, clause numbers — which is exactly why production systems combine embeddings with <a href="what-is-hybrid-search.html">BM25 keyword retrieval</a> rather than choosing one.</p>
+        </section>
+
+        <section id="similarity">
+            <h2>How Similarity Is Measured</h2>
+            <p>Once texts are vectors, "how related are these two texts?" becomes a geometry question. The standard answer is <strong>cosine similarity</strong> — the cosine of the angle between two vectors:</p>
+            <pre><code>cosine_similarity(a, b) = (a · b) / (|a| × |b|)</code></pre>
+            <p>Identical directions score 1, perpendicular score 0, opposite directions score −1. Cosine ignores vector length, which is what you want — "refund policy" and "our complete refund policy for all products" should match even though one embedding is longer.</p>
+            <p>At scale, scanning every document is too slow, so vector stores use <strong>Approximate Nearest Neighbor (ANN)</strong> indexes — most commonly <strong>HNSW</strong> — which trade a small recall loss for search in milliseconds. That's the machinery inside ChromaDB, FAISS, Qdrant, and Weaviate; our <a href="chromadb-vs-faiss.html">ChromaDB vs FAISS comparison</a> covers choosing the store.</p>
+        </section>
+
+        <section id="models">
+            <h2>Embedding Models in 2026</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Dimensions</th>
+                        <th>Context</th>
+                        <th>Best for</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>BGE-M3</strong></td>
+                        <td>1024 (dense) + sparse + multi-vector</td>
+                        <td>8192</td>
+                        <td>Multilingual (100+ languages) and hybrid retrieval in one model — the engine behind <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>mxbai-embed-large</strong></td>
+                        <td>1024</td>
+                        <td>512</td>
+                        <td>General-purpose local default; top MTEB scores for its size</td>
+                    </tr>
+                    <tr>
+                        <td><strong>nomic-embed-text</strong></td>
+                        <td>768</td>
+                        <td>8192</td>
+                        <td>Small (274MB) and fast; long documents on modest hardware</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Qwen3-Embedding</strong></td>
+                        <td>1024</td>
+                        <td>8192</td>
+                        <td>Chinese-heavy content; strong multilingual</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenAI text-embedding-3-large</strong></td>
+                        <td>3072</td>
+                        <td>8191</td>
+                        <td>Cloud standard; maximum quality when data can leave your machine</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>💡 How to pick:</strong> for local RAG, start with <code>mxbai-embed-large</code>; switch to <code>BGE-M3</code> when you need multilingual or hybrid (dense + sparse) capability; use <code>nomic-embed-text</code> for long documents on limited hardware. All run locally via <a href="ollama-vs-llamacpp-2026.html">Ollama or llama.cpp</a> — the same stack as our <a href="how-to-build-rag-system-30-minutes.html">30-minute RAG pipeline</a>.</p>
+            </div>
+        </section>
+
+        <section id="beyond-text">
+            <h2>Embeddings Beyond Text</h2>
+            <p>The idea generalizes: <strong>CLIP</strong>-style models embed images and text into a shared space (search "red car" finds photos of red cars), audio models embed sound, and code models embed functions. Anything that can be encoded as a vector can be searched semantically. Within RAG, the embedding step is where raw documents — PDFs, contracts, manuals — become a searchable knowledge base, which is exactly the step <a href="how-to-build-rag-system-30-minutes.html">the 30-minute tutorial</a> and <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant's pipeline</a> both rely on.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is an embedding in simple terms?</h3>
+            <p>An embedding is a list of numbers (a vector) that represents the meaning of a piece of text. Texts with similar meanings get vectors that point in similar directions in a high-dimensional space, so "car maintenance" and "automobile repair" land near each other even though they share almost no words.</p>
+
+            <h3>How many dimensions do embeddings have?</h3>
+            <p>It depends on the model: nomic-embed-text uses 768, mxbai-embed-large and BGE-M3 use 1024, and OpenAI's text-embedding-3-large uses 3072. More dimensions can capture more nuance but cost more memory and compute — 768–1024 is the practical sweet spot for most RAG systems.</p>
+
+            <h3>What is cosine similarity?</h3>
+            <p>Cosine similarity measures the angle between two vectors, ignoring their length. It's the standard way to compare embeddings: identical directions score 1, perpendicular score 0, opposite score −1. Semantic search finds the documents whose embedding vectors have the highest cosine similarity to the query vector.</p>
+
+            <h3>Which embedding model should I use?</h3>
+            <p>For local RAG: BGE-M3 if you need multilingual and hybrid (dense + sparse) capability, mxbai-embed-large as the general-purpose default, or nomic-embed-text for a small model with an 8192-token context. For cloud, OpenAI's text-embedding-3 models are the standard benchmark.</p>
+
+            <h3>Can embeddings work across languages?</h3>
+            <p>Yes, with multilingual models. BGE-M3 supports 100+ languages in one model, and Qwen3-Embedding is particularly strong for Chinese. A cross-lingual embedding model maps "how do I cancel" (English) and its Spanish or Dari equivalent into nearby vectors, enabling cross-language retrieval.</p>
+
+            <h3>Do embeddings work for images and audio too?</h3>
+            <p>Yes. The same idea extends beyond text: CLIP-style models embed images and text into a shared space, and audio models embed sound. Any data that can be encoded as a vector can be searched semantically. In RAG pipelines, the embedding step is what turns raw documents into searchable knowledge.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://huggingface.co/BAAI/bge-m3" target="_blank" rel="noopener">BGE-M3 — Hugging Face (BAAI)</a></li>
+                <li><a href="https://denser.ai/blog/hybrid-search-for-rag/" target="_blank" rel="noopener">Denser.ai: Hybrid Search for RAG (embedding fundamentals + benchmarks)</a></li>
+                <li><a href="https://eastondev.com/blog/en/posts/ai/20260408-ollama-embedding-rag/" target="_blank" rel="noopener">Ollama Embeddings for Local RAG (model comparison, April 2026)</a></li>
+                <li><a href="https://www.data-dynamics.io/en/blog/embedding-model-guide" target="_blank" rel="noopener">Embedding Model Selection Guide (April 2026)</a></li>
+                <li><a href="https://milvus.io/blog/choose-embedding-model-rag-2026.md" target="_blank" rel="noopener">Best Embedding Model for RAG 2026 (Milvus)</a></li>
+                <li><a href="https://myengineeringpath.dev/genai-engineer/embeddings/" target="_blank" rel="noopener">Embeddings Explained — Text to Vectors for Search (2026)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

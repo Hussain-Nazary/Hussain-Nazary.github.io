@@ -1,0 +1,44 @@
+id,cluster,title,primary_keyword,status,date,url
+1,local-ai,"How to Run GGUF Models Locally in 2026: The Complete Beginner's Guide","run gguf models locally",published,2026-08-08,how-to-run-gguf-models-locally-2026-guide.html
+2,gguf,"What is GGUF? The File Format Behind Local AI Explained","what is gguf",published,2026-08-08,what-is-gguf.html
+3,local-ai,"Ollama vs llama.cpp: Which Should You Use for Local AI in 2026?","ollama vs llama.cpp",published,2026-08-08,ollama-vs-llamacpp-2026.html
+4,local-ai,"8 Best Local LLM Tools in 2026 (Ranked by Use Case)","best local llm tools 2026",published,2026-08-08,best-local-llm-tools-2026.html
+5,gguf,"Q4_K_M vs Q8_0: Which Quantization Should You Download?","q4_k_m vs q8_0",published,2026-08-08,q4-km-vs-q8-0.html
+6,gguf,"How to Convert a Hugging Face Model to GGUF","convert model to gguf",published,2026-08-08,how-to-convert-huggingface-model-to-gguf.html
+7,rag,"How to Build a RAG System in 30 Minutes (Local, Free)","build rag system",published,2026-08-08,how-to-build-rag-system-30-minutes.html
+8,rag,"What Is Hybrid Search? BM25 + Semantic Retrieval Explained","hybrid search",published,2026-08-08,what-is-hybrid-search.html
+9,privacy,"Can You Run a Private LLM for Your Business? The Honest Guide","private llm business",published,2026-08-08,private-llm-for-business.html
+10,legal-ai,"AI for Contract Review: What Machines Get Right and What They Miss","ai contract review",planned,,
+11,seo,"What Is GEO (Generative Engine Optimization)? A Beginner's Guide","generative engine optimization",planned,,
+12,seo,"How to Make Your Website Get Cited by AI Assistants (AEO)","answer engine optimization",planned,,
+13,local-ai,"Best Open-Weight Models to Run Locally in 2026 (GPT-OSS, Qwen, Gemma)","best local models 2026",planned,,
+14,local-ai,"What Local AI Models Can You Run on 8GB of RAM?","local llm 8gb ram",planned,,
+15,rag,"ChromaDB vs FAISS: Choosing a Vector Database for RAG","chromadb vs faiss",published,2026-08-08,chromadb-vs-faiss.html
+16,rag,"Embeddings Explained: How Semantic Search Actually Works","embeddings explained",published,2026-08-08,embeddings-explained.html
+17,privacy,"Offline AI for Regulated Industries: Legal, Health, Finance","offline ai regulated industries",published,2026-08-08,offline-ai-regulated-industries.html
+18,agents,"What Are AI Agents? Building Your First Agentic Workflow","ai agents explained",planned,,
+19,agents,"Agentic RAG: Combining Agents with Retrieval for Better Answers","agentic rag",planned,,
+20,mobile,"Building an On-Device AI Voice Assistant for Android","on-device voice assistant android",planned,,
+21,product,"From Idea to AI MVP: Lessons from Shipping Smart Calendar","ai mvp lessons",planned,,
+22,seo,"Structured Data for AI Engines: JSON-LD Cheat Sheet","structured data json-ld",planned,,
+23,multilingual,"The State of AI for Pashto and Dari: What Works in 2026","pashto ai",planned,,
+24,multilingual,"How to Build a Multilingual Translation Pipeline with Local LLMs","multilingual translation local llm",planned,,
+25,news,"Latest AI Model Releases: What to Run Locally This Month","latest ai models local",planned,,
+26,news,"GPT-OSS vs Qwen vs Gemma: Local Coding Models Compared","gpt-oss vs qwen",planned,,
+27,tutorial,"How Transformers Actually Work: A From-Scratch Walkthrough","transformer from scratch",planned,,
+28,tutorial,"Build a Mini GPT in Raw PyTorch: Tokenizer, Training, Fine-Tuning","minigpt pytorch tutorial",planned,,
+29,enterprise,"On-Premise LLM Deployment: A Practical Checklist","on-premise llm deployment",planned,,
+30,quick-wins,"llama.cpp vs Ollama vs LM Studio: When to Use What","llama.cpp vs ollama vs lm studio",planned,,
+31,quick-wins,"Best GUI for Local LLMs in 2026","best gui local llm",planned,,
+32,local-ai,"How to Run Mistral Locally with Ollama (Step by Step)","run mistral locally",planned,,
+33,local-ai,"How to Run DeepSeek Locally on a Laptop","run deepseek locally",planned,,
+34,privacy,"Why Your Data Shouldn't Leave Your Device: The Case for Local AI","why local ai",planned,,
+35,legal-ai,"How to Do Legal Research with AI Ethically","ai legal research",planned,,
+36,rag,"Reranking in RAG: Why Retrieval Order Matters","rag reranking",published,2026-08-08,reranking-in-rag.html
+37,seo,"FAQ Schema Still Matters: How to Get Featured Snippets and AI Answers","faq schema ai answers",planned,,
+38,mobile,"Mobile AI Assistant Roundup: On-Device Intelligence in Your Pocket","mobile ai assistant",planned,,
+39,multilingual,"Low-Resource NLP: Techniques That Actually Work","low-resource nlp",planned,,
+40,enterprise,"Sovereign AI: What It Means and How to Deploy It","sovereign ai",planned,,
+41,local-ai,"Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)","top 10 local ai models 2026",published,2026-08-08,top-10-local-ai-models-2026.html
+42,local-ai,"Top 10 GGUF Models Ranked by RAM Size (Download Guide)","top 10 gguf models by ram",published,2026-08-08,top-10-gguf-models-by-ram.html
+43,local-ai,"Top 10 Open Source AI Models in 2026 (Ranked by Capability & Performance)","top 10 open source models 2026",published,2026-08-08,top-10-open-source-models-2026.html
