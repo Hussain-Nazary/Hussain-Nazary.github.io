@@ -8,7 +8,6 @@
 - 📧 Contact: [hussain.nazary.dev@gmail.com](mailto:hussain.nazary.dev@gmail.com)
 
 ## 🌐 Socials:
-- [LinkedIn]( https://www.linkedin.com/in/hussain-nazary/ )
 - [Twitter](https://twitter.com/HussainNazary )
 - [Instagram](https://www.instagram.com/hussainnazary/ )
 - [Portfolio](https://hussainnazary.github.io )

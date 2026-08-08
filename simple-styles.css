@@ -249,6 +249,36 @@ body {
     max-width: 320px;
 }
 
+.screenshot-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: -1rem auto 3rem;
+}
+
+.screenshot-item {
+    flex: 0 1 180px;
+    text-align: center;
+    margin: 0;
+}
+
+.screenshot-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.screenshot-item figcaption {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+}
+
 .flagship h2 {
     text-align: center;
     font-size: 2.5rem;
