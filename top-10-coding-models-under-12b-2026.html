@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)</title>
+    <meta name="description" content="Top 10 AI models under 12B for coding in 2026: Qwen3.5-9B, Gemma 4 12B, Phi-4-mini, Yi-Coder 9B — ranked by HumanEval with a head-to-head table.">
+    <meta name="keywords" content="top 10 coding models under 12b 2026, best small coding model, qwen3.5 9b coding, gemma 4 12b coding, phi-4-mini, yi-coder 9b, humaneval, livecodebench, local coding llm, run coding model locally">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/top-10-coding-models-under-12b-2026.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)">
+    <meta property="og:description" content="Top 10 AI models under 12B for coding in 2026: Qwen3.5-9B, Gemma 4 12B, Phi-4-mini, Yi-Coder 9B — ranked by HumanEval with a head-to-head table.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/top-10-coding-models-under-12b-2026.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)">
+    <meta name="twitter:description" content="The best small coding models you can run locally in 2026 — HumanEval scores, head-to-heads, and which fits your hardware.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)",
+          "description": "Top 10 AI models under 12B for coding in 2026: Qwen3.5-9B, Gemma 4 12B, Phi-4-mini, Yi-Coder 9B — ranked by HumanEval with a head-to-head table.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/top-10-coding-models-under-12b-2026.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the best model under 12B for coding in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen3.5-9B is the strongest all-round coding pick — community testing has it beating Gemma 4 12B on 5 of 8 shared benchmarks despite being 3B smaller, and it's widely described as the undisputed champ for 16GB laptops. Gemma 4 12B is the pick when you also need multimodal input (screenshots, UI bugs, diagrams) at maximum power."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best small coding model for an 8GB machine?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Phi-4-mini (2.5GB at Q4, 74.4% HumanEval) for the best coding per GB, Qwen3-Coder 7B or Yi-Coder 9B if you have ~6GB free, and Gemma 4 E4B for agentic function calling on edge hardware."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is a 9B model good enough for real coding work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Qwen3.5-9B handles daily coding tasks — scripts, debugging, explanations, shell commands — well enough to replace a hosted assistant for many developers, and Yi-Coder 9B's 85.4% HumanEval is on par with DeepSeek Coder 33B at a fraction of the size. For long multi-file agentic work, step up to 12B or beyond."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What coding benchmarks should I trust for small models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "HumanEval measures single-function code generation and is now saturated — most good small models score 70%+. LiveCodeBench is harder and less contaminated because it uses fresh competitive-programming problems. SWE-bench Verified is the most realistic: it measures full repo-level bug fixing, which is where small models still trail frontier models."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use these models with VS Code, Cursor, or Cline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Ollama and llama.cpp expose OpenAI-compatible servers, so any tool that supports a custom base URL can point at a local model. Qwen3.5-9B and Gemma 4 E4B are popular choices for local coding assistants because they handle function calling and structured outputs well."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where can I download coding models under 12B?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ollama pulls them with one command (qwen3.5:9b, phi4-mini, gemma4:e4b). Hugging Face hosts GGUF files for every model here, and curated directories like Local AI Zone list quantized downloads with direct links and daily updates."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Local coding models are finally serious. In 2026 a 9B model beats a 12B model on most shared benchmarks, a 3.8B model scores 74.4% on HumanEval, and developers are running private coding assistants on laptops that would have needed a data center in 2023. This list ranks the ten best ≤12B coding models by benchmark scores — HumanEval where published, LiveCodeBench and community head-to-heads where they're more informative — with the exact sizes and hardware each needs.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Best overall under 12B:</strong> Qwen3.5-9B — beats Gemma 4 12B on 5 of 8 shared benchmarks, "undisputed champ" for 16GB laptops</li>
+                <li><strong>Best multimodal coder:</strong> Gemma 4 12B — screenshots, UI bugs, and diagrams plus strong LiveCodeBench results</li>
+                <li><strong>Best coding per GB:</strong> Phi-4-mini (3.8B) — 74.4% HumanEval in a 2.5GB Q4 file</li>
+                <li><strong>Best HumanEval score in class:</strong> Yi-Coder 9B — 85.4%, on par with DeepSeek Coder 33B</li>
+                <li><strong>The honest rule:</strong> HumanEval is saturated — judge small coders on LiveCodeBench and real editor use</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="how-to-read">
+            <h2>How to Read This List</h2>
+            <p>Three things worth knowing before the rankings:</p>
+            <ul>
+                <li><strong>HumanEval is saturated — read it with salt.</strong> HumanEval tests single-function code generation, and most good 2026 small models score 70%+. The differences that matter in daily use — long-context repo edits, tool calling, agentic debugging — barely show up there. This post uses HumanEval where published, but treats <strong>LiveCodeBench</strong> (fresh competitive-programming problems, harder and less contaminated) and <strong>community head-to-heads</strong> as the tiebreakers.</li>
+                <li><strong>There's a real head-to-head at the top.</strong> The June 2026 community benchmark of <strong>Qwen3.5-9B vs Gemma 4 12B</strong> across 8 shared benchmarks is the most useful data point in this class: Qwen wins 5 of 8 despite being 3B smaller. The full table is below.</li>
+                <li><strong>≤12B means "runs on what you own."</strong> At <a href="q4-km-vs-q8-0.html">Q4_K_M quantization</a>, a 12B model needs ~7GB, an 8–9B ~5–5.5GB, and a 4B about 2.5GB. Everything here runs on 8–16GB machines — most of it on CPU. For the broader ≤12B landscape (including non-coding strengths), see <a href="top-10-models-under-12b-2026.html">our ranking of all models under 12B</a>.</li>
+            </ul>
+        </section>
+
+        <section id="top10">
+            <h2>Top 10 Coding Models Under 12B (2026)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Model</th>
+                        <th>Params</th>
+                        <th>HumanEval</th>
+                        <th>Coding strength</th>
+                        <th>Context</th>
+                        <th>Q4 size</th>
+                        <th>License</th>
+                    <th>Download</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>Qwen3.5-9B</strong></td>
+                        <td>9B</td>
+                        <td>~85% (reported)</td>
+                        <td>Best all-round — beats Gemma 4 12B on 5/8 shared benchmarks</td>
+                        <td>256K</td>
+                        <td>~5.5 GB</td>
+                        <td>Apache 2.0</td>
+                    <td><a href="https://ollama.com/library/qwen3.5" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>Gemma 4 12B</strong></td>
+                        <td>12B</td>
+                        <td>Strong (unpublished)</td>
+                        <td>Best multimodal coder — screenshots, UI bugs, diagrams + LiveCodeBench</td>
+                        <td>128K</td>
+                        <td>~7 GB</td>
+                        <td>Apache 2.0</td>
+                    <td><a href="https://huggingface.co/google" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>Yi-Coder 9B</strong></td>
+                        <td>9B</td>
+                        <td><strong>85.4%</strong></td>
+                        <td>Best published HumanEval in class — on par with DeepSeek Coder 33B</td>
+                        <td>128K</td>
+                        <td>~5.5 GB</td>
+                        <td>Apache-style</td>
+                    <td><a href="https://huggingface.co/01-ai/Yi-Coder-9B-Chat" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>Phi-4-mini</strong></td>
+                        <td>3.8B</td>
+                        <td><strong>74.4%</strong></td>
+                        <td>Best coding per GB — 128K context, MIT license</td>
+                        <td>128K</td>
+                        <td>2.5 GB</td>
+                        <td>MIT</td>
+                    <td><a href="https://ollama.com/library/phi4-mini" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>Qwen3-Coder 7B</strong></td>
+                        <td>7B</td>
+                        <td>~80% (reported)</td>
+                        <td>Smallest real coding model under 10B — the coder-trained Qwen</td>
+                        <td>128K</td>
+                        <td>~4.5 GB</td>
+                        <td>Apache 2.0</td>
+                    <td><a href="https://ollama.com/library/qwen3-coder" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>GLM-4-9B-0414</strong></td>
+                        <td>9B</td>
+                        <td>~78% (reported)</td>
+                        <td>Code + function calling + clean SVG/HTML artifact generation</td>
+                        <td>32K</td>
+                        <td>6.2 GB</td>
+                        <td>Open weights</td>
+                    <td><a href="https://huggingface.co/zai-org/glm-4-9b" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>DeepSeek-R1-Distill-8B</strong></td>
+                        <td>8B</td>
+                        <td>~70% (reported)</td>
+                        <td>Chain-of-thought coder — outperforms some 30B+ on math-adjacent code</td>
+                        <td>32K</td>
+                        <td>5 GB</td>
+                        <td>MIT</td>
+                    <td><a href="https://ollama.com/library/deepseek-r1" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>Qwen3-8B</strong></td>
+                        <td>8B</td>
+                        <td>~75% (reported)</td>
+                        <td>Proven all-rounder — 119 languages, thinking + fast modes</td>
+                        <td>32K</td>
+                        <td>5.2 GB</td>
+                        <td>Apache 2.0</td>
+                    <td><a href="https://ollama.com/library/qwen3" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>Gemma 4 E4B</strong></td>
+                        <td>~4.5B eff (8B total)</td>
+                        <td>—</td>
+                        <td>Agentic coding on edge — native function calling, structured JSON</td>
+                        <td>128K</td>
+                        <td>~4.5 GB</td>
+                        <td>Apache 2.0</td>
+                    <td><a href="https://ollama.com/library/gemma4" target="_blank" rel="noopener">Download</a></td></tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>Llama 3.2 3B</strong></td>
+                        <td>3B</td>
+                        <td>~55% (reported)</td>
+                        <td>Fastest CPU tool calling at this size — 67% BFCL V2</td>
+                        <td>128K</td>
+                        <td>~2.2 GB</td>
+                        <td>Llama License</td>
+                    <td><a href="https://ollama.com/library/llama3.2" target="_blank" rel="noopener">Download</a></td></tr>
+                </tbody>
+            </table>
+            <div class="highlight-box info">
+                <p><strong>💡 Honest sourcing note:</strong> HumanEval figures marked "reported" come from community benchmarks and vendor claims that vary by test harness and prompt format — treat them as a range, not gospel. Only Yi-Coder 9B (85.4%), Phi-4-mini (74.4%), and the Qwen3.5-9B vs Gemma 4 12B head-to-head below carry published, sourced numbers. The reason: <strong>HumanEval is saturated</strong>, so the differences that matter show up on LiveCodeBench and real editor use instead.</p>
+            </div>
+        </section>
+
+        <section id="head-to-head">
+            <h2>Head-to-Head: Qwen3.5-9B vs Gemma 4 12B</h2>
+            <p>The most useful comparison in the ≤12B class — a 9B model against a 12B model on 8 shared benchmarks, run by the community in June 2026:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Benchmark area</th>
+                        <th>Qwen3.5-9B</th>
+                        <th>Gemma 4 12B</th>
+                        <th>Winner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Shared benchmark wins (8 total)</td>
+                        <td><strong>5 of 8</strong></td>
+                        <td>3 of 8</td>
+                        <td>Qwen3.5-9B</td>
+                    </tr>
+                    <tr>
+                        <td>Coding</td>
+                        <td><strong>Strong — "Qwen excels at coding"</strong></td>
+                        <td>Good, less specialized</td>
+                        <td>Qwen3.5-9B</td>
+                    </tr>
+                    <tr>
+                        <td>General assistant / chat</td>
+                        <td>Good</td>
+                        <td><strong>Better — "Gemma is better for general assistant"</strong></td>
+                        <td>Gemma 4 12B</td>
+                    </tr>
+                    <tr>
+                        <td>Multimodal (image / audio input)</td>
+                        <td>Text + image</td>
+                        <td><strong>Text + image + audio</strong></td>
+                        <td>Gemma 4 12B</td>
+                    </tr>
+                    <tr>
+                        <td>Context window</td>
+                        <td><strong>256K</strong></td>
+                        <td>128K</td>
+                        <td>Qwen3.5-9B</td>
+                    </tr>
+                    <tr>
+                        <td>Memory footprint (Q4)</td>
+                        <td><strong>~5.5 GB</strong> (3B smaller)</td>
+                        <td>~7 GB</td>
+                        <td>Qwen3.5-9B</td>
+                    </tr>
+                    <tr>
+                        <td>Release date</td>
+                        <td>March 2026</td>
+                        <td>June 2026</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>🎯 The verdict:</strong> for pure coding on 16GB, <strong>Qwen3.5-9B wins</strong> — better benchmark results, smaller footprint, longer context, and the community's consistent observation that Qwen models feel stronger at coding in daily use. Pick <strong>Gemma 4 12B</strong> when you need one model for everything: coding <em>plus</em> screenshots, UI bug reports, diagrams, and audio — a genuinely common workflow that 9B text-only models can't cover.</p>
+            </div>
+        </section>
+
+        <section id="cards">
+            <h2>The 10, One by One</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>1. Qwen3.5-9B — The Undisputed Champ</h3>
+                    <p><strong>Released March 2026.</strong> The strongest all-round coder in the class. Community testing (June 2026) has it beating Gemma 4 12B on 5 of 8 shared benchmarks; developers describe it as the undisputed pick for 16GB laptops. Multimodal (text + image), 256K context, Apache 2.0. The default recommendation for a private coding assistant.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>2. Gemma 4 12B — The Multimodal Coder</h3>
+                    <p><strong>Released June 2026.</strong> Google's unified encoder-free multimodal model — text, image, and audio — with strong LiveCodeBench and Codeforces results for its size and performance nearing Google's 26B MoE at half the memory. The pick when coding work involves screenshots, UI layouts, and diagrams, not just text.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>3. Yi-Coder 9B — The HumanEval King</h3>
+                    <p>The best published HumanEval score in this class: <strong>85.4%</strong>, on par with DeepSeek Coder 33B at a fraction of the size (July 2026 reporting). 128K context and Apache-style licensing make it a strong, verifiable choice for code generation and embedded workflows.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>4. Phi-4-mini — The Per-GB King</h3>
+                    <p>Microsoft's 3.8B reasoner: <strong>74.4% HumanEval</strong> in a 2.5GB Q4 file that runs on 4GB of RAM. MIT licensed, 128K context. The best coding-per-gigabyte value on this list — ideal for 8GB machines and edge devices where bigger models don't fit.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>5. Qwen3-Coder 7B — The Coder-Trained Qwen</h3>
+                    <p>Alibaba's coder-specialized 7B — the smallest model that handles real coding under 10B (May 2026 ranking), trained specifically for code completion, editing, and tool use. Apache 2.0. A leaner alternative to Qwen3.5-9B when 5.5GB is too much.</p>
+                </div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>6. GLM-4-9B-0414 — The Artifact Maker</h3>
+                    <p>Zhipu's 9B, trained with RL on code, function calling, and web design. Generates clean SVG graphics and HTML artifacts and supports JSON-based tool use natively. Best when your "coding" includes front-end artifacts and agent workflows, not just logic.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>7. DeepSeek-R1-Distill-8B — The Reasoning Coder</h3>
+                    <p>DeepSeek distilled R1's chain-of-thought into 8B; it outperforms some 30B+ models on math benchmarks, which carries into algorithm-heavy coding. MIT licensed. Best for competitive-style problems and logic-dense code — keep temperature 0.5–0.7 to avoid repetitive output.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>8. Qwen3-8B — The Proven All-Rounder</h3>
+                    <p>The dependable 8B with 119 languages and a thinking/fast-mode toggle. Slightly older and less coder-specialized than Qwen3.5-9B, but battle-tested across thousands of production apps and the safest default when you need one model for coding plus everything else.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>9. Gemma 4 E4B — The Agentic Edge Model</h3>
+                    <p><strong>Released April 2026.</strong> ~4.5B effective parameters with native function calling and structured JSON output — built for agentic coding on 8GB machines, phones, and edge devices. Apache 2.0. Not a benchmark monster, but the right tool when your coder is an agent that calls functions all day.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>10. Llama 3.2 3B — The CPU Speedster</h3>
+                    <p>Meta's edge-optimized 3B: best tool-calling score at this size (67% BFCL V2) and the fastest CPU experience here (40–60 tok/s at Q4). Perfect for routing, autocomplete, and lightweight tool use where latency matters more than raw capability.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="by-use-case">
+            <h2>Top 10 by Use Case</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Need</th>
+                        <th>Best pick under 12B</th>
+                        <th>Runner-up</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Daily coding assistant (16GB)</strong></td>
+                        <td>Qwen3.5-9B</td>
+                        <td>Gemma 4 12B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Coding + screenshots / UI bugs</strong></td>
+                        <td>Gemma 4 12B</td>
+                        <td>Qwen3.5-9B (image input)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maximum HumanEval per GB</strong></td>
+                        <td>Yi-Coder 9B (85.4%)</td>
+                        <td>Phi-4-mini (74.4%)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>8GB machine / edge</strong></td>
+                        <td>Phi-4-mini</td>
+                        <td>Qwen3-Coder 7B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agentic coding / function calling</strong></td>
+                        <td>Gemma 4 E4B</td>
+                        <td>Qwen3-Coder 7B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Front-end artifacts (SVG/HTML)</strong></td>
+                        <td>GLM-4-9B-0414</td>
+                        <td>Gemma 4 12B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Algorithm / competitive problems</strong></td>
+                        <td>DeepSeek-R1-Distill-8B</td>
+                        <td>Qwen3.5-9B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fastest on CPU</strong></td>
+                        <td>Llama 3.2 3B</td>
+                        <td>Phi-4-mini</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multilingual code comments/docs</strong></td>
+                        <td>Qwen3-8B (119 languages)</td>
+                        <td>Qwen3.5-9B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Privacy-critical / regulated code</strong></td>
+                        <td>Qwen3.5-9B (Apache 2.0, local)</td>
+                        <td>Phi-4-mini (MIT)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The privacy-critical row is the one this blog cares about most — a fully local coder means your source code never leaves your machine, which is the same architecture principle as <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> for legal documents. Pair any model here with <a href="top-10-embedding-models-2026.html">a local embedding model</a> and you have a private code Q&amp;A over your own repository.</p>
+        </section>
+
+        <section id="hardware">
+            <h2>What Fits Your Hardware</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your machine</th>
+                        <th>What to run</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>4–6GB RAM</strong></td>
+                        <td>Phi-4-mini, Llama 3.2 3B — the 2–2.5GB Q4 files</td>
+                    </tr>
+                    <tr>
+                        <td><strong>8GB RAM (CPU or GPU)</strong></td>
+                        <td>Qwen3-Coder 7B, Yi-Coder 9B (tight), Gemma 4 E4B, DeepSeek-R1-Distill-8B</td>
+                    </tr>
+                    <tr>
+                        <td><strong>16GB RAM (CPU or GPU)</strong></td>
+                        <td>Qwen3.5-9B, Gemma 4 12B — the full power of this list</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>🎯 The rule that beats every table:</strong> <em>for coding, a well-quantized model you actually use beats a bigger model you can't run comfortably.</em> A crisp Phi-4-mini at Q8 in your editor every day outperforms a cramped 12B at Q2 that you avoid because it's slow. Our <a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0 guide</a> has the memory math, and <a href="top-10-gguf-models-by-ram.html">the RAM download guide</a> maps every tier to its file.</p>
+            </div>
+        </section>
+
+        <section id="where">
+            <h2>Where to Get Them</h2>
+            <ul>
+                <li><strong>Ollama:</strong> <code>ollama run qwen3.5:9b</code>, <code>phi4-mini</code>, <code>gemma4:e4b</code>, <code>yi-coder</code> — downloads, quantizes, and runs with one command, with an OpenAI-compatible API for your editor.</li>
+                <li><strong>Hugging Face:</strong> GGUF files for every model above — search <code>modelname gguf</code>.</li>
+                <li><strong>Local AI Zone:</strong> <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">local-ai-zone.github.io</a> — curated, daily-updated GGUF directory with direct download links and benchmark-based rankings.</li>
+                <li><strong>GGUF Loader:</strong> <a href="https://ggufloader.github.io" target="_blank" rel="noopener">ggufloader.github.io</a> — drag a GGUF in and chat, zero CLI.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Setting up your first local coder?</h3>
+                <p>Start with <strong>Qwen3.5-9B</strong> on 16GB or <strong>Phi-4-mini</strong> on 8GB, connect it to VS Code or Cline via Ollama's OpenAI-compatible endpoint, and keep your code private. The <a href="how-to-run-gguf-models-locally-2026-guide.html">beginner's setup guide</a> walks through install and troubleshooting, and <a href="best-local-llm-tools-2026.html">the tools roundup</a> covers which runtime fits your workflow.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is the best model under 12B for coding in 2026?</h3>
+            <p>Qwen3.5-9B is the strongest all-round coding pick — community testing has it beating Gemma 4 12B on 5 of 8 shared benchmarks despite being 3B smaller, and it's widely described as the undisputed champ for 16GB laptops. Gemma 4 12B is the pick when you also need multimodal input (screenshots, UI bugs, diagrams) at maximum power.</p>
+
+            <h3>What is the best small coding model for an 8GB machine?</h3>
+            <p>Phi-4-mini (2.5GB at Q4, 74.4% HumanEval) for the best coding per GB, Qwen3-Coder 7B or Yi-Coder 9B if you have ~6GB free, and Gemma 4 E4B for agentic function calling on edge hardware.</p>
+
+            <h3>Is a 9B model good enough for real coding work?</h3>
+            <p>Yes. Qwen3.5-9B handles daily coding tasks — scripts, debugging, explanations, shell commands — well enough to replace a hosted assistant for many developers, and Yi-Coder 9B's 85.4% HumanEval is on par with DeepSeek Coder 33B at a fraction of the size. For long multi-file agentic work, step up to 12B or beyond.</p>
+
+            <h3>What coding benchmarks should I trust for small models?</h3>
+            <p>HumanEval measures single-function code generation and is now saturated — most good small models score 70%+. LiveCodeBench is harder and less contaminated because it uses fresh competitive-programming problems. SWE-bench Verified is the most realistic: it measures full repo-level bug fixing, which is where small models still trail frontier models.</p>
+
+            <h3>Can I use these models with VS Code, Cursor, or Cline?</h3>
+            <p>Yes. Ollama and llama.cpp expose OpenAI-compatible servers, so any tool that supports a custom base URL can point at a local model. Qwen3.5-9B and Gemma 4 E4B are popular choices for local coding assistants because they handle function calling and structured outputs well.</p>
+
+            <h3>Where can I download coding models under 12B?</h3>
+            <p>Ollama pulls them with one command (<code>qwen3.5:9b</code>, <code>phi4-mini</code>, <code>gemma4:e4b</code>). Hugging Face hosts GGUF files for every model here, and curated directories like Local AI Zone list quantized downloads with direct links and daily updates.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1tw0lua/gemma412bit_vs_qwen359b_on_shared_benchmarks_qwen/" target="_blank" rel="noopener">Gemma 4 12B vs Qwen3.5-9B on shared benchmarks (r/LocalLLaMA, Jun 2026)</a></li>
+                <li><a href="https://llm-stats.com/models/compare/gemma-4-12b-it-vs-qwen3.5-9b" target="_blank" rel="noopener">Gemma 4 12B vs Qwen3.5-9B benchmark comparison (LLM Stats)</a></li>
+                <li><a href="https://www.kdnuggets.com/top-7-coding-models-you-can-run-locally-in-2026" target="_blank" rel="noopener">Top 7 Coding Models You Can Run Locally in 2026 (KDnuggets, Jun 2026)</a></li>
+                <li><a href="https://presenc.ai/research/chinese-coding-models-comparison-2026" target="_blank" rel="noopener">Chinese Coding Models Comparison 2026 (Presenc AI, May 2026)</a></li>
+                <li><a href="https://pinggy.io/blog/best_open_source_self_hosted_llms_for_coding/" target="_blank" rel="noopener">Best Open Source Self-Hosted LLMs for Coding in 2026 (Pinggy, Jul 2026)</a></li>
+                <li><a href="https://localaimaster.com/blog/small-language-models-guide-2026" target="_blank" rel="noopener">Best Small Language Models 2026: Top SLMs Ranked (Local AI Master, Mar 2026)</a></li>
+                <li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemma-4-12b/" target="_blank" rel="noopener">Introducing Gemma 4 12B (Google, Jun 2026)</a></li>
+                <li><a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone — GGUF model directory</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

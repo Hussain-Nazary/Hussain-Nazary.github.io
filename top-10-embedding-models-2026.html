@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)</title>
+    <meta name="description" content="Top 10 embedding models for RAG in 2026: Qwen3-Embedding, BGE-M3, Gemini, NV-Embed, Voyage, Cohere, OpenAI, mxbai, Nomic — MTEB scores and a decision guide.">
+    <meta name="keywords" content="top 10 embedding models 2026, best embedding models rag, bge-m3, qwen3-embedding, mxbai-embed-large, nomic-embed-text, mteb leaderboard, vector embeddings, semantic search, rag embeddings, local embeddings">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/top-10-embedding-models-2026.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)">
+    <meta property="og:description" content="Top 10 embedding models for RAG in 2026: Qwen3-Embedding, BGE-M3, Gemini, NV-Embed, Voyage, Cohere, OpenAI, mxbai, Nomic — MTEB scores and a decision guide.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/top-10-embedding-models-2026.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)">
+    <meta name="twitter:description" content="The 10 embedding models that matter for RAG in 2026 — MTEB scores, context windows, and how to pick.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)",
+          "description": "Top 10 embedding models for RAG in 2026: Qwen3-Embedding, BGE-M3, Gemini, NV-Embed, Voyage, Cohere, OpenAI, mxbai, Nomic — MTEB scores and a decision guide.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/top-10-embedding-models-2026.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the best embedding model for RAG in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen3-Embedding-8B is the strongest open-source option (70.58 MTEB multilingual, 32K context, Apache 2.0). BGE-M3 is the best all-round local workhorse because it does dense, sparse, and multi-vector retrieval from one MIT-licensed model. For local RAG on modest hardware, mxbai-embed-large or nomic-embed-text are the practical defaults."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best free embedding model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "BGE-M3 (MIT license) and Qwen3-Embedding (Apache 2.0) are fully free for commercial use and self-hosting. mxbai-embed-large and nomic-embed-text are the easiest free options via Ollama — both run locally on CPU with no API costs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I choose an embedding model for local RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Match the model to your hardware and data: nomic-embed-text (137M params) for a small CPU rig, mxbai-embed-large for a general-purpose local default, BGE-M3 when you need 100+ languages or hybrid dense+sparse retrieval, and Qwen3-Embedding for maximum quality with a GPU. Always benchmark on a sample of your own documents before committing."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is a good MTEB score for an embedding model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Around 60 is solid for production, 63-65 is strong, and 68+ is frontier class (Gemini 68.32, NV-Embed 69.32, Qwen3-Embedding 70.58). The overall MTEB average hides important detail — for RAG, check the retrieval-specific NDCG@10 scores instead."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the embedding model really matter for RAG quality?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — it sets the ceiling on retrieval quality. A weak embedding model returns wrong chunks no matter how good your LLM is. That said, adding a reranker fixes many retrieval failures without re-embedding your whole corpus, which is far cheaper than switching embedding models later."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I run embedding models locally on CPU?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. BGE-M3 (568M params), mxbai-embed-large (335M), and nomic-embed-text (137M) all run comfortably on CPU — they are 10-100x smaller than chat LLMs. Ollama and llama.cpp serve them with a single command, so a fully local RAG pipeline needs no GPU and no cloud."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Your embedding model decides how good your RAG system's retrieval will ever be. Pick the wrong one and you fight bad retrieval for the life of your index — and re-embedding a large corpus costs real money and time. This list ranks the ten models that matter in 2026 by benchmark score, then cuts through the hype with the practical details: context window, dimensions, license, and whether you can run it locally.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Best open-source overall:</strong> Qwen3-Embedding-8B — 70.58 MTEB multilingual, Apache 2.0</li>
+                <li><strong>Best local workhorse:</strong> BGE-M3 — dense + sparse + multi-vector from one MIT-licensed model</li>
+                <li><strong>Best local defaults on Ollama:</strong> mxbai-embed-large and nomic-embed-text (CPU-friendly)</li>
+                <li><strong>Highest managed score:</strong> Gemini embedding-001 (68.32) with a 2,048-token limit</li>
+                <li><strong>The honest rule:</strong> the MTEB average hides what matters — check retrieval NDCG@10 for RAG</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="how-to-read">
+            <h2>How to Read This List</h2>
+            <p>Three things to know before the rankings:</p>
+            <ul>
+                <li><strong>MTEB is an average, and RAG cares about one slice of it.</strong> The Massive Text Embedding Benchmark covers 56+ tasks — retrieval, classification, clustering, similarity. A model that dominates classification can underperform on retrieval, which is the only task that matters for RAG. Where retrieval-specific <strong>NDCG@10</strong> scores are known, this post uses them instead of the headline average.</li>
+                <li><strong>Benchmarks are volatile and corpus-dependent.</strong> New models land on the MTEB leaderboard monthly, and scores on Wikipedia or legal docs don't guarantee results on your product catalog. Run a small retrieval eval on a sample of your own data before committing to an index.</li>
+                <li><strong>Local models are the point of this blog.</strong> If you're building a <a href="how-to-build-rag-system-30-minutes.html">local RAG pipeline</a>, the embedding model runs on your own machine — which makes license, size, and CPU friendliness as important as the benchmark number. If you don't yet know how embeddings work under the hood, our <a href="embeddings-explained.html">embeddings explainer</a> covers the foundations first.</li>
+            </ul>
+        </section>
+
+        <section id="top10">
+            <h2>Top 10 Embedding Models (2026)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Model</th>
+                        <th>Best for</th>
+                        <th>MTEB</th>
+                        <th>Context</th>
+                        <th>Dims</th>
+                        <th>License / hosting</th>
+                    <th>Download</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>Qwen3-Embedding-8B</strong></td>
+                        <td>Best open-source overall — max quality, 100+ languages</td>
+                        <td>70.58</td>
+                        <td>32,000</td>
+                        <td>7168 (flex)</td>
+                        <td>Apache 2.0 · self-host</td>
+                    <td><a href="https://huggingface.co/Qwen/Qwen3-Embedding-8B" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>BGE-M3</strong></td>
+                        <td>Best local workhorse — dense + sparse + multi-vector hybrid</td>
+                        <td>63.0</td>
+                        <td>8,192</td>
+                        <td>1024</td>
+                        <td>MIT · self-host</td>
+                    <td><a href="https://huggingface.co/BAAI/bge-m3" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>Gemini embedding-001</strong></td>
+                        <td>Highest managed MTEB score, 100+ languages</td>
+                        <td>68.32</td>
+                        <td>2,048</td>
+                        <td>3072 (flex)</td>
+                        <td>Proprietary · API</td>
+                    <td><a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>NV-Embed-v2</strong></td>
+                        <td>Best open-weight retrieval score (research / non-commercial)</td>
+                        <td>69.32</td>
+                        <td>32,768</td>
+                        <td>4096</td>
+                        <td>CC-BY-NC · self-host</td>
+                    <td><a href="https://huggingface.co/nvidia/NV-Embed-v2" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>voyage-3-large</strong></td>
+                        <td>Best retrieval NDCG@10 among managed APIs</td>
+                        <td>~67+</td>
+                        <td>32,000</td>
+                        <td>2048 (flex)</td>
+                        <td>Proprietary · API</td>
+                    <td><a href="https://docs.voyageai.com/reference/embeddings-api" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>Cohere embed-v4</strong></td>
+                        <td>Noisy enterprise docs — OCR'd, scanned, messy text</td>
+                        <td>65.2</td>
+                        <td>128,000</td>
+                        <td>1024</td>
+                        <td>Proprietary · VPC / on-prem</td>
+                    <td><a href="https://cohere.com/embed" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>text-embedding-3-large</strong></td>
+                        <td>OpenAI ecosystem teams</td>
+                        <td>64.6</td>
+                        <td>8,192</td>
+                        <td>3072 (flex)</td>
+                        <td>Proprietary · API</td>
+                    <td><a href="https://platform.openai.com/docs/guides/embeddings" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>mxbai-embed-large</strong></td>
+                        <td>Best general-purpose local default (Ollama)</td>
+                        <td>Top for size</td>
+                        <td>512</td>
+                        <td>1024</td>
+                        <td>Apache 2.0 · self-host</td>
+                    <td><a href="https://ollama.com/library/mxbai-embed-large" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>nomic-embed-text</strong></td>
+                        <td>Small, fully open, CPU-friendly — auditability for compliance</td>
+                        <td>~62</td>
+                        <td>8,192</td>
+                        <td>768 (flex)</td>
+                        <td>Apache 2.0 · self-host</td>
+                    <td><a href="https://ollama.com/library/nomic-embed-text" target="_blank" rel="noopener">Model</a></td></tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>all-MiniLM-L6-v2</strong></td>
+                        <td>Prototyping and edge — tiny, fast, free</td>
+                        <td>56.3</td>
+                        <td>512</td>
+                        <td>384</td>
+                        <td>Apache 2.0 · self-host</td>
+                    <td><a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2" target="_blank" rel="noopener">Model</a></td></tr>
+                </tbody>
+            </table>
+            <div class="highlight-box info">
+                <p><strong>💡 The legal-AI angle:</strong> BGE-M3 is the engine inside <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a>, our flagship local RAG system for legal documents — because its dense + sparse hybrid output gives keyword-grade exact matching and semantic search from a single MIT-licensed model, fully offline. For regulated industries, that license and the <em>no-data-leaves-the-device</em> property matter more than a leaderboard point.</p>
+            </div>
+        </section>
+
+        <section id="local-vs-cloud">
+            <h2>Local vs Cloud: How to Read the Mix</h2>
+            <p>This list deliberately mixes both worlds, because "best" depends on your constraints:</p>
+            <ul>
+                <li><strong>Fully local (no API, no data leaves your machine):</strong> Qwen3-Embedding, BGE-M3, mxbai-embed-large, nomic-embed-text, all-MiniLM — everything under Apache 2.0 or MIT.</li>
+                <li><strong>Managed API with enterprise deployment options:</strong> Cohere embed-v4 offers VPC and on-premise hosting, the only proprietary option here that genuinely keeps regulated data inside your infrastructure.</li>
+                <li><strong>API-only, best benchmark scores:</strong> Gemini (68.32), NV-Embed (69.32, but non-commercial license), Voyage, OpenAI.</li>
+            </ul>
+            <p>For a fully private stack — the kind <a href="offline-ai-regulated-industries.html">regulated industries</a> need — the local column is the whole answer: <code>ollama pull bge-m3</code> (or <code>mxbai-embed-large</code>) and you're done, no account, no telemetry, no per-token cost. That's the stack our <a href="how-to-build-rag-system-30-minutes.html">30-minute RAG tutorial</a> and <a href="what-is-hybrid-search.html">hybrid search explainer</a> are built on.</p>
+        </section>
+
+        <section id="pick">
+            <h2>How to Pick (Decision Guide)</h2>
+            <ul>
+                <li><strong>Maximum quality, you have a GPU</strong> → <strong>Qwen3-Embedding-8B</strong> (or the 0.6B/4B variants to trade accuracy for speed).</li>
+                <li><strong>Multilingual + hybrid retrieval in one model</strong> → <strong>BGE-M3</strong> — dense, sparse, and multi-vector from a single 568M-parameter model.</li>
+                <li><strong>Local default on a laptop CPU</strong> → <strong>mxbai-embed-large</strong> (1024-dim, top scores for its size) or <strong>nomic-embed-text</strong> (137M params, 8K context, fully open weights <em>and</em> training data).</li>
+                <li><strong>OCR'd, scanned, or messy enterprise documents</strong> → <strong>Cohere embed-v4</strong> — trained for exactly that noise, with a 128K context.</li>
+                <li><strong>You're already on Google Cloud / OpenAI / a Postgres stack</strong> → stay in your ecosystem; switching costs usually outweigh the marginal benchmark gain.</li>
+                <li><strong>Compliance needs full model provenance</strong> → <strong>nomic-embed-text</strong> — the only major model with weights, code, and training data all public.</li>
+                <li><strong>Prototyping an idea</strong> → <strong>all-MiniLM-L6-v2</strong> or ChromaDB's built-in defaults; upgrade once the idea survives contact with real data.</li>
+            </ul>
+            <div class="highlight-box primary">
+                <p><strong>🎯 The rule that beats every table:</strong> <em>the embedding model sets the retrieval ceiling, but a reranker fixes the misses without re-embedding.</em> If your RAG returns wrong chunks even though the right chunk exists, add <a href="reranking-in-rag.html">a cross-encoder reranker</a> before you re-embed the whole corpus — it's minutes of work versus a full re-index, and it's exactly the two-stage pattern used in production legal AI.</p>
+            </div>
+        </section>
+
+        <section id="stack">
+            <h2>The Local Stack, End to End</h2>
+            <p>An embedding model alone does nothing — it's one component of a pipeline. Here's how the pieces fit:</p>
+            <ul>
+                <li><strong>Embeddings:</strong> this list (BGE-M3, mxbai, nomic, Qwen3-Embedding) — turn text into vectors.</li>
+                <li><strong>Vector store:</strong> <a href="chromadb-vs-faiss.html">ChromaDB or FAISS</a> locally, or a dedicated database at scale — see our <a href="top-10-vector-databases-2026.html">top 10 vector databases</a>.</li>
+                <li><strong>Retrieval:</strong> <a href="what-is-hybrid-search.html">hybrid search</a> fuses keyword and semantic results for the best of both.</li>
+                <li><strong>Reranking:</strong> <a href="reranking-in-rag.html">a cross-encoder</a> re-orders the shortlist before it reaches the LLM.</li>
+                <li><strong>Generation:</strong> a local chat model via <a href="ollama-vs-llamacpp-2026.html">Ollama or llama.cpp</a>.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Build it in 30 minutes</h3>
+                <p>Follow <a href="how-to-build-rag-system-30-minutes.html">the 30-minute RAG tutorial</a> to assemble this exact stack — <code>mxbai-embed-large</code> for embeddings, ChromaDB for storage, and a local LLM for answers, all free and offline. For the conceptual foundation, start with <a href="embeddings-explained.html">Embeddings Explained</a>. And if you need pre-quantized embedding GGUFs with direct download links, <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone</a> keeps a curated, benchmark-ranked directory.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is the best embedding model for RAG in 2026?</h3>
+            <p>Qwen3-Embedding-8B is the strongest open-source option (70.58 MTEB multilingual, 32K context, Apache 2.0). BGE-M3 is the best all-round local workhorse because it does dense, sparse, and multi-vector retrieval from one MIT-licensed model. For local RAG on modest hardware, mxbai-embed-large or nomic-embed-text are the practical defaults.</p>
+
+            <h3>What is the best free embedding model?</h3>
+            <p>BGE-M3 (MIT license) and Qwen3-Embedding (Apache 2.0) are fully free for commercial use and self-hosting. mxbai-embed-large and nomic-embed-text are the easiest free options via Ollama — both run locally on CPU with no API costs.</p>
+
+            <h3>How do I choose an embedding model for local RAG?</h3>
+            <p>Match the model to your hardware and data: nomic-embed-text (137M params) for a small CPU rig, mxbai-embed-large for a general-purpose local default, BGE-M3 when you need 100+ languages or hybrid dense+sparse retrieval, and Qwen3-Embedding for maximum quality with a GPU. Always benchmark on a sample of your own documents before committing.</p>
+
+            <h3>What is a good MTEB score for an embedding model?</h3>
+            <p>Around 60 is solid for production, 63–65 is strong, and 68+ is frontier class (Gemini 68.32, NV-Embed 69.32, Qwen3-Embedding 70.58). The overall MTEB average hides important detail — for RAG, check the retrieval-specific NDCG@10 scores instead.</p>
+
+            <h3>Does the embedding model really matter for RAG quality?</h3>
+            <p>Yes — it sets the ceiling on retrieval quality. A weak embedding model returns wrong chunks no matter how good your LLM is. That said, adding a reranker fixes many retrieval failures without re-embedding your whole corpus, which is far cheaper than switching embedding models later.</p>
+
+            <h3>Can I run embedding models locally on CPU?</h3>
+            <p>Yes. BGE-M3 (568M params), mxbai-embed-large (335M), and nomic-embed-text (137M) all run comfortably on CPU — they are 10–100x smaller than chat LLMs. Ollama and llama.cpp serve them with a single command, so a fully local RAG pipeline needs no GPU and no cloud.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://www.premai.io/blog/best-embedding-models-for-rag-2026-ranked-by-mteb-score-cost-and-self-hosting/" target="_blank" rel="noopener">Best Embedding Models for RAG 2026: MTEB, cost, self-hosting (PremAI, Mar 2026)</a></li>
+                <li><a href="https://milvus.io/blog/choose-embedding-model-rag-2026.md" target="_blank" rel="noopener">Best Embedding Model for RAG 2026: 10 models compared (Milvus, Mar 2026)</a></li>
+                <li><a href="https://www.morphllm.com/ollama-embedding-models" target="_blank" rel="noopener">Best Ollama Embedding Models 2026: 7 benchmarked by MTEB (MorphLMM)</a></li>
+                <li><a href="https://presenc.ai/research/best-open-weight-embedding-models-2026" target="_blank" rel="noopener">Best Open-Weight Embedding Models 2026 (Presenc AI, May 2026)</a></li>
+                <li><a href="https://huggingface.co/BAAI/bge-m3" target="_blank" rel="noopener">BGE-M3 — Hugging Face (BAAI)</a></li>
+                <li><a href="https://huggingface.co/spaces/mteb/leaderboard" target="_blank" rel="noopener">MTEB Leaderboard (Hugging Face)</a></li>
+                <li><a href="https://local-ai-zone.github.io/guides/best-ai-embedding-models-ultimate-ranking-2026.html" target="_blank" rel="noopener">Top Embedding AI Models 2026: Local RAG Guide (Local AI Zone)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

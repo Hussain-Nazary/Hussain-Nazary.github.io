@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Vector Databases in 2026 (Ranked by Use Case)</title>
+    <meta name="description" content="Top 10 vector databases in 2026: ChromaDB, FAISS, Qdrant, pgvector, Weaviate, Milvus, Pinecone, LanceDB, Elasticsearch, Redis — ranked by scale and use case.">
+    <meta name="keywords" content="top 10 vector databases 2026, best vector database rag, chromadb, faiss, qdrant, pgvector, weaviate, milvus, pinecone, lancedb, elasticsearch, redis, vector search, vector db comparison">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/top-10-vector-databases-2026.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Top 10 Vector Databases in 2026 (Ranked by Use Case)">
+    <meta property="og:description" content="Top 10 vector databases in 2026: ChromaDB, FAISS, Qdrant, pgvector, Weaviate, Milvus, Pinecone, LanceDB, Elasticsearch, Redis — ranked by scale and use case.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/top-10-vector-databases-2026.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Top 10 Vector Databases in 2026 (Ranked by Use Case)">
+    <meta name="twitter:description" content="The 10 vector databases that matter in 2026 — scale, hosting, and which fits your RAG pipeline.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Top 10 Vector Databases in 2026 (Ranked by Use Case)",
+          "description": "Top 10 vector databases in 2026: ChromaDB, FAISS, Qdrant, pgvector, Weaviate, Milvus, Pinecone, LanceDB, Elasticsearch, Redis — ranked by scale and use case.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/top-10-vector-databases-2026.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the best vector database for RAG in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For local and small-scale RAG, ChromaDB is the fastest way to start and FAISS gives you the most control. For production, Qdrant is the best open-source dedicated option and pgvector the best choice if you already run Postgres. At hundreds of millions of vectors, move to Milvus or Pinecone."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best free vector database?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ChromaDB, FAISS, pgvector, Qdrant, Weaviate, Milvus, and LanceDB are all open-source and free to self-host — ChromaDB and FAISS are the most popular for local RAG, Qdrant for production workloads, and pgvector if you already run PostgreSQL."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is FAISS a vector database?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Strictly speaking, no — FAISS is a library for efficient similarity search, not a database. It has no server, no persistence layer, and no metadata filtering out of the box. For local RAG it works great as an in-process index, but for multi-user or long-lived systems you typically wrap it or use a real database. Our ChromaDB vs FAISS guide covers the trade-offs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a vector database for RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, for any real system — you need something that stores embeddings and finds nearest neighbors fast. But it can be as simple as ChromaDB embedded in your process or FAISS on disk. Dedicated vector databases only become necessary at hundreds of thousands to millions of vectors, or when you need filtering, replication, or concurrent access."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which vector database is easiest to learn?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ChromaDB. It embeds directly into your Python process with a three-line API — no server, no config. That's why the 30-minute RAG tutorial on this blog uses it. Qdrant and Weaviate have a steeper learning curve but offer far more features for production."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I choose between ChromaDB and Qdrant?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ChromaDB for prototyping, local projects, and datasets under a few hundred thousand vectors. Qdrant when you need production reliability, rich metadata filtering, quantization to save RAM, or horizontal scaling. If your data is already in PostgreSQL, pgvector often removes the choice entirely."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Top 10 Vector Databases in 2026 (Ranked by Use Case)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Every AI feature that works with your own data — semantic search, RAG, recommendations, document Q&amp;A — needs somewhere to store and query embeddings. The vector database market has exploded from a handful of options to dozens, and the "right" choice depends entirely on scale, existing infrastructure, and how much ops you want to own. This list ranks the ten that matter in 2026 — from embedded libraries to billion-vector clouds — by the use case each one wins.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Best for local RAG:</strong> ChromaDB (easiest) and FAISS (most control)</li>
+                <li><strong>Best open-source production:</strong> Qdrant — Rust speed plus rich payload filtering</li>
+                <li><strong>Best if you already run Postgres:</strong> pgvector — vectors beside your app data</li>
+                <li><strong>Best managed zero-ops:</strong> Pinecone; <strong>best at billion scale:</strong> Milvus</li>
+                <li><strong>The honest rule:</strong> most RAG systems never outgrow ChromaDB or pgvector</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="how-to-read">
+            <h2>How to Read This List</h2>
+            <p>Three things worth knowing before the rankings:</p>
+            <ul>
+                <li><strong>They are not all the same kind of thing.</strong> This list spans three categories: <em>libraries</em> (FAISS — a similarity-search library you embed in your code), <em>embedded databases</em> (ChromaDB, LanceDB — run in-process, no server), and <em>server databases</em> (Qdrant, Weaviate, Milvus, pgvector, Elasticsearch, Redis, Pinecone). The right category is the first decision.</li>
+                <li><strong>Scale is the biggest axis.</strong> A dataset of a few hundred thousand vectors is a totally different problem from hundreds of millions. Several entries on this list are honest about being overkill below a certain size — choosing them anyway costs you ops time and money.</li>
+                <li><strong>This blog is local-first.</strong> If you're building a <a href="how-to-build-rag-system-30-minutes.html">local RAG pipeline</a>, you probably want the embedded category — that's what the tutorial uses, and it's also the architecture behind <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a>, our flagship local legal AI. For the foundations of what vectors actually are, see <a href="embeddings-explained.html">Embeddings Explained</a> first.</li>
+            </ul>
+        </section>
+
+        <section id="top10">
+            <h2>Top 10 Vector Databases (2026)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Database</th>
+                        <th>Best for</th>
+                        <th>Type</th>
+                        <th>Hosting</th>
+                        <th>Scale</th>
+                        <th>License</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>ChromaDB</strong></td>
+                        <td>Local RAG, prototyping, learning — simplest API anywhere</td>
+                        <td>Embedded / client-server</td>
+                        <td>In-process or self-hosted</td>
+                        <td>Hundreds of thousands</td>
+                        <td>Apache 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>FAISS</strong></td>
+                        <td>Max local performance and control — the library powering most vector stacks</td>
+                        <td>Library</td>
+                        <td>In-process</td>
+                        <td>Hundreds of millions (in RAM)</td>
+                        <td>MIT</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>Qdrant</strong></td>
+                        <td>Best open-source dedicated DB — Rust speed, payload filtering, quantization</td>
+                        <td>Dedicated server</td>
+                        <td>Self-hosted or Qdrant Cloud</td>
+                        <td>Hundreds of millions</td>
+                        <td>Apache 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>pgvector</strong></td>
+                        <td>Teams already running Postgres — vectors beside app data, SQL filtering</td>
+                        <td>Postgres extension</td>
+                        <td>Self-hosted or managed Postgres</td>
+                        <td>Millions</td>
+                        <td>PostgreSQL License</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>Weaviate</strong></td>
+                        <td>Built-in vectorization and hybrid search out of the box</td>
+                        <td>Dedicated server</td>
+                        <td>Self-hosted or Weaviate Cloud</td>
+                        <td>Hundreds of millions</td>
+                        <td>BSD-3</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><strong>Milvus</strong></td>
+                        <td>Enterprise scale — billions of vectors, GPU-accelerated search</td>
+                        <td>Dedicated server</td>
+                        <td>Self-hosted or Zilliz Cloud</td>
+                        <td>Billions</td>
+                        <td>Apache 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><strong>Pinecone</strong></td>
+                        <td>Managed zero-ops — serverless scaling, compliance baked in</td>
+                        <td>Managed SaaS</td>
+                        <td>Pinecone cloud</td>
+                        <td>Billions</td>
+                        <td>Proprietary</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><strong>LanceDB</strong></td>
+                        <td>Embedded local-first — columnar storage, disk-based indexing, versioning</td>
+                        <td>Embedded</td>
+                        <td>In-process</td>
+                        <td>Millions (disk-based)</td>
+                        <td>Apache 2.0</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><strong>Elasticsearch</strong></td>
+                        <td>Hybrid BM25 + vector search in the search engine you may already run</td>
+                        <td>Search engine</td>
+                        <td>Self-hosted or Elastic Cloud</td>
+                        <td>Billions</td>
+                        <td>Elastic License / SSPL</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><strong>Redis</strong></td>
+                        <td>Teams already on Redis — vector search with RedisVL beside your cache</td>
+                        <td>In-memory store</td>
+                        <td>Self-hosted or managed</td>
+                        <td>Millions</td>
+                        <td>RSALv2 / SSPLv1</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box info">
+                <p><strong>💡 The flagship connection:</strong> <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> stores legal document chunks in <strong>ChromaDB</strong> on your own machine — the embedded model means there's no server, no cloud, and no moment where a client's documents exist anywhere but your disk. That's the privacy argument in one sentence, and it's the same reason our <a href="how-to-build-rag-system-30-minutes.html">30-minute RAG tutorial</a> picks ChromaDB: the fastest possible path from zero to working retrieval.</p>
+            </div>
+        </section>
+
+        <section id="comparison">
+            <h2>Deeper Comparison: The Six You'll Actually Choose Between</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>1. ChromaDB — Start Here</h3>
+                    <p><strong>Best for:</strong> local RAG, prototyping, learning.</p>
+                    <p>Embeds directly into your Python process — <code>add</code>, <code>query</code>, done. No server, no config, automatic embedding via pluggable models, persistent storage to disk, and a client-server mode for production. It's the fastest path from zero to working semantic search, which is why the <a href="how-to-build-rag-system-30-minutes.html">30-minute tutorial</a> uses it. Performance degrades past a few hundred thousand vectors, and there's no managed cloud — graduate when you outgrow it.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>2. FAISS — Max Local Control</h3>
+                    <p><strong>Best for:</strong> high-performance local search and custom pipelines.</p>
+                    <p>Meta's similarity-search library — the engine under most of the ecosystem. HNSW, IVF, PQ, GPU support, and billion-scale indexes in RAM. It's a library, not a database: no server, no persistence, no filtering. Pair it with a metadata store for real systems. Our <a href="chromadb-vs-faiss.html">ChromaDB vs FAISS deep dive</a> has the migration guidance.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>3. Qdrant — Production Open Source</h3>
+                    <p><strong>Best for:</strong> self-hosted production RAG with rich filtering.</p>
+                    <p>Written in Rust, with indexed payload filtering (numeric, keyword, geo, datetime), scalar and product quantization to cut memory, and sharding/replication in distributed mode. Self-hosted via Docker or managed via Qdrant Cloud. The strongest default for teams that want a real database without giving up open source.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>4. pgvector — Zero New Infrastructure</h3>
+                    <p><strong>Best for:</strong> teams that already run Postgres.</p>
+                    <p>An extension that adds a <code>vector</code> column, HNSW and IVFFlat indexes, and cosine/L2/inner-product operators. Documents and embeddings live in the same table and transaction — no sync pipeline, no new service to monitor, full SQL filtering. Comfortable to tens of millions of vectors on a single instance. If you're on Postgres, this usually removes the decision entirely.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>5. Weaviate — Built-in Everything</h3>
+                    <p><strong>Best for:</strong> teams that want vectorization and hybrid search handled by the DB.</p>
+                    <p>Modules for OpenAI, Cohere, Hugging Face, and more let you insert raw text and let Weaviate embed it. Hybrid search (vector + BM25) is built in, with GraphQL and REST APIs. The convenience costs you control over the embedding pipeline and a Java-based runtime that's heavier to self-host.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>6. Milvus — The Heavyweight</h3>
+                    <p><strong>Best for:</strong> billions of vectors, GPU acceleration, enterprise scale.</p>
+                    <p>The most full-featured open-source vector database — multiple index types (IVF, HNSW, DiskANN, GPU indexes), typed schemas, partition keys for multi-tenancy. Self-hosting requires etcd, object storage, and message queues, so most teams use Zilliz Cloud. Genuinely overkill below millions of vectors.</p>
+                </div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>7. Pinecone — Zero Ops, Any Scale</h3>
+                    <p><strong>Best for:</strong> teams that want managed vector search with zero infrastructure.</p>
+                    <p>Serverless tier that auto-scales with query volume, namespace isolation for multi-tenancy, metadata filtering, sparse-dense hybrid, SOC 2 Type II. Proprietary and closed — your data lives in Pinecone's cloud, and costs scale with query volume. The right call when ops time matters more than cost.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>8. LanceDB — Local-First Embedded</h3>
+                    <p><strong>Best for:</strong> edge, desktop, and data-science workloads.</p>
+                    <p>Built on the Lance columnar format — zero-copy access, disk-based IVF-PQ indexing for datasets larger than RAM, automatic versioning. In-process with no server, ideal for local-first apps. Cloud offering still in beta, and the ecosystem is younger than the others.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>9. Elasticsearch — Hybrid at Scale</h3>
+                    <p><strong>Best for:</strong> production hybrid search (BM25 + vectors) on an engine you may already run.</p>
+                    <p>Native dense-vector fields, HNSW indexing, and mature BM25 keyword search in one engine — the pragmatic production answer to <a href="what-is-hybrid-search.html">hybrid retrieval</a> for search-heavy products. Licensing changed for newer versions, so check the terms for your use case; OpenSearch is the Apache-2.0 fork.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>10. Redis — Vector Search Where Your Cache Is</h3>
+                    <p><strong>Best for:</strong> teams already on Redis that need lightweight vector search.</p>
+                    <p>Redis Stack's vector index with cosine/IP/L2 distance and HNSW, queried via the RedisVL client. In-memory speed, but vectors live in RAM and scale is limited by memory. Perfect for session-scale personalization and low-latency serving beside an existing Redis footprint; not for billion-vector corpora.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pick">
+            <h2>How to Pick (Decision Guide)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your situation</th>
+                        <th>Recommended</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Learning RAG / local project / under ~200K vectors</strong></td>
+                        <td>ChromaDB (easiest) or FAISS (most control)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Already running PostgreSQL</strong></td>
+                        <td>pgvector — no new infrastructure</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production RAG, self-hosted, open source</strong></td>
+                        <td>Qdrant — Rust performance + payload filtering</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Want the DB to do the embedding + hybrid search</strong></td>
+                        <td>Weaviate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Billions of vectors, GPU search, enterprise</strong></td>
+                        <td>Milvus (self-hosted) or Pinecone (managed)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zero ops, compliance, managed everything</strong></td>
+                        <td>Pinecone</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Local-first app, edge, disk-based datasets</strong></td>
+                        <td>LanceDB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Search product that needs hybrid at scale</strong></td>
+                        <td>Elasticsearch (or OpenSearch)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Already on Redis, need low-latency vectors</strong></td>
+                        <td>Redis + RedisVL</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>🎯 The rule that beats every table:</strong> <em>most RAG systems never outgrow ChromaDB or pgvector.</em> The "hundreds of millions of vectors" use cases on this list belong to search platforms and SaaS products — if you're building an internal knowledge assistant or a document Q&amp;A tool, start embedded, keep your ops light, and migrate only when your own measurements say you need to.</p>
+            </div>
+        </section>
+
+        <section id="local-stack">
+            <h2>Putting It Together: The Local Stack</h2>
+            <p>If you're building the local-first stack this blog covers, here's how the vector store fits with everything else:</p>
+            <ul>
+                <li><strong>Embeddings:</strong> <a href="top-10-embedding-models-2026.html">top 10 embedding models</a> — BGE-M3, mxbai-embed-large, or nomic-embed-text locally.</li>
+                <li><strong>Vector store:</strong> ChromaDB or FAISS — the <a href="chromadb-vs-faiss.html">ChromaDB vs FAISS guide</a> makes the call.</li>
+                <li><strong>Retrieval:</strong> <a href="what-is-hybrid-search.html">hybrid search</a> fuses BM25 keyword matches with semantic vectors — and if you use BGE-M3, its sparse output gives you both from one model.</li>
+                <li><strong>Reranking:</strong> <a href="reranking-in-rag.html">a cross-encoder reranker</a> re-orders the shortlist before generation.</li>
+                <li><strong>Generation:</strong> a local LLM via <a href="ollama-vs-llamacpp-2026.html">Ollama or llama.cpp</a>.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Build the whole thing in 30 minutes</h3>
+                <p>Follow <a href="how-to-build-rag-system-30-minutes.html">the 30-minute RAG tutorial</a> — ChromaDB, Ollama, and a free embedding model, fully offline. If you're evaluating vector databases for production, the <a href="https://www.firecrawl.dev/blog/best-vector-databases" target="_blank" rel="noopener">2026 vendor landscape</a> and <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone</a>'s model directory are good next stops.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is the best vector database for RAG in 2026?</h3>
+            <p>For local and small-scale RAG, ChromaDB is the fastest way to start and FAISS gives you the most control. For production, Qdrant is the best open-source dedicated option and pgvector the best choice if you already run Postgres. At hundreds of millions of vectors, move to Milvus or Pinecone.</p>
+
+            <h3>What is the best free vector database?</h3>
+            <p>ChromaDB, FAISS, pgvector, Qdrant, Weaviate, Milvus, and LanceDB are all open-source and free to self-host — ChromaDB and FAISS are the most popular for local RAG, Qdrant for production workloads, and pgvector if you already run PostgreSQL.</p>
+
+            <h3>Is FAISS a vector database?</h3>
+            <p>Strictly speaking, no — FAISS is a library for efficient similarity search, not a database. It has no server, no persistence layer, and no metadata filtering out of the box. For local RAG it works great as an in-process index, but for multi-user or long-lived systems you typically wrap it or use a real database. Our <a href="chromadb-vs-faiss.html">ChromaDB vs FAISS guide</a> covers the trade-offs.</p>
+
+            <h3>Do I need a vector database for RAG?</h3>
+            <p>Yes, for any real system — you need something that stores embeddings and finds nearest neighbors fast. But it can be as simple as ChromaDB embedded in your process or FAISS on disk. Dedicated vector databases only become necessary at hundreds of thousands to millions of vectors, or when you need filtering, replication, or concurrent access.</p>
+
+            <h3>Which vector database is easiest to learn?</h3>
+            <p>ChromaDB. It embeds directly into your Python process with a three-line API — no server, no config. That's why the <a href="how-to-build-rag-system-30-minutes.html">30-minute RAG tutorial</a> on this blog uses it. Qdrant and Weaviate have a steeper learning curve but offer far more features for production.</p>
+
+            <h3>How do I choose between ChromaDB and Qdrant?</h3>
+            <p>ChromaDB for prototyping, local projects, and datasets under a few hundred thousand vectors. Qdrant when you need production reliability, rich metadata filtering, quantization to save RAM, or horizontal scaling. If your data is already in PostgreSQL, pgvector often removes the choice entirely.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://encore.dev/articles/best-vector-databases" target="_blank" rel="noopener">Best Vector Databases in 2026: Complete Comparison Guide (Encore, Mar 2026)</a></li>
+                <li><a href="https://www.firecrawl.dev/blog/best-vector-databases" target="_blank" rel="noopener">Best Vector Databases in 2026: A Complete Comparison (Firecrawl, Aug 2026)</a></li>
+                <li><a href="https://www.datacamp.com/blog/the-top-5-vector-databases" target="_blank" rel="noopener">Best Vector Databases 2026: Pinecone, Chroma, Qdrant &amp; more (DataCamp)</a></li>
+                <li><a href="https://www.altexsoft.com/blog/vector-databases-compared/" target="_blank" rel="noopener">How to Choose the Right Vector Database (AltexSoft, Mar 2026)</a></li>
+                <li><a href="https://docs.trychroma.com" target="_blank" rel="noopener">ChromaDB — official docs</a></li>
+                <li><a href="https://github.com/facebookresearch/faiss" target="_blank" rel="noopener">FAISS — GitHub (Meta)</a></li>
+                <li><a href="https://qdrant.tech" target="_blank" rel="noopener">Qdrant — official site</a></li>
+                <li><a href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener">pgvector — GitHub</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

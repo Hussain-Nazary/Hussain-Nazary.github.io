@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)</title>
+    <meta name="description" content="Ant Lab (InclusionAI) builds Ant Group's Ling, Ring, and Ming models — from the 1T flagship to Ling 3.0 Flash, with benchmarks and how to run them.">
+    <meta name="keywords" content="ant lab ai models, ant group ling, inclusionai, ling 3.0 flash, ling 2.6 flash, ling 2.6 1t, ant group open source ai, ling model family, ring reasoning model, ming multimodal, moe model 2026">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/ant-lab-ai-models-2026.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)">
+    <meta property="og:description" content="Ant Lab (InclusionAI) builds Ant Group's Ling, Ring, and Ming models — from the 1T flagship to Ling 3.0 Flash, with benchmarks and how to run them.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/ant-lab-ai-models-2026.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)">
+    <meta name="twitter:description" content="Who's behind Ant Group's Ling models — the 1T flagship, the token-efficient Flash line, and where to run them.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)",
+          "description": "Ant Lab (InclusionAI) builds Ant Group's Ling, Ring, and Ming models — from the 1T flagship to Ling 3.0 Flash, with benchmarks and how to run them.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/ant-lab-ai-models-2026.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is Ant Lab?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ant Lab is the shorthand for Ant Group's AI research lab, InclusionAI — the team behind the Ling, Ring, and Ming model families. Ant Group is the fintech company behind Alipay, and it launched InclusionAI in February 2025 with a DeepSeek-inspired mission to build open models with AGI as a shared milestone."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What models has Ant Lab released?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Three families: Ling (general language models), Ring (reasoning models), and Ming (multimodal). The timeline runs from Ling Plus (293B sparse MoE, April 2025) through Ling 2.0 (September 2025), Ling-2.5-1T and Ring-2.5-1T (February 2026), Ling-2.6-Flash (April 2026), and the current Ling-3.0-Flash (July 2026)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is Ling 3.0 Flash?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ant's newest release (July 2026): a hybrid-reasoning Mixture-of-Experts model with 124B total parameters but only 5.1B active per token, built for production-scale agents. It uses native hybrid-linear attention, supports 256K context, and was offered free on OpenRouter through early August 2026."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best Ant Lab model in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For agent workloads and token efficiency, Ling-3.0-Flash (124B-A5.1B) is the standout — it activates a fraction of its parameters per token, keeping cost and latency low. For maximum raw quality, the Ling-2.6-1T flagship (1T parameters, 262K context) leads Ant's lineup on the July 2026 open-source leaderboards."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are Ant Lab models open source?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — open weights are the strategy. Ling-2.6-Flash ships under MIT, the Ling-2.5-1T and Ring-2.5-1T came out under open licenses, and all are published on Hugging Face under the inclusionAI namespace. Check each model card for the exact license terms."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I run Ant models locally?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Flash models' tiny active-parameter count makes them unusually efficient per token, but with 104–124B total parameters they still need serious hardware — roughly 60–80GB at Q4 quantization. The 1T flagship is not realistic to self-host. For most people, the hosted API (OpenRouter, Ant Ling API) is the practical path."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — If you follow open-weight AI, you've seen the name "Ling" climb the leaderboards in 2025–2026 — and you may have wondered who builds it. The answer is Ant Lab, the informal name for <strong>InclusionAI</strong>, the AI research lab of Ant Group (the fintech company behind Alipay). In under two years the lab went from zero to a trillion-parameter open model family, and its newest release, Ling-3.0-Flash, is designed for exactly the thing the whole industry is chasing: production-scale AI agents. This guide explains who Ant Lab is, what the Ling, Ring, and Ming families are, and what the recent 2026 models actually deliver.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Ant Lab = InclusionAI</strong> — Ant Group's open-source AI lab, launched February 2025, inspired by DeepSeek</li>
+                <li><strong>Three model families:</strong> Ling (language), Ring (reasoning), Ming (multimodal)</li>
+                <li><strong>Newest release:</strong> Ling-3.0-Flash (July 2026) — 124B total / 5.1B active, built for agents</li>
+                <li><strong>Biggest model:</strong> Ling-2.6-1T — a trillion-parameter flagship with 262K context</li>
+                <li><strong>The differentiator:</strong> extreme MoE token efficiency — a fraction of the tokens for the same agent work</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="what-is">
+            <h2>What Is Ant Lab?</h2>
+            <p><strong>Ant Lab</strong> is the name the community uses for <strong>InclusionAI</strong> — Ant Group's dedicated AI research lab. Ant Group is one of China's largest fintech companies and the parent of Alipay, which makes the Ling models a rare case of a payments giant competing at the open-model frontier.</p>
+            <p>The lab launched in <strong>February 2025</strong>, publicly inspired by DeepSeek's example: a research lab showing that frontier-scale AI doesn't have to be a closed, capital-only game. InclusionAI's stated mission — "AGI as humanity's shared milestone, not a privileged asset" — translates into a concrete strategy: open weights, open research, and a rapid release cadence. By November 2025, the lab was being profiled as one of the fastest-rising open-model teams in the world, and it now maintains its own open-source ecosystem (model trackers, RL training suites like AReal, and the agent framework AWorld).</p>
+            <div class="highlight-box info">
+                <p><strong>💡 Why it matters for this blog:</strong> Ant's bet is the same one the local-AI community made years earlier — that <em>efficiency beats raw scale</em>. Its models activate a tiny fraction of their parameters per token, which is the philosophy behind the MoE "A3B" models we cover in <a href="top-10-open-source-models-2026.html">the open-source capability ranking</a> and <a href="top-10-models-under-12b-2026.html">the sub-12B power ranking</a>. Ant just applies it at 100B+ scale.</p>
+            </div>
+        </section>
+
+        <section id="families">
+            <h2>The Model Families: Ling, Ring, and Ming</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Family</th>
+                        <th>What it is</th>
+                        <th>Example releases</th>
+                    <th>Download</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ling</strong></td>
+                        <td>General language models — the main series, MoE-first</td>
+                        <td>Ling Plus → Ling 2.0 → Ling-2.5-1T → Ling-2.6-Flash → Ling-3.0-Flash</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ring</strong></td>
+                        <td>Reasoning models — chain-of-thought specialists</td>
+                        <td>Ring 2.0, Ring-2.5-1T</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ming</strong></td>
+                        <td>Multimodal models — vision and beyond</td>
+                        <td>Ming variants alongside 2.x releases</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The architecture story is consistent across the family: <strong>sparse Mixture-of-Experts from day one</strong>. The first public release, Ling Plus (April 2025), was already a 293B sparse MoE, and every generation since has pushed the active-parameter ratio further — culminating in Ling-3.0-Flash activating just 5.1B of its 124B parameters per token.</p>
+        </section>
+
+        <section id="timeline">
+            <h2>The Release Timeline: 2025 → 2026</h2>
+            <ul>
+                <li><strong>Feb 2025</strong> — InclusionAI founded, DeepSeek-inspired, open-models mission.</li>
+                <li><strong>Apr 2025</strong> — <strong>Ling Plus</strong>, 293B sparse MoE — first public release.</li>
+                <li><strong>Jun 2025</strong> — Reasoning-model paper; lab continues building on the MoE-first approach.</li>
+                <li><strong>Jul 2025</strong> — <strong>Ling 1.5</strong>.</li>
+                <li><strong>Sep 2025</strong> — <strong>Ling &amp; Ring 2.0</strong> in three sizes: mini (16B total / 2B active), flash (100B total / 6B active), and the 1T primary model (1T total / 50B active), with a technical report on scaling RL to frontier models.</li>
+                <li><strong>Feb 2026</strong> — <strong>Ling-2.5-1T and Ring-2.5-1T</strong>, two trillion-parameter models under open licenses.</li>
+                <li><strong>Apr 2026</strong> — <strong>Ling-2.6-Flash</strong> (104B / 7.4B active, MIT): "state-of-the-art for its size" on agent benchmarks; a 10-point jump on the Artificial Analysis Intelligence Index over the previous Flash.</li>
+                <li><strong>Jul 2026</strong> — <strong>Ling-3.0-Flash</strong> (124B / 5.1B active): hybrid-reasoning MoE built for production-scale agents, free on OpenRouter through early August.</li>
+            </ul>
+        </section>
+
+        <section id="recent">
+            <h2>The Recent 2026 Models, Up Close</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Released</th>
+                        <th>Total / Active</th>
+                        <th>Context</th>
+                        <th>License</th>
+                        <th>Built for</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ling-3.0-Flash</strong></td>
+                        <td>Jul 2026</td>
+                        <td>124B / 5.1B</td>
+                        <td>256K</td>
+                        <td>Open weights (HF)</td>
+                        <td>Production-scale agents, hybrid reasoning</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ling-2.6-Flash</strong></td>
+                        <td>Apr 2026</td>
+                        <td>104B / 7.4B</td>
+                        <td>262K</td>
+                        <td>MIT</td>
+                        <td>Token-efficient agent workloads</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ling-2.6-1T</strong></td>
+                        <td>2026</td>
+                        <td>1T / ~50B</td>
+                        <td>262K</td>
+                        <td>Open weights</td>
+                        <td>Flagship quality — leads Ant's lineup on July 2026 leaderboards</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ling-2.5-1T / Ring-2.5-1T</strong></td>
+                        <td>Feb 2026</td>
+                        <td>1T each</td>
+                        <td>—</td>
+                        <td>Open licenses</td>
+                        <td>Language + reasoning at trillion-parameter scale</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🌩️ Ling-3.0-Flash — The Agent Model (Jul 2026)</h3>
+                    <p>The current flagship of the Flash line. A <strong>hybrid-reasoning MoE</strong> — it can think fast or reason deeply within one model — with 124B total parameters and only <strong>5.1B active per token</strong>. Native hybrid-linear attention (part MLA, part linear attention) is what makes the tiny active count possible, and it natively handles 256K context. Ant positions it squarely at production-scale agents, and it launched free on OpenRouter through early August 2026 so teams could evaluate it without risk.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Ling-2.6-Flash — The Efficiency Breakthrough (Apr 2026)</h3>
+                    <p>The release that put Ant on the efficiency map. 104B total / 7.4B active under an <strong>MIT license</strong>, with a hybrid linear-attention architecture (1:7 MLA + Lightning attention). Ant reported it as <strong>state-of-the-art for its size on AI-agent benchmarks</strong>, and it scored a 10-point jump on the Artificial Analysis Intelligence Index over the previous Flash. Independent tracking measured it using ~15M tokens across the full AI-Analysis test suite versus 40–100M for comparable models — the token-efficiency story in numbers.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏔️ Ling-2.6-1T — The Trillion-Parameter Flagship</h3>
+                    <p>Ant's largest open model: 1T total parameters with ~50B active, 262K context, and a technical-report trail that openly documents the challenges of scaling reinforcement learning to frontier scale. It appears on the July 2026 open-source leaderboards (Onyx) as the strongest entry in Ant's lineup. Not a model you self-host — it's the reference point the Flash models are distilled toward.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔬 Ling-2.5-1T &amp; Ring-2.5-1T — The Open-Science Pair (Feb 2026)</h3>
+                    <p>Two trillion-parameter models released together under open licenses: Ling for language and Ring for reasoning. The February 2026 release signaled Ant's long-term commitment to open science at frontier scale — and set up the efficiency work that followed in the Flash line.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="different">
+            <h2>What Makes Ant's Models Different</h2>
+            <ul>
+                <li><strong>Efficiency as the strategy, not a feature.</strong> Most labs ship big models and then add a small one. Ant's Flash line is engineered around active-parameter efficiency from the architecture up — hybrid linear attention instead of pure transformer attention.</li>
+                <li><strong>Token efficiency for agents.</strong> AI agents burn tokens on tool calls, retries, and long reasoning traces. Ant's models are measured on tokens-per-task, not just accuracy — the ~15M vs 40–100M token gap on the same agent test suite is the headline stat.</li>
+                <li><strong>Open research culture.</strong> The lab publishes technical reports on RL scaling, shares training infrastructure (AReal, AWorld), and maintains the llm-oss-landscape tracker — the Chinese-lab version of "show your work."</li>
+                <li><strong>Fintech-grade reliability goals.</strong> Coming from a payments company, the models are aimed at workloads where correctness and cost at scale matter — agents, tool use, and business workflows rather than chat demos.</li>
+            </ul>
+        </section>
+
+        <section id="run">
+            <h2>How to Run Ant Models</h2>
+            <ul>
+                <li><strong>Hosted API:</strong> <a href="https://openrouter.ai/inclusionai/ling-3.0-flash" target="_blank" rel="noopener">Ling-3.0-Flash on OpenRouter</a> (free launch window through early Aug 2026) and Ant's own developer portal at <a href="https://developer.ant-ling.com" target="_blank" rel="noopener">developer.ant-ling.com</a>.</li>
+                <li><strong>Weights:</strong> the <a href="https://huggingface.co/inclusionAI" target="_blank" rel="noopener">inclusionAI namespace on Hugging Face</a> hosts the full family, including GGUF and quantized community builds.</li>
+                <li><strong>Locally:</strong> the Flash models are efficient <em>per token</em>, but 104–124B total parameters still means roughly 60–80GB at Q4 — a serious workstation or a quantized build on a 48GB+ GPU. The 1T models are not self-hostable in practice. For the local-first stacks this blog covers, Ant's smaller cousins (Qwen, Gemma, Phi — see <a href="top-10-models-under-12b-2026.html">the sub-12B ranking</a>) remain the pragmatic picks.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Context for the local-AI reader</h3>
+                <p>Ant's efficiency research is worth studying even if you never run a 124B model: the same hybrid-attention and active-parameter ideas are how <a href="top-10-local-ai-models-2026.html">local MoE models like GPT-OSS and GLM Flash</a> punch above their size on your hardware. For a full map of who's leading open-weight AI, see <a href="top-10-open-source-models-2026.html">the capability ranking</a> — and for the quantization math behind running any of these, <a href="q4-km-vs-q8-0.html">our Q4_K_M vs Q8_0 guide</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is Ant Lab?</h3>
+            <p>Ant Lab is the shorthand for Ant Group's AI research lab, InclusionAI — the team behind the Ling, Ring, and Ming model families. Ant Group is the fintech company behind Alipay, and it launched InclusionAI in February 2025 with a DeepSeek-inspired mission to build open models with AGI as a shared milestone.</p>
+
+            <h3>What models has Ant Lab released?</h3>
+            <p>Three families: Ling (general language models), Ring (reasoning models), and Ming (multimodal). The timeline runs from Ling Plus (293B sparse MoE, April 2025) through Ling 2.0 (September 2025), Ling-2.5-1T and Ring-2.5-1T (February 2026), Ling-2.6-Flash (April 2026), and the current Ling-3.0-Flash (July 2026).</p>
+
+            <h3>What is Ling 3.0 Flash?</h3>
+            <p>Ant's newest release (July 2026): a hybrid-reasoning Mixture-of-Experts model with 124B total parameters but only 5.1B active per token, built for production-scale agents. It uses native hybrid-linear attention, supports 256K context, and was offered free on OpenRouter through early August 2026.</p>
+
+            <h3>What is the best Ant Lab model in 2026?</h3>
+            <p>For agent workloads and token efficiency, Ling-3.0-Flash (124B-A5.1B) is the standout — it activates a fraction of its parameters per token, keeping cost and latency low. For maximum raw quality, the Ling-2.6-1T flagship (1T parameters, 262K context) leads Ant's lineup on the July 2026 open-source leaderboards.</p>
+
+            <h3>Are Ant Lab models open source?</h3>
+            <p>Yes — open weights are the strategy. Ling-2.6-Flash ships under MIT, the Ling-2.5-1T and Ring-2.5-1T came out under open licenses, and all are published on Hugging Face under the inclusionAI namespace. Check each model card for the exact license terms.</p>
+
+            <h3>Can I run Ant models locally?</h3>
+            <p>The Flash models' tiny active-parameter count makes them unusually efficient per token, but with 104–124B total parameters they still need serious hardware — roughly 60–80GB at Q4 quantization. The 1T flagship is not realistic to self-host. For most people, the hosted API (OpenRouter, Ant Ling API) is the practical path.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://www.interconnects.ai/p/inside-a-chinese-frontier-lab-inclusion" target="_blank" rel="noopener">Interview: Ant Group's open model ambitions (Interconnects, Nov 2025)</a></li>
+                <li><a href="https://huggingface.co/inclusionAI/Ling-3.0-flash" target="_blank" rel="noopener">Ling-3.0-flash — Hugging Face (InclusionAI)</a></li>
+                <li><a href="https://www.businesswire.com/news/home/20260726584441/en/Ant-Group-Unveils-Ling-3.0-Flash-Delivering-Top-Tier-Performance-at-a-Fraction-of-the-Parameter-Scale" target="_blank" rel="noopener">Ant Group Unveils Ling-3.0-Flash (Business Wire, Jul 2026)</a></li>
+                <li><a href="https://www.businesswire.com/news/home/20260422256825/en/Ant-Group-Unveils-Ling-2.6-Flash-A-Major-Leap-in-AI-Efficiency" target="_blank" rel="noopener">Ant Group Unveils Ling-2.6-Flash (Business Wire, Apr 2026)</a></li>
+                <li><a href="https://www.fintechweekly.com/news/ant-group-ling-2-5-1t-ring-2-5-1t-open-source-ai-models" target="_blank" rel="noopener">Ant Group Expands Open AI Models With Ling-2.5-1T and Ring-2.5-1T (Fintech Weekly, Feb 2026)</a></li>
+                <li><a href="https://onyx.app/open-llm-leaderboard" target="_blank" rel="noopener">Open Source Model Leaderboard (Onyx AI, Jul 2026)</a></li>
+                <li><a href="https://github.com/xigh/open-weight-models" target="_blank" rel="noopener">open-weight-models tracker (GitHub)</a></li>
+                <li><a href="https://github.com/antgroup/llm-oss-landscape" target="_blank" rel="noopener">LLM OSS Landscape — Ant Open Source / InclusionAI (GitHub)</a></li>
+                <li><a href="https://openrouter.ai/inclusionai/ling-3.0-flash" target="_blank" rel="noopener">Ling-3.0-flash on OpenRouter</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFM Models: Liquid Foundation Models Explained (2026 Guide)</title>
+    <meta name="description" content="LFM (Liquid Foundation Models) are Liquid AI's non-transformer AI family — from LFM-40B to the tiny LFM2.5 on-device line, with benchmarks and how to run them.">
+    <meta name="keywords" content="lfm models, liquid foundation models, liquid ai, lfm2, lfm2.5, lfm 40b, on-device ai, liquid neural network, non-transformer model, lfm 8b a1b, run lfm locally, gguf">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/lfm-models-guide-2026.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="LFM Models: Liquid Foundation Models Explained (2026 Guide)">
+    <meta property="og:description" content="LFM (Liquid Foundation Models) are Liquid AI's non-transformer AI family — from LFM-40B to the tiny LFM2.5 on-device line, with benchmarks and how to run them.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/lfm-models-guide-2026.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LFM Models: Liquid Foundation Models Explained (2026 Guide)">
+    <meta name="twitter:description" content="Liquid AI's non-transformer model family — benchmarks, the 2026 on-device lineup, and how to run LFMs locally.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "LFM Models: Liquid Foundation Models Explained (2026 Guide)",
+          "description": "LFM (Liquid Foundation Models) are Liquid AI's non-transformer AI family — from LFM-40B to the tiny LFM2.5 on-device line, with benchmarks and how to run them.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/lfm-models-guide-2026.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is an LFM model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LFM stands for Liquid Foundation Model — a family of generative AI models from Liquid AI designed from first principles rather than the standard transformer architecture. LFMs use a hybrid architecture built on liquid neural network ideas, which delivers state-of-the-art quality at each size while keeping a much smaller memory footprint than comparable transformer models."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Who makes LFM models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Liquid AI, a US company founded by MIT researchers, makes the LFM family. The first series (LFM-1B, LFM-3B, LFM-40B) launched in September 2024, and the family has since grown with the LFM2 and LFM2.5 generations focused on on-device and edge deployment."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between LFM and transformer models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Transformers process every token against the full attention history, which grows memory use with context length. LFMs use a hybrid architecture with liquid neural network components — the state is compressed into a fixed-size representation, so memory stays roughly constant and inference is faster on CPU, edge devices, and NPUs. That is why a 3B LFM can match transformer models 2-4x its size while running in less memory."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What LFM models can I run in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The LFM2.5 family is the on-device line: 350M (agentic loops at tiny scale), 1.2B (the Thinking variant fits under 1GB), 2.6B (fast long-context even on CPU), and the LFM2.5-8B-A1B MoE (8B total, 1B active). GGUF builds are available for Ollama and llama.cpp, so they run on laptops, phones, and Raspberry Pi-class devices."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are LFM models free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Every LFM is free to download, run, and fine-tune. Liquid AI publishes the weights openly on Hugging Face, and there is a permissive license for commercial use — check each model card for exact terms."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are LFM models better than Qwen or Llama at the same size?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "On several benchmarks, yes — LFM-3B was shown performing comparably to 7B-13B transformer models, and LFM-1B set new state-of-the-art scores in the 1B category at launch. The practical comparison is different though: LFMs win on memory efficiency and CPU/edge speed, while Qwen and Llama have far larger ecosystems and fine-tune libraries. Choose by deployment target, not just benchmark score."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LFM Models: Liquid Foundation Models Explained (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — If every AI model you've used is a transformer, LFM models are the deliberate break from that assumption. <strong>LFM stands for Liquid Foundation Model</strong> — the family of generative AI models from Liquid AI (the MIT-founded company) built from first principles around liquid neural network ideas instead of the standard attention architecture. The result: state-of-the-art quality at each size with a dramatically smaller memory footprint, which is exactly what on-device and edge AI need. This guide explains what LFMs are, why the architecture matters, and which models in the 2026 lineup you can actually run.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>LFM = Liquid Foundation Model</strong> — Liquid AI's non-transformer model family (launched Sept 2024)</li>
+                <li><strong>Why they matter:</strong> ~constant memory with context length, so small models punch far above their size</li>
+                <li><strong>2026 lineup:</strong> LFM2.5 — 350M, 1.2B (Thinking fits under 1GB), 2.6B, and the 8B-A1B MoE</li>
+                <li><strong>Deployment:</strong> GGUF builds run on Ollama and llama.cpp — laptops, phones, and NPUs</li>
+                <li><strong>Free to run and fine-tune</strong> — weights on Hugging Face, permissive license</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="what-is">
+            <h2>What Is an LFM Model?</h2>
+            <p><strong>LFM (Liquid Foundation Model)</strong> is the name Liquid AI gives its series of generative AI foundation models. The family launched on September 30, 2024 with three sizes — <strong>LFM-1B, LFM-3B, and LFM-40B</strong> — and the founding claim was specific: state-of-the-art quality at every scale, with a smaller memory footprint than comparable transformer models.</p>
+            <p>That claim held up. LFM-1B set new state-of-the-art scores in the 1B category on benchmarks like MMLU and ARC-C, and LFM-3B delivered performance comparable to 7B–13B transformer models while using a fraction of the memory. The reason is architecture, not magic — LFMs are built on liquid neural network principles that compress state differently from attention, which is the key to their efficiency.</p>
+        </section>
+
+        <section id="architecture">
+            <h2>Why the Architecture Matters: LFM vs Transformer</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Transformer (Qwen, Llama, Gemma)</th>
+                        <th>LFM (Liquid)</th>
+                    <th>Download</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Core mechanism</strong></td>
+                        <td>Self-attention over the full token history</td>
+                        <td>Hybrid of liquid (state-space) layers + selected attention</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Memory vs context length</strong></td>
+                        <td>Grows with context (KV cache)</td>
+                        <td>Roughly constant — state is compressed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best hardware</strong></td>
+                        <td>GPU-heavy; needs big VRAM for long context</td>
+                        <td>GPUs, CPUs, and NPUs — efficient even on-device</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Small-model efficiency</strong></td>
+                        <td>1B–3B models are usable but limited</td>
+                        <td>1B–3B models compete with 4x-larger transformers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ecosystem</strong></td>
+                        <td>Massive — fine-tunes, tools, integrations everywhere</td>
+                        <td>Growing — GGUF, Ollama, vLLM support now standard</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>💡 In plain terms:</strong> a transformer's memory grows as you feed it more context. An LFM compresses what it knows into a fixed-size state, so long context stays cheap. That's why a <a href="top-10-models-under-12b-2026.html">sub-12B LFM</a> can run on hardware where a transformer of the same size struggles — and why Liquid AI has aimed the family squarely at on-device AI.</p>
+            </div>
+        </section>
+
+        <section id="lineup">
+            <h2>The LFM Family: 2024 → 2026</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Generation</th>
+                        <th>Released</th>
+                        <th>Models</th>
+                        <th>Focus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>LFM 1.x</strong></td>
+                        <td>Sep 2024</td>
+                        <td>LFM-1B, LFM-3B, LFM-40B</td>
+                        <td>First series — SOTA per size, smaller memory</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LFM2</strong></td>
+                        <td>Jul 2025 (report Nov 2025)</td>
+                        <td>Dense 350M–2.6B; 8.3B MoE (1.5B active)</td>
+                        <td>On-device, edge, hybrid architecture</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LFM2.5</strong></td>
+                        <td>Jan 2026</td>
+                        <td>350M, 1.2B, 2.6B, 8B-A1B MoE + Thinking + encoders</td>
+                        <td>Tiny on-device family — agents, long context, CPU</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Liquid AI's design process is itself distinctive: the LFM2 generation used <strong>hardware-in-the-loop architecture search</strong> — co-designing the architecture with the hardware it will run on — which is why the models are unusually friendly to CPU and NPU inference, not just GPUs.</p>
+        </section>
+
+        <section id="recent">
+            <h2>The 2026 LFM2.5 Lineup, Up Close</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>LFM2.5-2.6B — Deploy Agents Everywhere</h3>
+                    <p>The flagship of the 2.5 generation: "deploy agents everywhere," with fast long-context inference even on CPU. The natural pick for agent loops on laptops and edge boxes, backed by GGUF builds and Ollama support.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>LFM2.5-1.2B-Thinking — Reasoning Under 1GB</h3>
+                    <p>Released January 2026: a 1.2B reasoning model that fits in under 1GB on-device. Chain-of-thought at a size that runs on phones — the poster child for Liquid's efficiency thesis.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>LFM2.5-350M — No Size Left Behind</h3>
+                    <p>The tiny one: agentic loops at 350M parameters. Trained on 28T tokens with a data ratio far above typical small models, it does surprisingly capable work for its size — routing, extraction, and simple agent tasks on Raspberry Pi-class hardware.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>LFM2.5-8B-A1B — The MoE Addition</h3>
+                    <p>Liquid's efficient MoE: 8B total parameters with ~1B active per token (the "A1B" suffix, same convention as <a href="top-10-local-ai-models-2026.html">GPT-OSS and GLM Flash</a>). Big-model capability with tiny-model compute per token.</p>
+                </div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🧮 LFM2.5 Encoders &amp; Embeddings</h3>
+                    <p>Beyond chat models, the 2.5 generation includes bidirectional encoders (350M and 230M), an embedding model (350M), and a ColBERT-style model (350M) — meaning LFM covers the <em>whole</em> RAG stack, including the embedding side this blog covers in <a href="top-10-embedding-models-2026.html">the embedding-model ranking</a>.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔍 LFM2.5-VL Extract Models</h3>
+                    <p>Vision-language extract models (450M and 1.6B) for document and screenshot information extraction — on-device OCR-style extraction without a cloud call.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📋 LFM2 Specialists</h3>
+                    <p>The 2.5 generation builds on LFM2 specialist models — transcript, PII-extract (JP), ENJP machine translation, RAG, and tool-use variants at 350M–2.6B — showing the family is designed for concrete edge jobs, not just chat.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🤝 LFM + AMD on-device</h3>
+                    <p>January 2026: Liquid and AMD demonstrated a fine-tuned LFM doing meeting-transcript summarization <em>entirely on a Ryzen laptop</em> — the "private AI on your hardware" story this blog covers in <a href="private-llm-for-business.html">the honest private-LLM guide</a>, shipped in hardware.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="run">
+            <h2>How to Run LFM Models</h2>
+            <ul>
+                <li><strong>Ollama:</strong> LFM2.5 models are available in the library — <code>ollama run lfm2.5:2.6b</code> (or <code>lfm2.5:1.2b</code> for a smaller footprint).</li>
+                <li><strong>llama.cpp / GGUF:</strong> GGUF builds are published for the 2.5 family — download and run with the same workflow as any <a href="what-is-gguf.html">GGUF model</a>.</li>
+                <li><strong>vLLM:</strong> the 2.5 family has vLLM deployment guides — the production path for serving LFMs at scale.</li>
+                <li><strong>Hugging Face:</strong> all weights live under the <a href="https://huggingface.co/LiquidAI" target="_blank" rel="noopener">LiquidAI namespace</a>, free to download and fine-tune.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Where LFMs fit your stack</h3>
+                <p>LFMs are the efficiency play: <strong>2.6B for agents on a laptop</strong>, <strong>1.2B-Thinking for phone-grade reasoning</strong>, <strong>350M for routing and extraction</strong> — with LFM embedding/ColBERT models to complete a <a href="how-to-build-rag-system-30-minutes.html">local RAG pipeline</a>. For maximum model choice and ecosystem, the <a href="top-10-local-ai-models-2026.html">general local-model ranking</a> and <a href="top-10-gguf-models-by-ram.html">RAM-based download guide</a> cover the transformer side. And for the quantization math that makes any of them fit, see <a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is an LFM model?</h3>
+            <p>LFM stands for Liquid Foundation Model — a family of generative AI models from Liquid AI designed from first principles rather than the standard transformer architecture. LFMs use a hybrid architecture built on liquid neural network ideas, which delivers state-of-the-art quality at each size while keeping a much smaller memory footprint than comparable transformer models.</p>
+
+            <h3>Who makes LFM models?</h3>
+            <p>Liquid AI, a US company founded by MIT researchers, makes the LFM family. The first series (LFM-1B, LFM-3B, LFM-40B) launched in September 2024, and the family has since grown with the LFM2 and LFM2.5 generations focused on on-device and edge deployment.</p>
+
+            <h3>What is the difference between LFM and transformer models?</h3>
+            <p>Transformers process every token against the full attention history, which grows memory use with context length. LFMs use a hybrid architecture with liquid neural network components — the state is compressed into a fixed-size representation, so memory stays roughly constant and inference is faster on CPU, edge devices, and NPUs. That is why a 3B LFM can match transformer models 2–4x its size while running in less memory.</p>
+
+            <h3>What LFM models can I run in 2026?</h3>
+            <p>The LFM2.5 family is the on-device line: 350M (agentic loops at tiny scale), 1.2B (the Thinking variant fits under 1GB), 2.6B (fast long-context even on CPU), and the LFM2.5-8B-A1B MoE (8B total, 1B active). GGUF builds are available for Ollama and llama.cpp, so they run on laptops, phones, and Raspberry Pi-class devices.</p>
+
+            <h3>Are LFM models free to use?</h3>
+            <p>Yes. Every LFM is free to download, run, and fine-tune. Liquid AI publishes the weights openly on Hugging Face, and there is a permissive license for commercial use — check each model card for exact terms.</p>
+
+            <h3>Are LFM models better than Qwen or Llama at the same size?</h3>
+            <p>On several benchmarks, yes — LFM-3B was shown performing comparably to 7B–13B transformer models, and LFM-1B set new state-of-the-art scores in the 1B category at launch. The practical comparison is different though: LFMs win on memory efficiency and CPU/edge speed, while Qwen and Llama have far larger ecosystems and fine-tune libraries. Choose by deployment target, not just benchmark score.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://www.liquid.ai/blog/liquid-foundation-models-our-first-series-of-generative-ai-models" target="_blank" rel="noopener">Liquid Foundation Models: Our First Series of Generative AI Models (Liquid AI, Sep 2024)</a></li>
+                <li><a href="https://www.liquid.ai/models" target="_blank" rel="noopener">Liquid Foundation Models — official models page</a></li>
+                <li><a href="https://arxiv.org/html/2511.23404v1" target="_blank" rel="noopener">LFM2 Technical Report (arXiv, Nov 2025)</a></li>
+                <li><a href="https://huggingface.co/LiquidAI" target="_blank" rel="noopener">LiquidAI — Hugging Face</a></li>
+                <li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1q5a0if/liquid_ai_released_lfm25_family_of_tiny_ondevice/" target="_blank" rel="noopener">Liquid AI released LFM2.5, a family of tiny on-device models (r/LocalLLaMA, Jan 2026)</a></li>
+                <li><a href="https://www.therobotreport.com/liquid-ai-releases-on-device-foundation-model-lfm2/" target="_blank" rel="noopener">Liquid AI releases on-device foundation model LFM2 (The Robot Report, Jul 2025)</a></li>
+                <li><a href="https://www.amd.com/en/blogs/2026/liquid-ai-amd-ryzen-on-device-meeting-summaries.html" target="_blank" rel="noopener">Liquid AI &amp; AMD: on-device meeting summaries on Ryzen (AMD, Jan 2026)</a></li>
+                <li><a href="https://siliconangle.com/2024/09/30/liquid-ai-debuts-new-lfm-based-models-seem-outperform-traditional-llms/" target="_blank" rel="noopener">Liquid AI debuts LFM models that outperform traditional LLMs (SiliconANGLE, Sep 2024)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
