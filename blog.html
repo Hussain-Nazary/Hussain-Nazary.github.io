@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog of Hussain Nazary — guides, tutorials, and deep dives on local AI, private RAG, multilingual NLP (Pashto, Dari, Persian, Urdu), GGUF models, and privacy-first AI systems.">
+    <meta name="keywords" content="local AI blog, private RAG, offline LLM, GGUF models, multilingual NLP, Pashto AI, Dari AI, Persian AI, Urdu AI, legal AI, on-premise LLM, AI tutorials">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <title>Blog — Hussain Nazary | Local AI, Private RAG & Multilingual NLP</title>
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/blog.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Blog — Hussain Nazary | Local AI, Private RAG & Multilingual NLP">
+    <meta property="og:description" content="Guides, tutorials, and deep dives on local AI, private RAG, multilingual NLP, and privacy-first AI systems.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/blog.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blog — Hussain Nazary | Local AI, Private RAG & Multilingual NLP">
+    <meta name="twitter:description" content="Guides, tutorials, and deep dives on local AI, private RAG, multilingual NLP, and privacy-first AI systems.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Hussain Nazary Blog",
+        "url": "https://Hussain-Nazary.github.io/blog.html",
+        "author": {"@type": "Person", "name": "Hussain Nazary", "url": "https://Hussain-Nazary.github.io"},
+        "blogPost": [
+        {"@type": "BlogPosting", "headline": "AI Just Waived Attorney–Client Privilege in Court: What Every Lawyer Must Know", "url": "https://Hussain-Nazary.github.io/ai-waived-attorney-client-privilege-court.html"},
+        {"@type": "BlogPosting", "headline": "Is It Ethical to Use ChatGPT for Contract Review? The 2026 Guidance, Explained", "url": "https://Hussain-Nazary.github.io/is-it-ethical-to-use-chatgpt-for-contract-review.html"},
+        {"@type": "BlogPosting", "headline": "Attorney–Client Privilege and AI: A Plain-English Guide", "url": "https://Hussain-Nazary.github.io/attorney-client-privilege-and-ai-plain-english-guide.html"},
+        {"@type": "BlogPosting", "headline": "GDPR-Compliant AI in 2026: Why Cloud LLMs Still Fail the Test", "url": "https://Hussain-Nazary.github.io/gdpr-compliant-ai-2026-cloud-llms-fail.html"},
+        {"@type": "BlogPosting", "headline": "AI Contract Review for Lawyers: What It Can and Can't Do", "url": "https://Hussain-Nazary.github.io/ai-contract-review-for-lawyers.html"},
+        {"@type": "BlogPosting", "headline": "The Complete Guide to Private Legal Research With Local AI", "url": "https://Hussain-Nazary.github.io/private-legal-research-local-ai.html"},
+        {"@type": "BlogPosting", "headline": "How to Build a Document Q&A System That Cites Its Sources (for Law Firms)", "url": "https://Hussain-Nazary.github.io/document-qa-with-citations-law-firms.html"},
+        {"@type": "BlogPosting", "headline": "Can Lawyers Use AI Without Breaking Confidentiality? The 5 Rules That Matter", "url": "https://Hussain-Nazary.github.io/lawyers-ai-confidentiality-5-rules.html"},
+        {"@type": "BlogPosting", "headline": "How to Review 100 Contracts in a Day Without Leaking Client Data", "url": "https://Hussain-Nazary.github.io/review-100-contracts-ai.html"},
+        {"@type": "BlogPosting", "headline": "On-Premise AI Is Now 60% of the Market: What That Means for Your Compliance Team", "url": "https://Hussain-Nazary.github.io/on-premise-ai-60-percent-market.html"},
+        {"@type": "BlogPosting", "headline": "US Cloud Act vs EU GDPR: Where Your AI Data Actually Lives", "url": "https://Hussain-Nazary.github.io/cloud-act-vs-gdpr-ai-data.html"},
+        {"@type": "BlogPosting", "headline": "Private RAG for Regulated Industries: The 2026 Deployment Playbook", "url": "https://Hussain-Nazary.github.io/private-rag-regulated-industries-playbook.html"},
+        {"@type": "BlogPosting", "headline": "What Is On-Premise LLM Deployment? Costs, Hardware, and When It's Worth It", "url": "https://Hussain-Nazary.github.io/what-is-on-premise-llm-deployment.html"},
+        {"@type": "BlogPosting", "headline": "How to Deploy an LLM Inside Your Own Security Boundary", "url": "https://Hussain-Nazary.github.io/deploy-llm-security-boundary.html"},
+        {"@type": "BlogPosting", "headline": "AI for Regulated Industries: HIPAA, SOC 2, and GDPR Explained Simply", "url": "https://Hussain-Nazary.github.io/ai-regulated-industries-hipaa-soc2-gdpr.html"},
+        {"@type": "BlogPosting", "headline": "Data Sovereignty: Why Your AI Should Run Where Your Data Lives", "url": "https://Hussain-Nazary.github.io/data-sovereignty-local-ai.html"},
+        {"@type": "BlogPosting", "headline": "Local AI Without a CLI: How Non-Technical Teams Run LLMs in 2026", "url": "https://Hussain-Nazary.github.io/local-ai-without-cli.html"},
+        {"@type": "BlogPosting", "headline": "Your Laptop Is Now an AI Workstation: What You Can Run Offline in 2026", "url": "https://Hussain-Nazary.github.io/laptop-ai-workstation-2026.html"},
+        {"@type": "BlogPosting", "headline": "Stop Paying Per-Seat AI Fees: The Case for On-Premise in 2026", "url": "https://Hussain-Nazary.github.io/stop-paying-per-seat-ai-fees.html"},
+        {"@type": "BlogPosting", "headline": "How to Run AI on Your Own Computer: A Beginner's Guide", "url": "https://Hussain-Nazary.github.io/run-ai-own-computer-beginners.html"},
+        {"@type": "BlogPosting", "headline": "Local LLMs for Small Business: 10 Practical Use Cases", "url": "https://Hussain-Nazary.github.io/local-llm-small-business-10-use-cases.html"},
+        {"@type": "BlogPosting", "headline": "How Much RAM Do You Need to Run Local AI? (An Honest Guide)", "url": "https://Hussain-Nazary.github.io/how-much-ram-local-ai.html"},
+        {"@type": "BlogPosting", "headline": "8GB vs 16GB RAM for Local LLMs: What Actually Fits", "url": "https://Hussain-Nazary.github.io/8gb-vs-16gb-ram-local-llm.html"},
+        {"@type": "BlogPosting", "headline": "Why AI Still Ignores Pashto and Dari — and What to Do About It", "url": "https://Hussain-Nazary.github.io/why-ai-ignores-pashto-dari.html"},
+        {"@type": "BlogPosting", "headline": "Persian AI in 2026: The Best Local Models for Farsi Speakers", "url": "https://Hussain-Nazary.github.io/persian-ai-2026-local-models.html"},
+        {"@type": "BlogPosting", "headline": "How to Run an AI Assistant in Pashto on Your Own Device", "url": "https://Hussain-Nazary.github.io/pashto-ai-assistant-own-device.html"},
+        {"@type": "BlogPosting", "headline": "AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide", "url": "https://Hussain-Nazary.github.io/ai-translation-dari-pashto-persian-urdu.html"},
+        {"@type": "BlogPosting", "headline": "Why Most AI Fails Low-Resource Languages (and How to Fix It)", "url": "https://Hussain-Nazary.github.io/why-ai-fails-low-resource-languages.html"},
+        {"@type": "BlogPosting", "headline": "Build a Multilingual AI Assistant for an Underrepresented Language", "url": "https://Hussain-Nazary.github.io/multilingual-assistant-underrepresented-language.html"},
+        {"@type": "BlogPosting", "headline": "RAG With Citations Is Now Table Stakes: How to Make AI Show Its Sources", "url": "https://Hussain-Nazary.github.io/rag-citations-table-stakes.html"},
+        {"@type": "BlogPosting", "headline": "Agentic AI in 2026: When 'AI Agents' Are Worth Building (and When Not)", "url": "https://Hussain-Nazary.github.io/agentic-ai-2026-worth-building.html"},
+        {"@type": "BlogPosting", "headline": "How to Build a RAG System That Answers From Your Documents — and Proves It", "url": "https://Hussain-Nazary.github.io/rag-answers-from-documents-proves-it.html"},
+        {"@type": "BlogPosting", "headline": "Hybrid Search Explained: Why Keyword + Semantic Beats Either Alone", "url": "https://Hussain-Nazary.github.io/hybrid-search-keyword-semantic.html"},
+        {"@type": "BlogPosting", "headline": "The RAG vs Fine-Tuning Decision: A Practical Framework", "url": "https://Hussain-Nazary.github.io/rag-vs-fine-tuning-decision.html"},
+        {"@type": "BlogPosting", "headline": "How to Evaluate a RAG System Before You Trust It", "url": "https://Hussain-Nazary.github.io/evaluate-rag-system.html"},
+        {"@type": "BlogPosting", "headline": "How Much Does a Custom Local AI System Cost in 2026?", "url": "https://Hussain-Nazary.github.io/custom-local-ai-system-cost-2026.html"},
+        {"@type": "BlogPosting", "headline": "Hiring an AI Developer? 10 Questions to Ask Before You Start", "url": "https://Hussain-Nazary.github.io/hiring-ai-developer-10-questions.html"},
+        {"@type": "BlogPosting", "headline": "Building Private AI: What to Look for in an Offline AI Engineer", "url": "https://Hussain-Nazary.github.io/what-to-look-for-offline-ai-engineer.html"},
+        {"@type": "BlogPosting", "headline": "AI Consulting for Regulated Businesses: What the Process Actually Looks Like", "url": "https://Hussain-Nazary.github.io/ai-consulting-regulated-businesses.html"},
+        {"@type": "BlogPosting", "headline": "GGUF vs AWQ vs GPTQ: Which Quantization Format Should You Use?", "url": "https://Hussain-Nazary.github.io/gguf-vs-awq-vs-gptq.html"},
+        {"@type": "BlogPosting", "headline": "How to Install Ollama on Windows (Step by Step)", "url": "https://Hussain-Nazary.github.io/how-to-install-ollama-windows.html"},
+        {"@type": "BlogPosting", "headline": "How to Install Ollama on macOS (Step by Step)", "url": "https://Hussain-Nazary.github.io/how-to-install-ollama-macos.html"},
+        {"@type": "BlogPosting", "headline": "Local RAG on 8GB RAM: The Complete Guide", "url": "https://Hussain-Nazary.github.io/local-rag-8gb-ram.html"},
+        {"@type": "BlogPosting", "headline": "RAG vs Fine-Tuning: When to Use Which (2026 Guide)", "url": "https://Hussain-Nazary.github.io/rag-vs-fine-tuning.html"},
+        {"@type": "BlogPosting", "headline": "How to Speed Up Local LLMs: CPU vs GPU vs NPU (2026 Guide)", "url": "https://Hussain-Nazary.github.io/speed-up-local-llms.html"},
+        {"@type": "BlogPosting", "headline": "Speculative Decoding: How Local AI Gets Faster (2026 Guide)", "url": "https://Hussain-Nazary.github.io/speculative-decoding.html"},
+        {"@type": "BlogPosting", "headline": "KV Cache Quantization: What It Is and Why It Matters (2026 Guide)", "url": "https://Hussain-Nazary.github.io/kv-cache-quantization.html"},
+        {"@type": "BlogPosting", "headline": "Advanced RAG: Chunking Strategies Compared (2026 Guide)", "url": "https://Hussain-Nazary.github.io/rag-chunking-strategies.html"},
+        {"@type": "BlogPosting", "headline": "GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)", "url": "https://Hussain-Nazary.github.io/graphrag-explained.html"},
+        {"@type": "BlogPosting", "headline": "RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)", "url": "https://Hussain-Nazary.github.io/rag-evaluation.html"},
+        {"@type": "BlogPosting", "headline": "Data Privacy vs Cloud AI: The Real Risks in 2026", "url": "https://Hussain-Nazary.github.io/data-privacy-vs-cloud-ai.html"},
+        {"@type": "BlogPosting", "headline": "How to Build a Fully Offline AI Workspace (2026 Guide)", "url": "https://Hussain-Nazary.github.io/offline-ai-workspace.html"},
+        {"@type": "BlogPosting", "headline": "Local AI for GDPR Compliance (2026 Guide)", "url": "https://Hussain-Nazary.github.io/local-ai-gdpr.html"},
+        {"@type": "BlogPosting", "headline": "Air-Gapped AI: Running Models with No Internet (2026 Guide)", "url": "https://Hussain-Nazary.github.io/air-gapped-ai.html"},
+        {"@type": "BlogPosting", "headline": "How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)", "url": "https://Hussain-Nazary.github.io/build-ai-agent-langgraph-ollama.html"},
+        {"@type": "BlogPosting", "headline": "MCP Explained: Model Context Protocol for Local AI (2026 Guide)", "url": "https://Hussain-Nazary.github.io/mcp-explained.html"},
+        {"@type": "BlogPosting", "headline": "Tool Calling with Local LLMs: A Practical Guide (2026)", "url": "https://Hussain-Nazary.github.io/tool-calling-local-llm.html"},
+        {"@type": "BlogPosting", "headline": "Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)", "url": "https://Hussain-Nazary.github.io/multi-agent-systems.html"},
+        {"@type": "BlogPosting", "headline": "GLM vs DeepSeek: Which Open Model Family in 2026?", "url": "https://Hussain-Nazary.github.io/glm-vs-deepseek.html"},
+        {"@type": "BlogPosting", "headline": "Mistral Small vs Qwen: Local Model Showdown (2026)", "url": "https://Hussain-Nazary.github.io/mistral-small-vs-qwen.html"},
+        {"@type": "BlogPosting", "headline": "Latest AI Model Releases: August 2026 Roundup", "url": "https://Hussain-Nazary.github.io/latest-ai-model-releases-august-2026.html"},
+        {"@type": "BlogPosting", "headline": "Open Models That Beat Closed Ones: 2026 Edition", "url": "https://Hussain-Nazary.github.io/open-models-beat-closed.html"},
+        {"@type": "BlogPosting", "headline": "How to Run LLMs on a Raspberry Pi (2026 Guide)", "url": "https://Hussain-Nazary.github.io/run-llm-raspberry-pi.html"},
+        {"@type": "BlogPosting", "headline": "Best Local AI Models for a 16GB MacBook (2026 Guide)", "url": "https://Hussain-Nazary.github.io/local-ai-16gb-macbook.html"},
+        {"@type": "BlogPosting", "headline": "Running AI Models on Your Phone: On-Device LLMs 2026", "url": "https://Hussain-Nazary.github.io/on-device-llm-phone.html"},
+        {"@type": "BlogPosting", "headline": "How to Run Local AI on a Budget: $500 Setup Guide (2026)", "url": "https://Hussain-Nazary.github.io/budget-local-ai-setup.html"},
+        {"@type": "BlogPosting", "headline": "Ollama vs vLLM: When to Upgrade Your Local Stack (2026)", "url": "https://Hussain-Nazary.github.io/ollama-vs-vllm.html"},
+        {"@type": "BlogPosting", "headline": "GGUF Model Sizes Explained: Why Same Model, Different Files (2026)", "url": "https://Hussain-Nazary.github.io/gguf-model-sizes-explained.html"},
+        {"@type": "BlogPosting", "headline": "Multimodal RAG: Images and PDFs in Your Pipeline (2026 Guide)", "url": "https://Hussain-Nazary.github.io/multimodal-rag.html"},
+        {"@type": "BlogPosting", "headline": "Contextual Retrieval: Chunking That Carries Context (2026)", "url": "https://Hussain-Nazary.github.io/contextual-retrieval.html"},
+        {"@type": "BlogPosting", "headline": "How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)", "url": "https://Hussain-Nazary.github.io/langchain-ollama-rag.html"},
+        {"@type": "BlogPosting", "headline": "RAG Hallucination: Why It Happens and How to Fix It (2026)", "url": "https://Hussain-Nazary.github.io/rag-hallucination.html"},
+        {"@type": "BlogPosting", "headline": "Voice Assistants You Can Build with Local AI (2026 Guide)", "url": "https://Hussain-Nazary.github.io/local-voice-assistant.html"},
+        {"@type": "BlogPosting", "headline": "On-Device AI Apps: Architecture Patterns That Work (2026)", "url": "https://Hussain-Nazary.github.io/on-device-ai-apps.html"},
+        {"@type": "BlogPosting", "headline": "Local AI for Small Business: A Practical Checklist (2026)", "url": "https://Hussain-Nazary.github.io/local-ai-small-business.html"},
+        {"@type": "BlogPosting", "headline": "On-Premise LLM Deployment: A Practical Checklist (2026)", "url": "https://Hussain-Nazary.github.io/on-premise-llm-deployment.html"},
+        {"@type": "BlogPosting", "headline": "How to Make Your Website Get Cited by AI Assistants (2026)", "url": "https://Hussain-Nazary.github.io/answer-engine-optimization.html"},
+        {"@type": "BlogPosting", "headline": "Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)", "url": "https://Hussain-Nazary.github.io/structured-data-jsonld.html"},
+        {"@type": "BlogPosting", "headline": "How to Optimize Your Portfolio Website for AI Search (2026)", "url": "https://Hussain-Nazary.github.io/portfolio-ai-search-optimization.html"},
+        {"@type": "BlogPosting", "headline": "Pashto and Dari in AI: What Works in 2026", "url": "https://Hussain-Nazary.github.io/pashto-ai.html"},
+        {"@type": "BlogPosting", "headline": "Building a Multilingual Translation Pipeline with Local LLMs (2026)", "url": "https://Hussain-Nazary.github.io/multilingual-translation-local-llm.html"},
+        {"@type": "BlogPosting", "headline": "How Transformers Actually Work: From-Scratch Walkthrough (2026)", "url": "https://Hussain-Nazary.github.io/transformer-from-scratch.html"},
+        {"@type": "BlogPosting", "headline": "Build a Mini GPT in Raw PyTorch: Tokenizer to Fine-Tuning (2026)", "url": "https://Hussain-Nazary.github.io/minigpt-pytorch-tutorial.html"},
+        {"@type": "BlogPosting", "headline": "How Tokenizers Work: BPE Explained Simply (2026)", "url": "https://Hussain-Nazary.github.io/bpe-tokenizer-explained.html"},
+        {"@type": "BlogPosting", "headline": "Fine-Tuning a Local LLM: LoRA for Beginners (2026)", "url": "https://Hussain-Nazary.github.io/lora-fine-tuning-local-llm.html"},
+        {"@type": "BlogPosting", "headline": "From Idea to AI MVP: Lessons from Shipping Smart Calendar (2026)", "url": "https://Hussain-Nazary.github.io/ai-mvp-lessons.html"},
+        {"@type": "BlogPosting", "headline": "AI Product Pricing: How to Charge for Local AI (2026)", "url": "https://Hussain-Nazary.github.io/ai-product-pricing.html"},
+        {"@type": "BlogPosting", "headline": "Agentic RAG: Combining Agents with Retrieval (2026 Guide)", "url": "https://Hussain-Nazary.github.io/agentic-rag.html"},
+        {"@type": "BlogPosting", "headline": "Best GUI for Local LLMs in 2026 (Ranked by Use Case)", "url": "https://Hussain-Nazary.github.io/best-gui-local-llm.html"},
+        {"@type": "BlogPosting", "headline": "LFM Models: Liquid Foundation Models Explained (2026 Guide)", "url": "https://Hussain-Nazary.github.io/lfm-models-guide-2026.html"},
+        {"@type": "BlogPosting", "headline": "Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)", "url": "https://Hussain-Nazary.github.io/ant-lab-ai-models-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)", "url": "https://Hussain-Nazary.github.io/top-10-coding-models-under-12b-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 AI Models Under 12B Parameters in 2026 (Ranked by Power)", "url": "https://Hussain-Nazary.github.io/top-10-models-under-12b-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 RAG Tools in 2026 (Ranked by Use Case)", "url": "https://Hussain-Nazary.github.io/top-10-rag-tools-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 Vector Databases in 2026 (Ranked by Use Case)", "url": "https://Hussain-Nazary.github.io/top-10-vector-databases-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)", "url": "https://Hussain-Nazary.github.io/top-10-embedding-models-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 Open Source AI Models in 2026 (Ranked by Capability &amp; Performance)", "url": "https://Hussain-Nazary.github.io/top-10-open-source-models-2026.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 GGUF Models Ranked by RAM Size (Download Guide)", "url": "https://Hussain-Nazary.github.io/top-10-gguf-models-by-ram.html"},
+        {"@type": "BlogPosting", "headline": "Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)", "url": "https://Hussain-Nazary.github.io/top-10-local-ai-models-2026.html"},
+        {"@type": "BlogPosting", "headline": "Offline AI for Regulated Industries: Legal, Health, Finance", "url": "https://Hussain-Nazary.github.io/offline-ai-regulated-industries.html"},
+        {"@type": "BlogPosting", "headline": "Can You Run a Private LLM for Your Business? The Honest Guide", "url": "https://Hussain-Nazary.github.io/private-llm-for-business.html"},
+        {"@type": "BlogPosting", "headline": "Embeddings Explained: How Semantic Search Actually Works", "url": "https://Hussain-Nazary.github.io/embeddings-explained.html"},
+        {"@type": "BlogPosting", "headline": "Reranking in RAG: Why Retrieval Order Matters", "url": "https://Hussain-Nazary.github.io/reranking-in-rag.html"},
+        {"@type": "BlogPosting", "headline": "ChromaDB vs FAISS: Choosing a Vector Database for RAG", "url": "https://Hussain-Nazary.github.io/chromadb-vs-faiss.html"},
+        {"@type": "BlogPosting", "headline": "What Is Hybrid Search? BM25 + Semantic Retrieval Explained", "url": "https://Hussain-Nazary.github.io/what-is-hybrid-search.html"},
+        {"@type": "BlogPosting", "headline": "How to Build a RAG System in 30 Minutes (Local, Free)", "url": "https://Hussain-Nazary.github.io/how-to-build-rag-system-30-minutes.html"},
+        {"@type": "BlogPosting", "headline": "How to Convert a Hugging Face Model to GGUF (Step by Step)", "url": "https://Hussain-Nazary.github.io/how-to-convert-huggingface-model-to-gguf.html"},
+        {"@type": "BlogPosting", "headline": "8 Best Local LLM Tools in 2026 (Ranked by Use Case)", "url": "https://Hussain-Nazary.github.io/best-local-llm-tools-2026.html"},
+        {"@type": "BlogPosting", "headline": "Q4_K_M vs Q8_0: Which Quantization Should You Download?", "url": "https://Hussain-Nazary.github.io/q4-km-vs-q8-0.html"},
+        {"@type": "BlogPosting", "headline": "Ollama vs llama.cpp: Which Should You Use for Local AI in 2026?", "url": "https://Hussain-Nazary.github.io/ollama-vs-llamacpp-2026.html"},
+        {"@type": "BlogPosting", "headline": "What is GGUF? The File Format Behind Local AI Explained", "url": "https://Hussain-Nazary.github.io/what-is-gguf.html"},
+        {"@type": "BlogPosting", "headline": "How to Run GGUF Models Locally in 2026: The Complete Beginner's Guide", "url": "https://Hussain-Nazary.github.io/how-to-run-gguf-models-locally-2026-guide.html"},
+        {"@type": "BlogPosting", "headline": "Lawyer Assistant: A Privacy-First Legal AI Built on a Local RAG Pipeline", "url": "https://Hussain-Nazary.github.io/lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html"},
+        {"@type": "BlogPosting", "headline": "AI IDE Comparison (Feb 2026): Copilot vs Cursor vs JetBrains AI vs Kiro + Antigravity + Codex", "url": "https://Hussain-Nazary.github.io/ai-ide-comparison-github-copilot-vs-cursor-vs-jetbrains-ai-vs-amazon-kiro.html"},
+        {"@type": "BlogPosting", "headline": "Latest AI Model Updates (Feb 2026): GPT-5.3-Codex, Claude Opus 4.6, Gemini 3 Deep Think", "url": "https://Hussain-Nazary.github.io/latest-ai-model-updates-gpt6-claude45-llama5-grok5-gemini3-chatgpt5-agent.html"}
+        ]
+    }
+    </script>
+    <link rel="stylesheet" href="simple-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Hussain <span>Nazary</span></h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h1>Blog</h1>
+            <p>Guides, tutorials, and deep dives on local AI, private RAG, multilingual NLP, and privacy-first AI systems — written while building them.</p>
+            <div class="blog-grid">
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI Just Waived Attorney–Client Privilege in Court: What Every Lawyer Must Know</h3>
+                        <p>US v. Heppner: the first court ruling that AI conversations are not privileged. What the February 2026 decision means for lawyers — and how to protect client data.</p>
+                        <a href="ai-waived-attorney-client-privilege-court.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Is It Ethical to Use ChatGPT for Contract Review? The 2026 Guidance, Explained</h3>
+                        <p>ABA Formal Opinion 512 and 2026 rulings on ChatGPT for contract review: competence, confidentiality, and the 5 rules that keep you ethical.</p>
+                        <a href="is-it-ethical-to-use-chatgpt-for-contract-review.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Attorney–Client Privilege and AI: A Plain-English Guide</h3>
+                        <p>How AI tools can waive attorney-client privilege — and how to protect it. A plain-English guide to confidentiality, work product, and local AI.</p>
+                        <a href="attorney-client-privilege-and-ai-plain-english-guide.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>GDPR-Compliant AI in 2026: Why Cloud LLMs Still Fail the Test</h3>
+                        <p>The EU AI Act applies from August 2026, but GDPR still governs your data. Why cloud LLMs struggle to comply — and what on-premise AI changes.</p>
+                        <a href="gdpr-compliant-ai-2026-cloud-llms-fail.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI Contract Review for Lawyers: What It Can and Can't Do</h3>
+                        <p>What AI contract review can and can't do for lawyers: real capabilities, the hallucination risk, confidentiality rules, and how to use it safely.</p>
+                        <a href="ai-contract-review-for-lawyers.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>The Complete Guide to Private Legal Research With Local AI</h3>
+                        <p>Do legal research with local AI: keep client data on your machine, get cited answers from your own documents, and stay ethically compliant.</p>
+                        <a href="private-legal-research-local-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Build a Document Q&A System That Cites Its Sources (for Law Firms)</h3>
+                        <p>Build a document Q&A system for law firms that cites its sources: RAG architecture, citation grounding, hybrid retrieval, and privacy.</p>
+                        <a href="document-qa-with-citations-law-firms.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Can Lawyers Use AI Without Breaking Confidentiality? The 5 Rules That Matter</h3>
+                        <p>Five rules that keep lawyers ethical when using AI: vet the tool, keep client data local, get consent, verify output, and write the policy.</p>
+                        <a href="lawyers-ai-confidentiality-5-rules.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Legal AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Review 100 Contracts in a Day Without Leaking Client Data</h3>
+                        <p>Review 100 contracts in a day with AI: the triage workflow, realistic time savings, and how to do it without leaking client data.</p>
+                        <a href="review-100-contracts-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>On-Premise AI Is Now 60% of the Market: What That Means for Your Compliance Team</h3>
+                        <p>On-premise AI now holds 60% of the LLM market and 55% of enterprise inference. What the shift means for compliance, GDPR, and your AI strategy.</p>
+                        <a href="on-premise-ai-60-percent-market.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>US Cloud Act vs EU GDPR: Where Your AI Data Actually Lives</h3>
+                        <p>The US CLOUD Act can compel US providers to hand over data stored in the EU. What that means for GDPR compliance and where your AI data really lives.</p>
+                        <a href="cloud-act-vs-gdpr-ai-data.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Private RAG for Regulated Industries: The 2026 Deployment Playbook</h3>
+                        <p>Deploy private RAG in regulated industries: HIPAA, SOC 2, and GDPR requirements, architecture decisions, and a phase-by-phase playbook.</p>
+                        <a href="private-rag-regulated-industries-playbook.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>What Is On-Premise LLM Deployment? Costs, Hardware, and When It's Worth It</h3>
+                        <p>On-premise LLM deployment explained: hardware sizing, real costs from $1,500 to $400,000+, and when keeping AI in-house is worth it.</p>
+                        <a href="what-is-on-premise-llm-deployment.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Deploy an LLM Inside Your Own Security Boundary</h3>
+                        <p>Deploy an LLM inside your own security boundary: zero trust, access control, encryption, audit logging, and runtime enforcement.</p>
+                        <a href="deploy-llm-security-boundary.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI for Regulated Industries: HIPAA, SOC 2, and GDPR Explained Simply</h3>
+                        <p>HIPAA, SOC 2, and GDPR for AI explained simply: what each framework demands, where they overlap, and how on-premise AI answers all three.</p>
+                        <a href="ai-regulated-industries-hipaa-soc2-gdpr.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Compliance</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Data Sovereignty: Why Your AI Should Run Where Your Data Lives</h3>
+                        <p>Data sovereignty explained: why jurisdictions are requiring AI to run where data lives, and how on-premise deployment answers data residency.</p>
+                        <a href="data-sovereignty-local-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Local AI Without a CLI: How Non-Technical Teams Run LLMs in 2026</h3>
+                        <p>Run local LLMs without a command line: the GUI tools that let non-technical teams use private AI in 2026 — install, click, chat.</p>
+                        <a href="local-ai-without-cli.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Your Laptop Is Now an AI Workstation: What You Can Run Offline in 2026</h3>
+                        <p>Your laptop is now an AI workstation: what models run offline on 8-16GB RAM, what you can do with them, and how to set it up.</p>
+                        <a href="laptop-ai-workstation-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Stop Paying Per-Seat AI Fees: The Case for On-Premise in 2026</h3>
+                        <p>Per-seat AI subscriptions add up fast — $20-30 per user per month. The case for on-premise AI in 2026: predictable costs, privacy, and no meters.</p>
+                        <a href="stop-paying-per-seat-ai-fees.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Run AI on Your Own Computer: A Beginner's Guide</h3>
+                        <p>Run AI on your own computer as a beginner: what you need, which models to pick, GUI apps, and private offline setup in minutes.</p>
+                        <a href="run-ai-own-computer-beginners.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Local LLMs for Small Business: 10 Practical Use Cases</h3>
+                        <p>10 practical local LLM use cases for small business in 2026 — private, offline AI for writing, customer service, documents, and more.</p>
+                        <a href="local-llm-small-business-10-use-cases.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How Much RAM Do You Need to Run Local AI? (An Honest Guide)</h3>
+                        <p>How much RAM you really need for local AI: the 0.5GB-per-billion-parameter rule, what 8GB, 16GB, and 32GB+ can run, and honest guidance.</p>
+                        <a href="how-much-ram-local-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Local AI</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>8GB vs 16GB RAM for Local LLMs: What Actually Fits</h3>
+                        <p>8GB vs 16GB RAM for local LLMs: which models actually fit, the real quality difference, and what to choose if you're buying.</p>
+                        <a href="8gb-vs-16gb-ram-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Why AI Still Ignores Pashto and Dari — and What to Do About It</h3>
+                        <p>Why AI still ignores Pashto and Dari: 60 million Pashto speakers, a fraction of the data. What's changing in 2026 and how to build for these languages.</p>
+                        <a href="why-ai-ignores-pashto-dari.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Persian AI in 2026: The Best Local Models for Farsi Speakers</h3>
+                        <p>The best local AI models for Persian/Farsi in 2026: Persian-specific LLMs, multilingual bases, hardware needs, and how to choose.</p>
+                        <a href="persian-ai-2026-local-models.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Run an AI Assistant in Pashto on Your Own Device</h3>
+                        <p>Run a Pashto AI assistant on your own device: which models work, how to improve quality with glossaries and fine-tuning, and local setup.</p>
+                        <a href="pashto-ai-assistant-own-device.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide</h3>
+                        <p>AI translation for Dari, Pashto, Persian, and Urdu: which models work, glossary-locked pipelines, and how to get usable quality locally.</p>
+                        <a href="ai-translation-dari-pashto-persian-urdu.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Why Most AI Fails Low-Resource Languages (and How to Fix It)</h3>
+                        <p>Why AI fails low-resource languages: data scarcity, script complexity, evaluation blind spots — and the techniques that actually fix it.</p>
+                        <a href="why-ai-fails-low-resource-languages.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Build a Multilingual AI Assistant for an Underrepresented Language</h3>
+                        <p>How to build a multilingual AI assistant for an underrepresented language: model choice, glossaries, fine-tuning, RAG, and local deployment.</p>
+                        <a href="multilingual-assistant-underrepresented-language.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">RAG</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>RAG With Citations Is Now Table Stakes: How to Make AI Show Its Sources</h3>
+                        <p>RAG with citations is now table stakes in 2026: why grounded, sourced answers matter and how to build a system that shows its work.</p>
+                        <a href="rag-citations-table-stakes.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Agents</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Agentic AI in 2026: When 'AI Agents' Are Worth Building (and When Not)</h3>
+                        <p>Agentic AI in 2026: Gartner expects 40% of enterprise apps to include agents. When agents are worth building, when they aren't, and how to start.</p>
+                        <a href="agentic-ai-2026-worth-building.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">RAG</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Build a RAG System That Answers From Your Documents — and Proves It</h3>
+                        <p>Build a RAG system that answers from your documents and proves it: retrieval, grounding, citations, and evaluation that catches errors.</p>
+                        <a href="rag-answers-from-documents-proves-it.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">RAG</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Hybrid Search Explained: Why Keyword + Semantic Beats Either Alone</h3>
+                        <p>Hybrid search explained: how combining BM25 keyword search with semantic vectors beats either alone — and when it matters most.</p>
+                        <a href="hybrid-search-keyword-semantic.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">RAG</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>The RAG vs Fine-Tuning Decision: A Practical Framework</h3>
+                        <p>RAG vs fine-tuning: a practical decision framework for when each wins, when to combine them, and the questions that settle it.</p>
+                        <a href="rag-vs-fine-tuning-decision.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">RAG</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Evaluate a RAG System Before You Trust It</h3>
+                        <p>How to evaluate a RAG system before you trust it: build a test set, run the RAG Triad, set thresholds, and decide if it's production-ready.</p>
+                        <a href="evaluate-rag-system.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Lead Gen</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How Much Does a Custom Local AI System Cost in 2026?</h3>
+                        <p>Custom AI system cost in 2026: real ranges from $5K proof-of-concept to $500K+ enterprise platforms, plus the running costs most quotes hide.</p>
+                        <a href="custom-local-ai-system-cost-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Lead Gen</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Hiring an AI Developer? 10 Questions to Ask Before You Start</h3>
+                        <p>Hiring an AI developer? 10 questions that separate teams that ship production AI from those that leave you a broken demo, with green and red flags.</p>
+                        <a href="hiring-ai-developer-10-questions.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Lead Gen</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Building Private AI: What to Look for in an Offline AI Engineer</h3>
+                        <p>What to look for in an offline AI engineer: the skills that separate engineers who can ship private, on-premise AI from API-wrapper developers.</p>
+                        <a href="what-to-look-for-offline-ai-engineer.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Lead Gen</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI Consulting for Regulated Businesses: What the Process Actually Looks Like</h3>
+                        <p>AI consulting for regulated businesses: the real engagement process — readiness, scoping, pilot, deployment, compliance — and what to expect at each stage.</p>
+                        <a href="ai-consulting-regulated-businesses.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>GGUF vs AWQ vs GPTQ: Which Quantization Format Should You Use?</h3>
+                        <p>GGUF vs AWQ vs GPTQ in 2026: how each quantization format works, memory and quality trade-offs, and which to pick for Ollama, llama.cpp, or vLLM.</p>
+                        <a href="gguf-vs-awq-vs-gptq.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Install Ollama on Windows (Step by Step)</h3>
+                        <p>Install Ollama on Windows in 5 minutes: download, install, pull a model, and run local AI from the command line or browser — step by step.</p>
+                        <a href="how-to-install-ollama-windows.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Install Ollama on macOS (Step by Step)</h3>
+                        <p>Install Ollama on macOS in 5 minutes: download, install, pull a model, and run local AI on Apple Silicon or Intel Macs — step by step.</p>
+                        <a href="how-to-install-ollama-macos.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Local RAG on 8GB RAM: The Complete Guide</h3>
+                        <p>Build a fully local RAG system on 8GB RAM: which models fit, how to chunk, and a working pipeline with Ollama and ChromaDB that stays under budget.</p>
+                        <a href="local-rag-8gb-ram.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>RAG vs Fine-Tuning: When to Use Which (2026 Guide)</h3>
+                        <p>RAG vs fine-tuning: when each wins, when to combine them, and how to decide. A practical 2026 comparison with a decision table for local AI builders.</p>
+                        <a href="rag-vs-fine-tuning.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Speed Up Local LLMs: CPU vs GPU vs NPU (2026 Guide)</h3>
+                        <p>Speed up local LLMs: CPU vs GPU vs NPU trade-offs, quantization, KV cache, speculative decoding, and practical tokens-per-second targets for each hardware tier.</p>
+                        <a href="speed-up-local-llms.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Speculative Decoding: How Local AI Gets Faster (2026 Guide)</h3>
+                        <p>Speculative decoding explained: how draft models make local LLMs 1.5-3x faster, when it works, and how to enable it in llama.cpp, Ollama, and vLLM.</p>
+                        <a href="speculative-decoding.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>KV Cache Quantization: What It Is and Why It Matters (2026 Guide)</h3>
+                        <p>KV cache quantization explained: how the attention cache eats memory on long contexts, when Q8/Q4 KV cache is safe, and how to enable it in llama.cpp and Ollama.</p>
+                        <a href="kv-cache-quantization.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Advanced RAG: Chunking Strategies Compared (2026 Guide)</h3>
+                        <p>RAG chunking strategies compared: fixed-size, recursive, semantic, document-aware, and contextual chunking — with code, trade-offs, and a decision guide.</p>
+                        <a href="rag-chunking-strategies.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)</h3>
+                        <p>GraphRAG explained: how knowledge graphs fix RAG's cross-document blind spot, when to use it, and how to build a local GraphRAG pipeline in 2026.</p>
+                        <a href="graphrag-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)</h3>
+                        <p>RAG evaluation explained: retrieval metrics (recall@k, MRR, NDCG), generation metrics (faithfulness, answer relevance), and how to build an eval set locally.</p>
+                        <a href="rag-evaluation.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Privacy</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Data Privacy vs Cloud AI: The Real Risks in 2026</h3>
+                        <p>The real privacy risks of cloud AI in 2026: what happens to your prompts, retention policies, training clauses, and when local AI is the safer bet.</p>
+                        <a href="data-privacy-vs-cloud-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Privacy</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Build a Fully Offline AI Workspace (2026 Guide)</h3>
+                        <p>Build a fully offline AI workspace: chat, RAG, coding, voice, and document tools that run 100% locally with Ollama, llama.cpp, and open models.</p>
+                        <a href="offline-ai-workspace.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Privacy</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Local AI for GDPR Compliance (2026 Guide)</h3>
+                        <p>How local AI simplifies GDPR compliance: data minimization, no third-country transfers, DPIA simplification, and a compliance checklist for on-premise LLMs.</p>
+                        <a href="local-ai-gdpr.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Privacy</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Air-Gapped AI: Running Models with No Internet (2026 Guide)</h3>
+                        <p>Air-gapped AI explained: how to run LLMs on fully isolated networks, transfer models over USB, and build the offline stack for defense, legal, and critical infrastructure.</p>
+                        <a href="air-gapped-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)</h3>
+                        <p>Build a local AI agent with LangGraph and Ollama: tool calling, state graphs, and a working example agent that runs 100% offline.</p>
+                        <a href="build-ai-agent-langgraph-ollama.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>MCP Explained: Model Context Protocol for Local AI (2026 Guide)</h3>
+                        <p>MCP (Model Context Protocol) explained: the standard that connects AI apps to tools and data, how to run MCP servers locally, and what it means for private agents.</p>
+                        <a href="mcp-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Tool Calling with Local LLMs: A Practical Guide (2026)</h3>
+                        <p>Tool calling with local LLMs: how function calling works, which local models support it, and a working Python example with Ollama, plus failure-mode fixes.</p>
+                        <a href="tool-calling-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)</h3>
+                        <p>Multi-agent systems explained: coordinator, supervisor, and swarm patterns, when they beat a single agent, and how to build them locally with LangGraph.</p>
+                        <a href="multi-agent-systems.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Comparison</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>GLM vs DeepSeek: Which Open Model Family in 2026?</h3>
+                        <p>GLM-5.2 vs DeepSeek V4 in 2026: benchmarks, agentic capability, coding, context windows, pricing, and which open model family to pick.</p>
+                        <a href="glm-vs-deepseek.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Comparison</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Mistral Small vs Qwen: Local Model Showdown (2026)</h3>
+                        <p>Mistral Small vs Qwen for local AI in 2026: benchmarks, speed, multilingual, context, licenses, and which small model family wins your hardware.</p>
+                        <a href="mistral-small-vs-qwen.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">News</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Latest AI Model Releases: August 2026 Roundup</h3>
+                        <p>August 2026 AI model release roundup: DeepSeek V4 Flash 0731, Kimi K3, GLM-5.2, Gemma 3 27B, Mistral Medium 3, Qwen Image 3.0 — what shipped and what matters.</p>
+                        <a href="latest-ai-model-releases-august-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Opinion</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Open Models That Beat Closed Ones: 2026 Edition</h3>
+                        <p>Open models that beat closed ones in 2026: where GLM, DeepSeek, Kimi, and Qwen now outscore GPT/Claude/Gemini, and why companies still pay for closed AI.</p>
+                        <a href="open-models-beat-closed.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Hardware</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Run LLMs on a Raspberry Pi (2026 Guide)</h3>
+                        <p>Run LLMs on a Raspberry Pi in 2026: which models fit, real tokens-per-second on Pi 5, Ollama setup, and what a Pi can honestly do with local AI.</p>
+                        <a href="run-llm-raspberry-pi.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Hardware</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Best Local AI Models for a 16GB MacBook (2026 Guide)</h3>
+                        <p>Best local AI models for a 16GB MacBook in 2026: Qwen3.5-9B, Gemma 4 12B, and more with real speeds, RAM math, and Ollama setup for Apple Silicon.</p>
+                        <a href="local-ai-16gb-macbook.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Hardware</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Running AI Models on Your Phone: On-Device LLMs 2026</h3>
+                        <p>On-device LLMs on phones in 2026: what runs on iPhone and Android, NPU speed, Whisper-style apps, and which apps already ship local AI.</p>
+                        <a href="on-device-llm-phone.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Hardware</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Run Local AI on a Budget: $500 Setup Guide (2026)</h3>
+                        <p>A $500 local AI setup in 2026: used GPUs, RAM upgrades, and used Macs that run 7-14B models — the exact builds, prices, and expected tokens per second.</p>
+                        <a href="budget-local-ai-setup.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Comparison</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Ollama vs vLLM: When to Upgrade Your Local Stack (2026)</h3>
+                        <p>Ollama vs vLLM in 2026: throughput, batching, GPU memory, quantization, and when a personal Ollama setup should graduate to a vLLM server.</p>
+                        <a href="ollama-vs-vllm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>GGUF Model Sizes Explained: Why Same Model, Different Files (2026)</h3>
+                        <p>Why the same LLM ships as many different GGUF files: quantization math, bits-per-weight, file-size tables, and how to read a model repo at a glance.</p>
+                        <a href="gguf-model-sizes-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Multimodal RAG: Images and PDFs in Your Pipeline (2026 Guide)</h3>
+                        <p>Multimodal RAG explained: handling images, scanned PDFs, and diagrams — OCR pipelines, vision-language models, and when to embed images vs describe them.</p>
+                        <a href="multimodal-rag.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Contextual Retrieval: Chunking That Carries Context (2026)</h3>
+                        <p>Contextual retrieval explained: adding LLM-generated context blocks to chunks before embedding, the 49% retrieval-failure cut, and a local implementation guide.</p>
+                        <a href="contextual-retrieval.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)</h3>
+                        <p>Build local RAG with LangChain and Ollama: load, split, embed, retrieve, and answer with a step-by-step Python pipeline that runs 100% offline.</p>
+                        <a href="langchain-ollama-rag.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>RAG Hallucination: Why It Happens and How to Fix It (2026)</h3>
+                        <p>Why RAG systems hallucinate and how to fix it: retrieval failures, context misuse, grounding prompts, faithfulness checks, and the evaluation loop.</p>
+                        <a href="rag-hallucination.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Voice Assistants You Can Build with Local AI (2026 Guide)</h3>
+                        <p>Build a fully local voice assistant in 2026: Whisper speech-to-text, local LLM reasoning, Piper TTS — the complete offline stack with code and latency targets.</p>
+                        <a href="local-voice-assistant.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>On-Device AI Apps: Architecture Patterns That Work (2026)</h3>
+                        <p>On-device AI app architecture in 2026: model packaging, NPU delegates, hybrid cloud fallback, and the patterns that ship production mobile and desktop AI.</p>
+                        <a href="on-device-ai-apps.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Business</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Local AI for Small Business: A Practical Checklist (2026)</h3>
+                        <p>Local AI for small business in 2026: what to automate first, the $500-2,000 hardware reality, privacy wins, and a step-by-step adoption checklist.</p>
+                        <a href="local-ai-small-business.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Business</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>On-Premise LLM Deployment: A Practical Checklist (2026)</h3>
+                        <p>On-premise LLM deployment in 2026: hardware sizing, serving with vLLM, security, monitoring, and a phase-by-phase production checklist.</p>
+                        <a href="on-premise-llm-deployment.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">SEO</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Make Your Website Get Cited by AI Assistants (2026)</h3>
+                        <p>Answer Engine Optimization (AEO) in 2026: how ChatGPT, Perplexity, and Google AI Overviews choose sources, and the exact changes that get your site cited.</p>
+                        <a href="answer-engine-optimization.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">SEO</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)</h3>
+                        <p>A practical JSON-LD cheat sheet for AI engines: Article, FAQPage, HowTo, Person, Product, Breadcrumb — with copy-paste templates and validation tips.</p>
+                        <a href="structured-data-jsonld.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">SEO</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Optimize Your Portfolio Website for AI Search (2026)</h3>
+                        <p>Optimize a portfolio website for AI search in 2026: Person schema, project pages that get cited, blog content for AEO, and the sitemap baseline.</p>
+                        <a href="portfolio-ai-search-optimization.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Pashto and Dari in AI: What Works in 2026</h3>
+                        <p>Pashto and Dari in AI in 2026: which models handle them, translation quality, RAG in local languages, and how to build a Dari/Pashto assistant locally.</p>
+                        <a href="pashto-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Multilingual</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Building a Multilingual Translation Pipeline with Local LLMs (2026)</h3>
+                        <p>Build a multilingual translation pipeline with local LLMs: glossary-locked terminology, Qwen models, batch workflows, and quality evaluation — fully offline.</p>
+                        <a href="multilingual-translation-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How Transformers Actually Work: From-Scratch Walkthrough (2026)</h3>
+                        <p>How transformers actually work: tokens, embeddings, attention, multi-head, and the transformer block explained with diagrams, analogies, and minimal PyTorch.</p>
+                        <a href="transformer-from-scratch.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Build a Mini GPT in Raw PyTorch: Tokenizer to Fine-Tuning (2026)</h3>
+                        <p>Build a mini GPT in raw PyTorch: tokenizer, dataset, transformer blocks, training loop, and fine-tuning — the complete from-scratch tutorial.</p>
+                        <a href="minigpt-pytorch-tutorial.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How Tokenizers Work: BPE Explained Simply (2026)</h3>
+                        <p>How BPE tokenizers work: byte-pair encoding explained with a worked example, why tokenization matters for quality and cost, and a from-scratch implementation.</p>
+                        <a href="bpe-tokenizer-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Fine-Tuning a Local LLM: LoRA for Beginners (2026)</h3>
+                        <p>Fine-tune a local LLM with LoRA: what LoRA does, dataset prep, QLoRA on 8GB GPUs, and a complete training + merge + run workflow with unsloth.</p>
+                        <a href="lora-fine-tuning-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Product</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>From Idea to AI MVP: Lessons from Shipping Smart Calendar (2026)</h3>
+                        <p>Lessons from shipping Smart Calendar: how to scope an AI MVP, choose local vs cloud, validate with real users, and ship a five-in-one product without overbuilding.</p>
+                        <a href="ai-mvp-lessons.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Product</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI Product Pricing: How to Charge for Local AI (2026)</h3>
+                        <p>How to price AI products in 2026: local vs cloud unit economics, per-seat vs usage vs value pricing, and the pricing models that survive growth.</p>
+                        <a href="ai-product-pricing.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Agentic RAG: Combining Agents with Retrieval (2026 Guide)</h3>
+                        <p>Agentic RAG combines LLM agents with retrieval — multi-hop search, tool calls, and self-correction. Explained with patterns, local examples, and when it beats classic RAG.</p>
+                        <a href="agentic-rag.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tools</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Best GUI for Local LLMs in 2026 (Ranked by Use Case)</h3>
+                        <p>Best GUIs for local LLMs in 2026: Open WebUI, AnythingLLM, Msty, Jan, LM Studio, KoboldCPP, GPT4All — ranked by use case with a comparison table and setup guide.</p>
+                        <a href="best-gui-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>LFM Models: Liquid Foundation Models Explained (2026 Guide)</h3>
+                        <p>Liquid AI's non-transformer family — LFM-40B down to the tiny LFM2.5 on-device line, with benchmarks and how to run them.</p>
+                        <a href="lfm-models-guide-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)</h3>
+                        <p>InclusionAI's Ling, Ring, and Ming families — from the 1T flagship to the agent-focused Ling 3.0 Flash, with benchmarks.</p>
+                        <a href="ant-lab-ai-models-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)</h3>
+                        <p>Qwen3.5-9B, Gemma 4 12B, Phi-4-mini, Yi-Coder 9B — HumanEval scores and a head-to-head table for local coding.</p>
+                        <a href="top-10-coding-models-under-12b-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 AI Models Under 12B Parameters in 2026 (Ranked by Power)</h3>
+                        <p>Gemma 4 12B, Qwen3.5-9B, Phi-4-mini, and more — the newest powerful models you can actually run, with sizes and hardware.</p>
+                        <a href="top-10-models-under-12b-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 RAG Tools in 2026 (Ranked by Use Case)</h3>
+                        <p>LlamaIndex, LangChain, Haystack, RAGFlow, Dify, txtai, RAGAS, and more — ranked by use case with a comparison table.</p>
+                        <a href="top-10-rag-tools-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 Vector Databases in 2026 (Ranked by Use Case)</h3>
+                        <p>ChromaDB, FAISS, Qdrant, pgvector, Weaviate, Milvus, Pinecone, and more — compared by scale, hosting, and use case.</p>
+                        <a href="top-10-vector-databases-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 Embedding Models for RAG in 2026 (Ranked by MTEB Score)</h3>
+                        <p>Qwen3-Embedding, BGE-M3, Gemini, Voyage, Cohere, OpenAI, mxbai, and Nomic — with MTEB scores and a decision guide.</p>
+                        <a href="top-10-embedding-models-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 Open Source AI Models in 2026 (Ranked by Capability &amp; Performance)</h3>
+                        <p>Kimi K3, GLM-5.2, DeepSeek-V4, Qwen 3.5, GPT-OSS, and Gemma 4 — benchmark scores, licenses, and what you can actually run.</p>
+                        <a href="top-10-open-source-models-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 GGUF Models Ranked by RAM Size (Download Guide)</h3>
+                        <p>What to download for 8GB, 16GB, 24GB, and 64GB machines — with exact Q4_K_M file sizes.</p>
+                        <a href="top-10-gguf-models-by-ram.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)</h3>
+                        <p>Qwen3, GPT-OSS, GLM, Gemma, DeepSeek, and more — ranked by use case and the hardware you actually own.</p>
+                        <a href="top-10-local-ai-models-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Offline AI for Regulated Industries: Legal, Health, Finance</h3>
+                        <p>Privilege, HIPAA, and SOX — what offline AI genuinely solves for regulated teams, and what it doesn't.</p>
+                        <a href="offline-ai-regulated-industries.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Can You Run a Private LLM for Your Business? The Honest Guide</h3>
+                        <p>Real costs, when on-premise beats cloud APIs, what you give up, and how to start without overcommitting.</p>
+                        <a href="private-llm-for-business.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Embeddings Explained: How Semantic Search Actually Works</h3>
+                        <p>What embeddings are, how transformer models turn text into vectors, and how cosine similarity powers semantic search.</p>
+                        <a href="embeddings-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Reranking in RAG: Why Retrieval Order Matters</h3>
+                        <p>How cross-encoders reorder retrieval results for better answers — with code to add reranking to your RAG pipeline.</p>
+                        <a href="reranking-in-rag.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>ChromaDB vs FAISS: Choosing a Vector Database for RAG</h3>
+                        <p>Database vs search library — persistence, metadata filtering, indexing, and scale, with migration guidance.</p>
+                        <a href="chromadb-vs-faiss.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>What Is Hybrid Search? BM25 + Semantic Retrieval Explained</h3>
+                        <p>How keyword and vector retrieval complement each other, how Reciprocal Rank Fusion combines them, and why it improves RAG answers.</p>
+                        <a href="what-is-hybrid-search.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Build a RAG System in 30 Minutes (Local, Free)</h3>
+                        <p>Chunk, embed, retrieve, and answer with ChromaDB and Ollama — a fully local RAG pipeline, no cloud or API keys.</p>
+                        <a href="how-to-build-rag-system-30-minutes.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Convert a Hugging Face Model to GGUF (Step by Step)</h3>
+                        <p>Convert any supported Hugging Face model to GGUF with llama.cpp's convert_hf_to_gguf.py and llama-quantize — no GPU needed.</p>
+                        <a href="how-to-convert-huggingface-model-to-gguf.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>8 Best Local LLM Tools in 2026 (Ranked by Use Case)</h3>
+                        <p>Ollama, LM Studio, llama.cpp, GGUF Loader, Jan, GPT4All, text-generation-webui, and vLLM — ranked by use case with a comparison table.</p>
+                        <a href="best-local-llm-tools-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Q4_K_M vs Q8_0: Which Quantization Should You Download?</h3>
+                        <p>Real numbers on file size, memory, and quality loss — plus a decision guide for picking the right GGUF quant.</p>
+                        <a href="q4-km-vs-q8-0.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Ollama vs llama.cpp: Which Should You Use for Local AI in 2026?</h3>
+                        <p>Managed runtime vs raw engine — interface, API, quantization control, and the honest performance numbers, with clear recommendations.</p>
+                        <a href="ollama-vs-llamacpp-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>What is GGUF? The File Format Behind Local AI Explained</h3>
+                        <p>What GGUF actually is, why it replaced GGML and became the standard for local LLMs, and how quantization really works.</p>
+                        <a href="what-is-gguf.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Tutorial</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>How to Run GGUF Models Locally in 2026: The Complete Beginner's Guide</h3>
+                        <p>Set up Ollama, llama.cpp, LM Studio, or GGUF Loader on your own machine — with model picks for 8–16GB RAM and quantization explained.</p>
+                        <a href="how-to-run-gguf-models-locally-2026-guide.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">Projects</div>
+                        <div class="post-date">August 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Lawyer Assistant: A Privacy-First Legal AI Built on a Local RAG Pipeline</h3>
+                        <p>How a fully local RAG pipeline grounds legal answers in your own documents — with citations, compliance scans, and zero cloud.</p>
+                        <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">AI Tools</div>
+                        <div class="post-date">Updated: Feb 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>AI IDE Comparison (Feb 2026): Copilot vs Cursor vs JetBrains AI vs Kiro + Antigravity + Codex</h3>
+                        <p>Updated comparison of pricing, limits, and model access across top AI coding tools.</p>
+                        <a href="ai-ide-comparison-github-copilot-vs-cursor-vs-jetbrains-ai-vs-amazon-kiro.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+<div class="blog-post">
+                    <div class="post-header">
+                        <div class="post-category">AI Models</div>
+                        <div class="post-date">Updated: Feb 2026</div>
+                    </div>
+                    <div class="post-content">
+                        <h3>Latest AI Model Updates (Feb 2026): GPT-5.3-Codex, Claude Opus 4.6, Gemini 3 Deep Think</h3>
+                        <p>Updated Feb 11, 2026 with verified releases, rollouts, and official source links.</p>
+                        <a href="latest-ai-model-updates-gpt6-claude45-llama5-grok5-gemini3-chatgpt5-agent.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Hussain Nazary – Local AI Tools Developer. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

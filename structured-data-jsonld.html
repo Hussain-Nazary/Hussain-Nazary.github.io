@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)</title>
+    <meta name="description" content="A practical JSON-LD cheat sheet for AI engines: Article, FAQPage, HowTo, Person, Product, Breadcrumb — with copy-paste templates and validation tips.">
+    <meta name="keywords" content="json-ld cheat sheet, structured data schema, schema.org jsonld, faqpage schema, article schema, person schema, howto schema, structured data for ai, rich results schema, jsonld template">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/structured-data-jsonld.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)">
+    <meta property="og:description" content="Article, FAQPage, HowTo, Person, Product, Breadcrumb — with copy-paste templates and validation tips.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/structured-data-jsonld.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)">
+    <meta name="twitter:description" content="Article, FAQPage, HowTo, Person, Product, Breadcrumb — copy-paste templates and validation tips.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)",
+          "description": "Article, FAQPage, HowTo, Person, Product, Breadcrumb — with copy-paste templates and validation tips.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/structured-data-jsonld.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is JSON-LD structured data?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "JSON-LD is a format for embedding Schema.org machine-readable metadata in a page's <head>. It describes what the page is — an article, a person, an FAQ, a product — in a way search engines and AI systems can parse unambiguously. It's the standard way to add structured data in 2026."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does JSON-LD help with SEO and AI search?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, on both fronts. Google uses it for rich results (FAQ, breadcrumbs, review stars), and AI answer engines treat schema as a strong signal that a page is machine-readable answer content. It's not a ranking guarantee, but it's free clarity for every machine that reads your page."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which JSON-LD types matter most?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For most sites: Article/BlogPosting for content, FAQPage for question-answer sections, Person for authors/about pages, Organization for companies, Product for anything sold, HowTo for tutorials, and BreadcrumbList for navigation. Start with Article + FAQPage + Person — they cover the majority of sites."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I validate my JSON-LD?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Google's Rich Results Test and Schema.org's validator accept a URL or code snippet; both flag errors and missing required fields. Also check that the page's visible content matches the schema — mismatches (e.g. FAQ answers not on the page) are the most common way to get structured data ignored."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can multiple JSON-LD blocks be on one page?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — separate <script type=\"application/ld+json\"> blocks per type are standard and preferred: one for the page's main entity (Article/Product), one for FAQPage, one for BreadcrumbList, and so on. Keep each block self-contained and valid."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are common JSON-LD mistakes?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Missing required fields (datePublished, author for articles), schema that doesn't match visible content, incorrect URLs, JSON syntax errors from unescaped quotes, and copying templates without adjusting the @id URLs. Validation catches most of these — run it after every change."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Structured Data for AI Engines: JSON-LD Cheat Sheet (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Structured data is the difference between a page that machines <em>can</em> understand and one they <em>do</em> understand. <strong>JSON-LD in your page's <code>&lt;head&gt;</code> tells search engines and AI assistants exactly what your page is</strong> — an article, a person, a set of answers, a product. This cheat sheet has the copy-paste templates that matter, with validation tips, and it's the same pattern running on every post of this site.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Start with three types:</strong> Article/BlogPosting, FAQPage, and Person — they cover most sites</li>
+                <li><strong>One <code>&lt;script&gt;</code> block per type</strong> — keep blocks separate and valid</li>
+                <li><strong>Schema must match visible content</strong> — mismatches get ignored or penalized</li>
+                <li><strong>Validate after every change</strong> — Rich Results Test catches the common mistakes</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="article">
+            <h2>1. Article / BlogPosting</h2>
+            <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Your Post Title",
+  "description": "A 150-character summary of the post.",
+  "image": ["https://yoursite.com/cover.png"],
+  "datePublished": "2026-08-08",
+  "dateModified": "2026-08-08",
+  "inLanguage": "en",
+  "author": {"@type": "Person", "name": "Your Name"},
+  "publisher": {"@type": "Person", "name": "Your Name"},
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://yoursite.com/your-post.html"
+  }
+}
+&lt;/script&gt;</code></pre>
+            <p><strong>Required:</strong> headline, datePublished, author. Every post on this site carries exactly this block — it's the machine-readable version of the page.</p>
+        </section>
+
+        <section id="faq">
+            <h2>2. FAQPage</h2>
+            <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is JSON-LD?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JSON-LD is a format for embedding Schema.org metadata in a page's head."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it help with AI search?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — AI engines treat structured answers as strong citation signals."
+      }
+    }
+  ]
+}
+&lt;/script&gt;</code></pre>
+            <p><strong>Critical rule:</strong> every question and answer must appear verbatim in the visible page content. FAQ schema with hidden answers is a classic way to get ignored.</p>
+        </section>
+
+        <section id="person">
+            <h2>3. Person (About / Portfolio)</h2>
+            <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Your Name",
+  "url": "https://yoursite.com/",
+  "jobTitle": "AI Engineer",
+  "sameAs": [
+    "https://github.com/yourusername",
+    "https://www.linkedin.com/in/yourname"
+  ],
+  "knowsAbout": ["Retrieval-Augmented Generation",
+                 "Local LLMs", "Vector Databases"]
+}
+&lt;/script&gt;</code></pre>
+            <p>The <code>sameAs</code> array links your identity across platforms — the entity-resolution signal that helps AI engines attribute your work. See the <a href="portfolio-ai-search-optimization.html">portfolio AEO guide</a> for the full personal-brand setup.</p>
+        </section>
+
+        <section id="more">
+            <h2>4–6. HowTo, Product, Breadcrumb (Quick Reference)</h2>
+            <pre><code>// HowTo (tutorials) — step list, required for rich results
+{
+  "@type": "HowTo", "name": "Title",
+  "step": [{"@type": "HowToStep", "name": "Step 1",
+            "text": "Do the thing."}]
+}
+
+// Product (anything sold) — price + availability
+{
+  "@type": "Product", "name": "Name",
+  "offers": {"@type": "Offer", "price": "19.00",
+             "priceCurrency": "USD", "availability": "https://schema.org/InStock"}
+}
+
+// BreadcrumbList (navigation)
+{
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1,
+     "name": "Home", "item": "https://yoursite.com/"},
+    {"@type": "ListItem", "position": 2,
+     "name": "Blog", "item": "https://yoursite.com/blog.html"}
+  ]
+}</code></pre>
+        </section>
+
+        <section id="validation">
+            <h2>Validation and Mistakes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mistake</th>
+                        <th>Fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Missing required fields (datePublished, author)</td>
+                        <td>Run Rich Results Test — it lists exactly what's missing</td>
+                    </tr>
+                    <tr>
+                        <td>Schema ≠ visible content</td>
+                        <td>Make the page text match the schema text, verbatim</td>
+                    </tr>
+                    <tr>
+                        <td>Wrong @id URLs</td>
+                        <td>Every URL should be absolute and resolve</td>
+                    </tr>
+                    <tr>
+                        <td>Broken JSON (unescaped quotes)</td>
+                        <td>Validate the snippet; escape quotes inside strings</td>
+                    </tr>
+                    <tr>
+                        <td>Copying templates without editing</td>
+                        <td>Search your pages for leftover placeholder text</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Validate with:</strong> Google Rich Results Test (richresultstest.withgoogle.com), Schema.org validator, or a JSON linter. Run it after every template change — structured data is code, and it breaks like code.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is JSON-LD structured data?</h3>
+            <p>JSON-LD is a format for embedding Schema.org machine-readable metadata in a page's &lt;head&gt;. It describes what the page is — an article, a person, an FAQ, a product — in a way search engines and AI systems can parse unambiguously. It's the standard way to add structured data in 2026.</p>
+
+            <h3>Does JSON-LD help with SEO and AI search?</h3>
+            <p>Yes, on both fronts. Google uses it for rich results (FAQ, breadcrumbs, review stars), and AI answer engines treat schema as a strong signal that a page is machine-readable answer content. It's not a ranking guarantee, but it's free clarity for every machine that reads your page.</p>
+
+            <h3>Which JSON-LD types matter most?</h3>
+            <p>For most sites: Article/BlogPosting for content, FAQPage for question-answer sections, Person for authors/about pages, Organization for companies, Product for anything sold, HowTo for tutorials, and BreadcrumbList for navigation. Start with Article + FAQPage + Person — they cover the majority of sites.</p>
+
+            <h3>How do I validate my JSON-LD?</h3>
+            <p>Google's Rich Results Test and Schema.org's validator accept a URL or code snippet; both flag errors and missing required fields. Also check that the page's visible content matches the schema — mismatches (e.g. FAQ answers not on the page) are the most common way to get structured data ignored.</p>
+
+            <h3>Can multiple JSON-LD blocks be on one page?</h3>
+            <p>Yes — separate &lt;script type="application/ld+json"&gt; blocks per type are standard and preferred: one for the page's main entity (Article/Product), one for FAQPage, one for BreadcrumbList, and so on. Keep each block self-contained and valid.</p>
+
+            <h3>What are common JSON-LD mistakes?</h3>
+            <p>Missing required fields (datePublished, author for articles), schema that doesn't match visible content, incorrect URLs, JSON syntax errors from unescaped quotes, and copying templates without adjusting the @id URLs. Validation catches most of these — run it after every change.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="answer-engine-optimization.html">How to Make Your Website Get Cited by AI Assistants</a></li>
+                <li><a href="portfolio-ai-search-optimization.html">How to Optimize Your Portfolio Website for AI Search</a></li>
+                <li><a href="https://schema.org" target="_blank" rel="noopener">Schema.org — the vocabulary reference</a></li>
+                <li><a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Google Rich Results Test</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

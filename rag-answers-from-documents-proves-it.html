@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build a RAG System That Answers From Your Documents — and Proves It</title>
+    <meta name="description" content="Build a RAG system that answers from your documents and proves it: retrieval, grounding, citations, and evaluation that catches errors.">
+    <meta name="keywords" content="rag document answers, build rag system, rag citations, grounded ai answers, enterprise rag guide, rag that proves sources">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/rag-answers-from-documents-proves-it.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Build a RAG System That Answers From Your Documents — and Proves It">
+    <meta property="og:description" content="Build a RAG system that answers from your documents and proves it: retrieval, grounding, citations, and evaluation that catches errors.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/rag-answers-from-documents-proves-it.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta property="og:image:alt" content="Artificial intelligence illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Build a RAG System That Answers From Your Documents — and Proves It">
+    <meta name="twitter:description" content="Build a RAG system that answers from your documents and proves it: retrieval, grounding, citations, and evaluation that catches errors.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:image:alt" content="Artificial intelligence illustration">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Build a RAG System That Answers From Your Documents — and Proves It",
+          "description": "Build a RAG system that answers from your documents and proves it: retrieval, grounding, citations, and evaluation that catches errors.",
+          "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/rag-answers-from-documents-proves-it.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How does a RAG system answer from my documents?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Your documents are chunked, embedded, and indexed. When a question arrives, the system retrieves the most relevant passages, then the model answers using only that context. Grounding answers in retrieved documents reduces hallucinations by an estimated 70-90%."}
+            },
+            {
+              "@type": "Question",
+              "name": "How does it prove where the answer came from?",
+              "acceptedAnswer": {"@type": "Answer", "text": "With citations: each claim links to the exact document, page, and passage it came from. Users open the citation and verify. The system should also be evaluated — retrieval quality, answer accuracy, and citation resolution — so errors are caught, not trusted."}
+            },
+            {
+              "@type": "Question",
+              "name": "What are the key components?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Ingestion with OCR, chunking with metadata, embeddings, a vector store, hybrid retrieval (BM25 + semantic), reranking, grounded generation, a citation layer, and continuous evaluation."}
+            },
+            {
+              "@type": "Question",
+              "name": "How long does it take to build a basic version?",
+              "acceptedAnswer": {"@type": "Answer", "text": "A working local prototype with Ollama and ChromaDB can be built in about 30 minutes for a small corpus. Production quality — hybrid retrieval, reranking, citations, evaluation — takes longer, but the 30-minute starter is a real foundation."}
+            },
+            {
+              "@type": "Question",
+              "name": "What's the difference from just asking ChatGPT?",
+              "acceptedAnswer": {"@type": "Answer", "text": "ChatGPT answers from memory and can't show you its source. A RAG system answers from your documents and cites them — verifiable, grounded, and private when run locally."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        .warning { background-color: #fff3cd; border-color: #ffc107; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        .downloads { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .downloads h3 { color: white; margin-top: 0; }
+        .downloads a { color: #fff; font-weight: 600; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Build a RAG System That Answers From Your Documents — and Proves It</h1>
+        <p><strong>Published: August 9, 2026</strong> — The difference between a chatbot and a knowledge system is one word: <strong>sources</strong>. A chatbot answers from memory. A RAG system answers from your documents — and shows you exactly where every claim came from. Here's how to build one that does both.</p>
+        <div class="highlight-box success">
+            <p><strong>🔍 Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Ground in your documents:</strong> retrieve first, generate from retrieved context only — cuts hallucination by an estimated 70–90%</li>
+                <li><strong>Prove it with citations:</strong> every claim links to document, page, and passage</li>
+                <li><strong>The stack:</strong> OCR → chunking → embeddings → vector store → hybrid retrieval → reranking → grounded generation</li>
+                <li><strong>Evaluate or it doesn't count:</strong> measure retrieval, answer accuracy, and citation resolution</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section id="the-architecture">
+            <h2>The Architecture, End to End</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📄 Ingest</h4>
+                    <p>Documents are read — OCR for scans — and split into chunks with metadata (document, page, section) preserved.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🧠 Index</h4>
+                    <p>Chunks are embedded and stored in a vector store for semantic search; a keyword index (BM25) runs alongside.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔎 Retrieve</h4>
+                    <p>At query time, hybrid retrieval (keyword + semantic) finds the relevant passages, fused and re-ranked.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📎 Generate</h4>
+                    <p>The model answers only from retrieved context, attaching inline citations to the exact passages.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>✅ Verify</h4>
+                    <p>Users open citations and check; evaluation measures retrieval quality and answer accuracy continuously.</p>
+                </div>
+            </div>
+            <p>For the hands-on build, start with <a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a> — a working prototype with Ollama and ChromaDB — then harden it with the pieces below.</p>
+        </section>
+        <section id="retrieval">
+            <h2>Retrieval Quality Is the Ceiling</h2>
+            <p>Every answer is limited by what retrieval finds. Two decisions dominate:</p>
+            <ul>
+                <li><strong>Hybrid retrieval.</strong> Keyword (BM25) catches exact terms, citations, and IDs; semantic vectors catch paraphrase. Fused and re-ranked, they beat either alone. See <a href="what-is-hybrid-search.html">What Is Hybrid Search?</a>.</li>
+                <li><strong>Chunking with context.</strong> Legal and technical documents need document-aware or contextual chunking so meaning survives the split. See <a href="rag-chunking-strategies.html">Advanced RAG: Chunking Strategies Compared</a>.</li>
+            </ul>
+        </section>
+        <section id="grounding">
+            <h2>Grounded Generation: Answer Only From What You Retrieved</h2>
+            <p>Grounding is a hard instruction: the model may answer only from the retrieved passages — no memory, no invention — and must attach citations to specific chunks. Enterprise RAG deployments report <strong>70–90% hallucination reduction</strong> versus memory-based generation. The remaining errors are what citations and evaluation catch.</p>
+            <div class="highlight-box warning">
+                <p><strong>⚠️ Citation-shaped hallucinations are real.</strong> Systems invent page numbers and document titles that don't exist. Build a verification step: every citation must resolve to an actual chunk in the index. Test it by opening citations — see <a href="rag-evaluation.html">RAG Evaluation</a>.</p>
+            </div>
+        </section>
+        <section id="prove-it">
+            <h2>Proving It: The Verification Layer</h2>
+            <p>"Proves it" has two meanings, and you need both:</p>
+            <ol>
+                <li><strong>To the user:</strong> inline citations they can click and check. This is the trust layer — see <a href="rag-citations-table-stakes.html">RAG With Citations Is Now Table Stakes</a>.</li>
+                <li><strong>To the organization:</strong> continuous evaluation — retrieval recall, answer accuracy against a labeled set, and citation resolution rate. This is the production layer.</li>
+            </ol>
+            <p>A complete, working reference for both is <a href="https://lawyers-assistant.github.io" target="_blank" rel="noopener">Lawyer Assistant</a>: hybrid search, cited answers, 96% citation accuracy in its own benchmarks, and 100% on-device privacy. Architecture in <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: A Privacy-First Legal AI Built on a Local RAG Pipeline</a>.</p>
+        </section>
+        <section id="privacy">
+            <h2>Run It Where Your Documents Live</h2>
+            <p>For most organizations, the documents that matter most are the ones that can't leave the building — contracts, patient records, financials, proprietary specs. The RAG stack above runs entirely on your own hardware: embeddings, vector store, and model all local, with nothing sent to a third party. Private RAG for regulated work is covered in <a href="private-rag-regulated-industries-playbook.html">Private RAG for Regulated Industries</a>.</p>
+        </section>
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <h3>How does a RAG system answer from my documents?</h3>
+            <p>Your documents are chunked, embedded, and indexed. When a question arrives, the system retrieves the most relevant passages, then the model answers using only that context. Grounding answers in retrieved documents reduces hallucinations by an estimated 70-90%.</p>
+            <h3>How does it prove where the answer came from?</h3>
+            <p>With citations: each claim links to the exact document, page, and passage it came from. Users open the citation and verify. The system should also be evaluated — retrieval quality, answer accuracy, and citation resolution — so errors are caught, not trusted.</p>
+            <h3>What are the key components?</h3>
+            <p>Ingestion with OCR, chunking with metadata, embeddings, a vector store, hybrid retrieval (BM25 + semantic), reranking, grounded generation, a citation layer, and continuous evaluation.</p>
+            <h3>How long does it take to build a basic version?</h3>
+            <p>A working local prototype with Ollama and ChromaDB can be built in about 30 minutes for a small corpus. Production quality — hybrid retrieval, reranking, citations, evaluation — takes longer, but the 30-minute starter is a real foundation.</p>
+            <h3>What's the difference from just asking ChatGPT?</h3>
+            <p>ChatGPT answers from memory and can't show you its source. A RAG system answers from your documents and cites them — verifiable, grounded, and private when run locally.</p>
+        </section>
+        <section id="cta">
+            <div class="downloads">
+                <h3>🔍 Need a RAG system that answers from your documents?</h3>
+                <p>I design and deploy retrieval systems with citation-grounded answers — for legal, healthcare, finance, and enterprise knowledge work, through <a href="https://haal-lab.solutions" target="_blank" rel="noopener">Haal Lab</a>. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> for a scoping conversation.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

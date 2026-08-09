@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Assistants You Can Build with Local AI (2026 Guide)</title>
+    <meta name="description" content="Build a fully local voice assistant in 2026: Whisper speech-to-text, local LLM reasoning, Piper TTS — the complete offline stack with code and latency targets.">
+    <meta name="keywords" content="local voice assistant, offline voice assistant, whisper local, piper tts, kokoro tts, local voice ai, privacy voice assistant, voice agent local, speech to text local, wake word local">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/local-voice-assistant.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Voice Assistants You Can Build with Local AI (2026 Guide)">
+    <meta property="og:description" content="Whisper speech-to-text, local LLM reasoning, Piper TTS — the complete offline stack with code and latency targets.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/local-voice-assistant.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Voice Assistants You Can Build with Local AI (2026 Guide)">
+    <meta name="twitter:description" content="Whisper speech-to-text, local LLM reasoning, Piper TTS — the complete offline stack with code and latency targets.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Voice Assistants You Can Build with Local AI (2026 Guide)",
+          "description": "Whisper speech-to-text, local LLM reasoning, Piper TTS — the complete offline stack with code and latency targets.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/local-voice-assistant.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I build a voice assistant that works offline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — the full stack is local in 2026: Whisper-family models for speech-to-text, any local LLM (Qwen3, Gemma) for reasoning, and Piper/Kokoro for text-to-speech. A laptop or even a Raspberry Pi 5 runs the whole pipeline with no network calls."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best local speech-to-text model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Whisper family (faster-whisper for speed) remains the default — Whisper-small runs faster than real-time on a laptop, Whisper-base on a Pi. For multilingual including Dari/Pashto, larger Whisper variants and newer multilingual STT models are stronger; test on your languages."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much latency can I expect?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "On a laptop with a GPU: ~1s for STT, 1-3s for LLM generation (short answers), <0.5s for TTS — roughly 3-5s end-to-end, comparable to many cloud assistants. On a Pi 5, add a couple seconds per stage; keep answers short."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What do I need for a local voice assistant?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A microphone, speakers, and compute: 16GB RAM laptop or Pi 5 8GB is the minimum useful; a GPU makes it feel native. Software: faster-whisper (or whisper.cpp), a local LLM via Ollama, Piper/Kokoro TTS, and a small Python glue script. The code in this guide is the whole app."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can a voice assistant have a wake word locally?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — lightweight wake-word engines (like openWakeWord and Porcupine's offline modes) run locally at near-zero cost. They listen continuously on the CPU while the heavier STT+LLM pipeline only starts after the wake word, keeping idle power low."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why build a local voice assistant instead of using Alexa or Siri?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Privacy — no audio ever leaves the device (see the data-privacy guide), full control over behavior and tools, no subscription, and it works with zero internet. The trade-offs: less polish, fewer integrations, and smaller models than the cloud giants."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Voice Assistants You Can Build with Local AI (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — The voice-AI stack went fully local, and it's better than the hype suggests. <strong>Whisper hears you, a local LLM thinks, Piper speaks — all on your hardware, no cloud.</strong> A 3–5 second end-to-end response on a laptop, ~10s on a Pi, with zero audio ever leaving the room. This guide builds the complete assistant in ~80 lines of Python.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Stack:</strong> faster-whisper (STT) → Ollama LLM → Piper/Kokoro (TTS) — all local</li>
+                <li><strong>3–5s end-to-end on a laptop;</strong> a Pi 5 adds a few seconds per stage</li>
+                <li><strong>Wake words run locally</strong> (openWakeWord) with near-zero idle cost</li>
+                <li><strong>Zero audio leaves the device</strong> — the strongest privacy story in consumer AI</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="stack">
+            <h2>The Stack</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Tool</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Speech-to-text</strong></td>
+                        <td>faster-whisper (Whisper-small/base)</td>
+                        <td>Faster than real-time on laptop; base model for Pi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reasoning</strong></td>
+                        <td>Qwen3-8B / Qwen3.5-4B via Ollama</td>
+                        <td>4B keeps latency low; 8B for quality</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Text-to-speech</strong></td>
+                        <td>Piper or Kokoro</td>
+                        <td>Fast, natural, multi-voice; <0.5s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wake word</strong></td>
+                        <td>openWakeWord</td>
+                        <td>Local, near-zero CPU when idle</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="code">
+            <h2>The ~80-Line Assistant</h2>
+            <pre><code>import sounddevice as sd
+import numpy as np
+from faster_whisper import WhisperModel
+import requests
+
+stt = WhisperModel("small", device="auto", compute_type="int8")
+
+def hear():
+    audio = sd.rec(int(5 * 16000), samplerate=16000, channels=1)
+    sd.wait()
+    text, _ = stt.transcribe(np.squeeze(audio).astype("float32"))
+    return text.strip()
+
+def think(question):
+    r = requests.post("http://localhost:11434/api/generate", json={
+        "model": "qwen3:8b",
+        "prompt": f"Answer briefly, as a voice assistant: {question}",
+        "stream": False,
+    })
+    return r.json()["response"].strip()
+
+def speak(text):
+    import subprocess
+    subprocess.run(["piper", "--model", "en_US-lessac-medium",
+                    "--output_file", "out.wav"],
+                   input=text.encode(), check=True)
+    sd.play(*sd.read("out.wav")); sd.wait()
+
+while True:
+    q = hear()
+    if not q: continue
+    print("You:", q)
+    speak(think(q))</code></pre>
+            <p>Add a wake-word gate around <code>hear()</code>, stream the LLM tokens into TTS for faster first-word response, and you've built the core of every commercial voice assistant — locally. For tools and actions, route <code>think()</code> through the <a href="tool-calling-local-llm.html">tool-calling loop</a>.</p>
+        </section>
+
+        <section id="latency">
+            <h2>Latency Targets (2026, Realistic)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hardware</th>
+                        <th>STT</th>
+                        <th>LLM (short answer)</th>
+                        <th>TTS</th>
+                        <th>End-to-end</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Laptop with GPU</td>
+                        <td>~1s</td>
+                        <td>1–3s</td>
+                        <td>&lt;0.5s</td>
+                        <td><strong>3–5s</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Apple Silicon 16GB</td>
+                        <td>~1s</td>
+                        <td>1–4s</td>
+                        <td>&lt;0.5s</td>
+                        <td><strong>3–6s</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Pi 5 8GB</td>
+                        <td>2–3s</td>
+                        <td>2–6s (4B model)</td>
+                        <td>~1s</td>
+                        <td><strong>6–10s</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Streaming changes the feel: emit the LLM's first sentence while it generates the rest. For big speedups per stage, <a href="speed-up-local-llms.html">the speed guide</a> applies throughout.</p>
+        </section>
+
+        <section id="privacy">
+            <h2>Why Local Voice Matters</h2>
+            <p>A cloud voice assistant records your audio, transcribes it, and processes it on someone else's servers — by definition. A local one <strong>never produces a network packet</strong>. For <a href="data-privacy-vs-cloud-ai.html">conversations that must not leave the room</a> — client calls, medical notes, sensitive brainstorming — this is the difference between a tool and a liability. It's also the natural input layer for a fully <a href="offline-ai-workspace.html">offline workspace</a>.</p>
+            <div class="toolbox">
+                <h3>🚀 Beyond chat: voice + tools</h3>
+                <p>Give the assistant tools (via <a href="tool-calling-local-llm.html">tool calling</a> or <a href="mcp-explained.html">MCP</a>) and the voice assistant becomes an operator: "file that summary under Q3 reports", "what's in the knowledge base about clause 4?" — grounded by <a href="how-to-build-rag-system-30-minutes.html">local RAG</a>. That's the full local voice agent, and every piece runs on your hardware.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Can I build a voice assistant that works offline?</h3>
+            <p>Yes — the full stack is local in 2026: Whisper-family models for speech-to-text, any local LLM (Qwen3, Gemma) for reasoning, and Piper/Kokoro for text-to-speech. A laptop or even a Raspberry Pi 5 runs the whole pipeline with no network calls.</p>
+
+            <h3>What is the best local speech-to-text model?</h3>
+            <p>The Whisper family (faster-whisper for speed) remains the default — Whisper-small runs faster than real-time on a laptop, Whisper-base on a Pi. For multilingual including Dari/Pashto, larger Whisper variants and newer multilingual STT models are stronger; test on your languages.</p>
+
+            <h3>How much latency can I expect?</h3>
+            <p>On a laptop with a GPU: ~1s for STT, 1–3s for LLM generation (short answers), &lt;0.5s for TTS — roughly 3–5s end-to-end, comparable to many cloud assistants. On a Pi 5, add a couple seconds per stage; keep answers short.</p>
+
+            <h3>What do I need for a local voice assistant?</h3>
+            <p>A microphone, speakers, and compute: 16GB RAM laptop or Pi 5 8GB is the minimum useful; a GPU makes it feel native. Software: faster-whisper (or whisper.cpp), a local LLM via Ollama, Piper/Kokoro TTS, and a small Python glue script. The code in this guide is the whole app.</p>
+
+            <h3>Can a voice assistant have a wake word locally?</h3>
+            <p>Yes — lightweight wake-word engines (like openWakeWord and Porcupine's offline modes) run locally at near-zero cost. They listen continuously on the CPU while the heavier STT+LLM pipeline only starts after the wake word, keeping idle power low.</p>
+
+            <h3>Why build a local voice assistant instead of using Alexa or Siri?</h3>
+            <p>Privacy — no audio ever leaves the device (see the data-privacy guide), full control over behavior and tools, no subscription, and it works with zero internet. The trade-offs: less polish, fewer integrations, and smaller models than the cloud giants.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="tool-calling-local-llm.html">Tool Calling with Local LLMs: A Practical Guide</a></li>
+                <li><a href="mcp-explained.html">MCP Explained: Model Context Protocol for Local AI</a></li>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="offline-ai-workspace.html">How to Build a Fully Offline AI Workspace</a></li>
+                <li><a href="data-privacy-vs-cloud-ai.html">Data Privacy vs Cloud AI: The Real Risks in 2026</a></li>
+                <li><a href="run-llm-raspberry-pi.html">How to Run LLMs on a Raspberry Pi</a></li>
+                <li><a href="https://github.com/SYSTRAN/faster-whisper" target="_blank" rel="noopener">faster-whisper (GitHub)</a></li>
+                <li><a href="https://github.com/rhasspy/piper" target="_blank" rel="noopener">Piper TTS (GitHub)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

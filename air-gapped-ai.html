@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air-Gapped AI: Running Models with No Internet (2026 Guide)</title>
+    <meta name="description" content="Air-gapped AI explained: how to run LLMs on fully isolated networks, transfer models over USB, and build the offline stack for defense, legal, and critical infrastructure.">
+    <meta name="keywords" content="air gapped ai, air gap llm, offline model deployment, isolated network ai, model transfer usb, on premise air gap, secure ai deployment, llama.cpp air gap, ollama offline, no internet ai">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/air-gapped-ai.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Air-Gapped AI: Running Models with No Internet (2026 Guide)">
+    <meta property="og:description" content="How to run LLMs on fully isolated networks, transfer models over USB, and build the offline stack for defense, legal, and critical infrastructure.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/air-gapped-ai.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Air-Gapped AI: Running Models with No Internet (2026 Guide)">
+    <meta name="twitter:description" content="LLMs on fully isolated networks — model transfer, the offline stack, and what works without internet.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Air-Gapped AI: Running Models with No Internet (2026 Guide)",
+          "description": "How to run LLMs on fully isolated networks, transfer models over USB, and build the offline stack for defense, legal, and critical infrastructure.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/air-gapped-ai.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is an air-gapped AI system?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "An air-gapped AI system runs models on hardware physically isolated from the internet — no network egress at all. Data never leaves the machine, which is the strongest possible privacy posture and a requirement for classified, defense, and some legal/medical environments."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do you get models onto an air-gapped machine?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Download GGUF (or HF safetensors) files on a connected machine, verify hashes, copy to an approved USB drive, and load them directly from disk — llama.cpp reads local files, and Ollama imports GGUF via a Modelfile. Package dependencies and Docker images the same way, ahead of time."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can air-gapped AI be useful without updates?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — models are frozen snapshots, which is a feature for compliance: reproducibility is guaranteed. The trade-off is that model improvements arrive only through deliberate, reviewed transfer cycles. Plan a quarterly or event-driven update pipeline through the same approved channel."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What models should I run in an air-gapped environment?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Prefer permissively licensed, fully open weights so the license itself doesn't create compliance issues: Qwen3, Gemma 4, GLM, and similar (see the open-source ranking in this blog). Size the model to the hardware using the RAM-ranked GGUF guide, and verify licenses before transfer."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is air-gapped AI slower or worse?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Not inherently — inference speed depends on hardware, not connectivity. The ceiling is model choice: you're limited to open weights, so frontier cloud models are out. For document work, RAG, and domain analysis, modern open models are often entirely sufficient."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I still need security controls in an air-gapped environment?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Absolutely — arguably more. Air gaps create a false sense of safety: USB transfers are the classic attack vector, insider threats remain, and unpatched systems accumulate risk. Treat the air gap as one control in a layered defense, not a substitute for the rest."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Air-Gapped AI: Running Models with No Internet (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Some environments don't get a choice about connectivity: classified networks, defense facilities, critical infrastructure, and increasingly law firms with hard client-confidentiality requirements. <strong>Air-gapped AI means running models on hardware with zero network egress</strong> — no internet, no APIs, no telemetry. It's the strongest privacy posture that exists, and in 2026 it's a fully practical build. This guide covers the transfer problem, the offline stack, and the security reality.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Models move by USB, not network</strong> — GGUF files are self-contained and hash-verifiable</li>
+                <li><strong>The whole stack runs offline:</strong> llama.cpp/Ollama, ChromaDB, local UIs, Whisper</li>
+                <li><strong>Frozen models = reproducibility</strong> — a feature for compliance, a cost for freshness</li>
+                <li><strong>The air gap is one control, not a shield</strong> — USB vectors and insider risk still need management</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="what">
+            <h2>What Air-Gapped AI Is (and Isn't)</h2>
+            <p>An air gap is a <em>physical</em> separation: the machine has no route to the internet — no NIC to the outside, no WiFi, no Bluetooth bridging, no USB devices with radios. Data cannot leave because there is no path to leave by.</p>
+            <ul>
+                <li><strong>It is not</strong> "private mode" in a cloud app, encrypted API calls, or a VPN. Those still transit someone else's infrastructure.</li>
+                <li><strong>It is not</strong> a compliance exemption. It's the strongest <em>technical</em> posture — GDPR-style accountability still applies (<a href="local-ai-gdpr.html">see the GDPR guide</a>).</li>
+                <li><strong>It is</strong> the standard for the environments where data loss is not a risk category but a national-security event: defense, intelligence, critical infrastructure, and hard-confidential legal work.</li>
+            </ul>
+        </section>
+
+        <section id="transfer">
+            <h2>The Transfer Problem: Getting Models In</h2>
+            <p>The central practical question: <strong>how do models get onto a machine that never touches the internet?</strong> Answer: a controlled, reviewed import pipeline.</p>
+            <ol>
+                <li><strong>Download on a connected machine.</strong> Pull GGUF files from Hugging Face or the model's official repo. Prefer the <a href="top-10-gguf-models-by-ram.html">RAM-ranked picks</a> sized to the target hardware.</li>
+                <li><strong>Verify integrity.</strong> Record SHA-256 hashes; check them again on the air-gapped side before loading. This is the anti-tamper step — never skip it.</li>
+                <li><strong>Copy via approved media.</strong> A dedicated, encrypted, scanned USB drive (or burned disc for stricter environments). One-way transfer is the ideal: the import machine has no read-back path.</li>
+                <li><strong>Load locally.</strong> llama.cpp reads GGUF directly from disk. Ollama imports: create a Modelfile pointing at the local file, then <code>ollama create mymodel -f Modelfile</code>.</li>
+            </ol>
+            <pre><code># On the connected machine: download + hash
+wget https://huggingface.co/Qwen/Qwen3-8B-GGUF/resolve/main/qwen3-8b-q4_k_m.gguf
+sha256sum qwen3-8b-q4_k_m.gguf > qwen3-8b.sha256
+
+# On the air-gapped machine: verify then import
+sha256sum -c qwen3-8b.sha256
+# Ollama import from local GGUF
+printf 'FROM ./qwen3-8b-q4_k_m.gguf\n' > Modelfile
+ollama create qwen3-8b -f Modelfile</code></pre>
+            <p>Dependencies travel the same way: Python wheels, Docker images (<code>docker save</code> → transfer → <code>docker load</code>), and the embedding models your <a href="how-to-build-rag-system-30-minutes.html">RAG pipeline</a> needs.</p>
+        </section>
+
+        <section id="stack">
+            <h2>The Full Offline Stack</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Air-gapped choice</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Inference</strong></td>
+                        <td>llama.cpp (or Ollama)</td>
+                        <td>Zero phone-home in llama.cpp; block Ollama's update checks</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chat UI</strong></td>
+                        <td>Open WebUI / LobeChat (self-hosted)</td>
+                        <td>Runs entirely inside the enclave</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Embeddings + vector store</strong></td>
+                        <td>BGE-M3 + <a href="chromadb-vs-faiss.html">ChromaDB/FAISS</a></td>
+                        <td>Fully local, no telemetry</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Voice</strong></td>
+                        <td>Whisper + Piper/Kokoro TTS</td>
+                        <td>Local STT/TTS, no cloud</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Code assistant</strong></td>
+                        <td>Continue → local llama.cpp endpoint</td>
+                        <td>Offline autocomplete/chat</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OCR / documents</strong></td>
+                        <td>Tesseract / local document parsers</td>
+                        <td>Pre-installed, no API OCR</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Every component has an offline path in 2026 — the ecosystem finally treats no-connectivity as a first-class deployment mode rather than an edge case.</p>
+        </section>
+
+        <section id="models">
+            <h2>Which Models Belong in an Air Gap</h2>
+            <ul>
+                <li><strong>License purity first.</strong> Permissive or fully open licenses (Apache-2.0, MIT) avoid license-compliance friction: <a href="top-10-open-source-models-2026.html">Qwen3, Gemma 4, GLM</a> are the usual candidates.</li>
+                <li><strong>Size to hardware.</strong> An air-gapped server with one 24GB GPU runs 30B-class; a laptop runs 7–14B. Use the <a href="top-10-gguf-models-by-ram.html">RAM table</a> to choose the exact quant file.</li>
+                <li><strong>Frozen is fine.</strong> A model snapshot doesn't rot — it's reproducible, which compliance teams love. Freshness comes through scheduled, reviewed update cycles (quarterly is typical).</li>
+                <li><strong>Embeddings too.</strong> Your <a href="top-10-embedding-models-2026.html">embedding model</a> is part of the same import pipeline — and note that changing it later means re-embedding the whole corpus.</li>
+            </ul>
+        </section>
+
+        <section id="security">
+            <h2>The Security Reality Check</h2>
+            <div class="highlight-box primary">
+                <p><strong>⚠️ The air gap is not a shield.</strong> The classic attack vectors survive: malicious USB media (the transfer pipeline is the prime injection point), insider access, and unpatched software accumulating risk over time. Treat the gap as one strong control inside a layered defense — scanning, hashing, access control, and monitoring still apply.</p>
+            </div>
+            <ul>
+                <li><strong>Hash-verify everything imported</strong> — the file you scan is the file you run.</li>
+                <li><strong>One-way transfer design</strong> where policy allows — no read-back from the enclave.</li>
+                <li><strong>Patch cycles still matter</strong> — route security updates through the same reviewed pipeline.</li>
+                <li><strong>Log locally, export on schedule</strong> — audit logs that can't leave can't be audited; plan their extraction.</li>
+            </ul>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is an air-gapped AI system?</h3>
+            <p>An air-gapped AI system runs models on hardware physically isolated from the internet — no network egress at all. Data never leaves the machine, which is the strongest possible privacy posture and a requirement for classified, defense, and some legal/medical environments.</p>
+
+            <h3>How do you get models onto an air-gapped machine?</h3>
+            <p>Download GGUF (or HF safetensors) files on a connected machine, verify hashes, copy to an approved USB drive, and load them directly from disk — llama.cpp reads local files, and Ollama imports GGUF via a Modelfile. Package dependencies and Docker images the same way, ahead of time.</p>
+
+            <h3>Can air-gapped AI be useful without updates?</h3>
+            <p>Yes — models are frozen snapshots, which is a feature for compliance: reproducibility is guaranteed. The trade-off is that model improvements arrive only through deliberate, reviewed transfer cycles. Plan a quarterly or event-driven update pipeline through the same approved channel.</p>
+
+            <h3>What models should I run in an air-gapped environment?</h3>
+            <p>Prefer permissively licensed, fully open weights so the license itself doesn't create compliance issues: Qwen3, Gemma 4, GLM, and similar (see the open-source ranking in this blog). Size the model to the hardware using the RAM-ranked GGUF guide, and verify licenses before transfer.</p>
+
+            <h3>Is air-gapped AI slower or worse?</h3>
+            <p>Not inherently — inference speed depends on hardware, not connectivity. The ceiling is model choice: you're limited to open weights, so frontier cloud models are out. For document work, RAG, and domain analysis, modern open models are often entirely sufficient.</p>
+
+            <h3>Do I still need security controls in an air-gapped environment?</h3>
+            <p>Absolutely — arguably more. Air gaps create a false sense of safety: USB transfers are the classic attack vector, insider threats remain, and unpatched systems accumulate risk. Treat the air gap as one control in a layered defense, not a substitute for the rest.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="offline-ai-workspace.html">How to Build a Fully Offline AI Workspace</a></li>
+                <li><a href="data-privacy-vs-cloud-ai.html">Data Privacy vs Cloud AI: The Real Risks in 2026</a></li>
+                <li><a href="offline-ai-regulated-industries.html">Offline AI for Regulated Industries</a></li>
+                <li><a href="local-ai-gdpr.html">Local AI for GDPR Compliance</a></li>
+                <li><a href="how-to-convert-huggingface-model-to-gguf.html">How to Convert a Hugging Face Model to GGUF</a></li>
+                <li><a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models Ranked by RAM Size</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

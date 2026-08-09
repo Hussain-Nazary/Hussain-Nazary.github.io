@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide</title>
+    <meta name="description" content="AI translation for Dari, Pashto, Persian, and Urdu: which models work, glossary-locked pipelines, and how to get usable quality locally.">
+    <meta name="keywords" content="dari pashto translation ai, persian urdu translation, dari translation llm, pashto translation local, multilingual translation ai, urdu llm translation">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/ai-translation-dari-pashto-persian-urdu.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide">
+    <meta property="og:description" content="AI translation for Dari, Pashto, Persian, and Urdu: which models work, glossary-locked pipelines, and how to get usable quality locally.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/ai-translation-dari-pashto-persian-urdu.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta property="og:image:alt" content="Artificial intelligence illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide">
+    <meta name="twitter:description" content="AI translation for Dari, Pashto, Persian, and Urdu: which models work, glossary-locked pipelines, and how to get usable quality locally.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:image:alt" content="Artificial intelligence illustration">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide",
+          "description": "AI translation for Dari, Pashto, Persian, and Urdu: which models work, glossary-locked pipelines, and how to get usable quality locally.",
+          "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/ai-translation-dari-pashto-persian-urdu.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Which AI models translate Dari, Pashto, Persian, and Urdu well?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Multilingual open-weight models — Qwen is a strong common choice — handle all four with varying quality. Persian has the strongest support; Pashto and Dari are weaker but usable, especially with glossaries and fine-tuning. Urdu is better served than Pashto in most families."}
+            },
+            {
+              "@type": "Question",
+              "name": "How do I get consistent terminology across languages?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Use a glossary-locked pipeline: a curated glossary of domain terms that the model must use, plus retrieval over previous translations. This is the single highest-leverage technique for legal, medical, and government translation."}
+            },
+            {
+              "@type": "Question",
+              "name": "Can I translate these languages locally, offline?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Yes. A 7-14B multilingual model on a modern laptop (8-16GB RAM) translates all four languages offline and privately. Quality improves with glossary constraints and fine-tuning on your domain."}
+            },
+            {
+              "@type": "Question",
+              "name": "What are the common failure modes?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Inconsistent terminology, dialect drift (Dari vs Persian), script normalization errors in Arabic-script languages, and literal translation of idioms. A glossary plus a human review pass on critical output handles most of it."}
+            },
+            {
+              "@type": "Question",
+              "name": "When should I use cloud translation instead?",
+              "acceptedAnswer": {"@type": "Answer", "text": "For very large, non-sensitive volumes with tolerant quality needs, cloud engines may be faster. For sensitive data, consistent terminology, or offline work, local pipelines are the right choice."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        .warning { background-color: #fff3cd; border-color: #ffc107; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        .downloads { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .downloads h3 { color: white; margin-top: 0; }
+        .downloads a { color: #fff; font-weight: 600; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide</h1>
+        <p><strong>Published: August 9, 2026</strong> — Four languages, three scripts, hundreds of millions of speakers — and AI handles each one differently. This guide gives you the practical picture: which models work, where they fail, and how to build a pipeline that produces usable, consistent translation for Dari, Pashto, Persian, and Urdu.</p>
+        <div class="highlight-box success">
+            <p><strong>🌍 Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>One base, four languages:</strong> multilingual open-weight models (Qwen is a strong common choice) cover all four</li>
+                <li><strong>Support varies:</strong> Persian strongest, Urdu next, Dari and Pashto weakest — but usable with technique</li>
+                <li><strong>The quality lever:</strong> glossary-locked pipelines for consistent terminology</li>
+                <li><strong>Local works:</strong> 7–14B models on 8–16GB laptops translate all four offline</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section id="landscape">
+            <h2>The Language-by-Language Reality</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Language</th>
+                        <th>AI support</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Persian (Farsi)</strong></td>
+                        <td>Good</td>
+                        <td>Dedicated models (PersianMind, Maral), strong multilingual coverage, real benchmarks</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Urdu</strong></td>
+                        <td>Good–moderate</td>
+                        <td>Large speaker base; solid support in major multilingual families</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dari</strong></td>
+                        <td>Moderate</td>
+                        <td>Close to Persian but distinct; benefits from Persian resources and cross-lingual transfer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pashto</strong></td>
+                        <td>Weak–moderate</td>
+                        <td>Fewest resources; improving with PashtoCorp (1.25B words) and dedicated tooling (NLPashto)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="pipeline">
+            <h2>The Pipeline That Produces Usable Quality</h2>
+            <p>Raw model output is a starting point, not a deliverable. The pipeline that makes these languages usable has four stages:</p>
+            <ol>
+                <li><strong>Normalize the script.</strong> Arabic-script languages need consistent normalization — diacritics, character variants, and word boundaries — before anything else.</li>
+                <li><strong>Lock the glossary.</strong> A curated glossary of domain terms (legal, medical, government) is injected into the prompt and enforced. This is the single highest-leverage step for consistency.</li>
+                <li><strong>Translate with context.</strong> Feed the model the previous translations and the document's domain, not isolated sentences. Context changes quality dramatically.</li>
+                <li><strong>Evaluate and refine.</strong> Score against a small, real evaluation set in each language, and fine-tune on recurring failure patterns.</li>
+            </ol>
+            <p>The full technical pipeline — including the code and workflow for glossary-locked translation — is documented in <a href="multilingual-translation-local-llm.html">Building a Multilingual Translation Pipeline with Local LLMs</a>.</p>
+        </section>
+        <section id="failure-modes">
+            <h2>The Failure Modes to Watch For</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📚 Terminology drift</h4>
+                    <p>The same term translated three different ways in one document. Fix: glossary enforcement.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🌊 Dialect drift</h4>
+                    <p>Dari slides into Persian, or Pashto into Urdu, when the model defaults to its strongest language. Fix: explicit target-language constraints and dialect examples.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔤 Script errors</h4>
+                    <p>Inconsistent characters, broken word boundaries, or mixed scripts. Fix: normalization before and after generation.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🪤 Literal idioms</h4>
+                    <p>Idioms translated word-for-word into nonsense. Fix: idiom glossaries and human review of critical output.</p>
+                </div>
+            </div>
+        </section>
+        <section id="local-vs-cloud">
+            <h2>Local vs Cloud</h2>
+            <p>For these four languages, local deployment isn't a downgrade — it's often the better answer:</p>
+            <ul>
+                <li><strong>Sensitive content</strong> (legal, medical, government) should never leave your control — local keeps it private.</li>
+                <li><strong>Consistent terminology</strong> is easier to enforce when you control the whole pipeline.</li>
+                <li><strong>Offline and unlimited</strong> — no per-word fees, no connectivity requirement.</li>
+                <li><strong>Cloud engines aren't dramatically better</strong> on Pashto and Dari — the gap you close with glossaries and fine-tuning is often larger than the model gap.</li>
+            </ul>
+            <p>For hardware sizing, see <a href="how-much-ram-local-ai.html">How Much RAM Do You Need to Run Local AI?</a>.</p>
+        </section>
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <h3>Which AI models translate Dari, Pashto, Persian, and Urdu well?</h3>
+            <p>Multilingual open-weight models — Qwen is a strong common choice — handle all four with varying quality. Persian has the strongest support; Pashto and Dari are weaker but usable, especially with glossaries and fine-tuning. Urdu is better served than Pashto in most families.</p>
+            <h3>How do I get consistent terminology across languages?</h3>
+            <p>Use a glossary-locked pipeline: a curated glossary of domain terms that the model must use, plus retrieval over previous translations. This is the single highest-leverage technique for legal, medical, and government translation.</p>
+            <h3>Can I translate these languages locally, offline?</h3>
+            <p>Yes. A 7-14B multilingual model on a modern laptop (8-16GB RAM) translates all four languages offline and privately. Quality improves with glossary constraints and fine-tuning on your domain.</p>
+            <h3>What are the common failure modes?</h3>
+            <p>Inconsistent terminology, dialect drift (Dari vs Persian), script normalization errors in Arabic-script languages, and literal translation of idioms. A glossary plus a human review pass on critical output handles most of it.</p>
+            <h3>When should I use cloud translation instead?</h3>
+            <p>For very large, non-sensitive volumes with tolerant quality needs, cloud engines may be faster. For sensitive data, consistent terminology, or offline work, local pipelines are the right choice.</p>
+        </section>
+        <section id="cta">
+            <div class="downloads">
+                <h3>🌍 Need translation infrastructure for these languages?</h3>
+                <p>I build multilingual AI for Dari, Pashto, Persian, and Urdu — glossary-locked pipelines, fine-tuned local models, and private deployment. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> — this is exactly the kind of work I specialize in.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

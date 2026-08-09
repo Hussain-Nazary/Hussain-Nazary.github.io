@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Install Ollama on Windows (Step by Step)</title>
+    <meta name="description" content="Install Ollama on Windows in 5 minutes: download, install, pull a model, and run local AI from the command line or browser — step by step.">
+    <meta name="keywords" content="install ollama windows, ollama windows setup, run local llm windows, ollama download windows, ollama gpu windows, local ai windows, ollama command line">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/how-to-install-ollama-windows.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Install Ollama on Windows (Step by Step)">
+    <meta property="og:description" content="Install Ollama on Windows in 5 minutes: download, install, pull a model, and run local AI from the command line or browser — step by step.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/how-to-install-ollama-windows.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Install Ollama on Windows (Step by Step)">
+    <meta name="twitter:description" content="Install Ollama on Windows in 5 minutes and run local AI from your command line.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Install Ollama on Windows (Step by Step)",
+          "description": "Install Ollama on Windows in 5 minutes: download, install, pull a model, and run local AI from the command line or browser — step by step.",
+          "image": ["https://Hussain-Nazary.github.io/AI_Technology.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/how-to-install-ollama-windows.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I install Ollama on Windows?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Download the OllamaSetup.exe installer from ollama.com, run it (no admin prompt needed), then open PowerShell and run 'ollama run qwen3:8b' (or any model name). The first run downloads the model automatically."}
+            },
+            {
+              "@type": "Question",
+              "name": "Does Ollama use my NVIDIA GPU on Windows?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Yes, automatically if you have a recent NVIDIA driver (CUDA 11.8+). Ollama uses your GPU when VRAM is sufficient and falls back to CPU when it isn't. AMD users on Windows currently get CPU inference; check the Ollama docs for the latest GPU support matrix."}
+            },
+            {
+              "@type": "Question",
+              "name": "Where does Ollama store models on Windows?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Models are stored under %USERPROFILE%\\.ollama\\models by default. You can change the location by setting the OLLAMA_MODELS environment variable before starting the service."}
+            },
+            {
+              "@type": "Question",
+              "name": "How do I use Ollama's API on Windows?",
+              "acceptedAnswer": {"@type": "Answer", "text": "After installation, Ollama runs a local OpenAI-compatible server at http://localhost:11434. Send POST requests to /api/generate or /api/chat, or point any OpenAI-compatible tool at it by setting base_url to http://localhost:11434/v1."}
+            },
+            {
+              "@type": "Question",
+              "name": "Why is my Ollama model slow on Windows?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Check three things: is it using your GPU (look for GPU offload in the logs)? Is the model quantized (use a GGUF quant like Q4_K_M)? And is the model size right for your RAM/VRAM? An 8B model at Q4 needs ~5GB — see our RAM guide for the right size per machine."}
+            },
+            {
+              "@type": "Question",
+              "name": "How do I uninstall Ollama from Windows?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Use Windows Settings > Apps > Ollama > Uninstall, or uninstall via the Control Panel. Models stored in .ollama\\models are kept unless you delete the folder manually."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 15px 0; }
+        pre code { background: transparent; padding: 0; color: inherit; }
+        .toolbox { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .toolbox h3 { color: white; margin-top: 0; }
+        .toolbox a { color: #fff; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Install Ollama on Windows (Step by Step)</h1>
+        <p><strong>Published: August 9, 2026</strong> — Ollama is the fastest way to run AI models on your own Windows machine — no cloud, no API keys, no Python required. This guide walks through the install, the first model, and everything you need to know to get a private AI assistant running in about five minutes.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li>Download <code>OllamaSetup.exe</code> from <a href="https://ollama.com" target="_blank" rel="noopener">ollama.com</a> and run it — no admin needed</li>
+                <li>First model: <code>ollama run qwen3:8b</code> — downloads automatically</li>
+                <li>NVIDIA GPU is used automatically; CPU works too (8–16GB RAM)</li>
+                <li>You get a local OpenAI-compatible API at <code>http://localhost:11434</code></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="install">
+            <h2>Step 1: Download and Install</h2>
+            <ol>
+                <li>Go to <a href="https://ollama.com" target="_blank" rel="noopener">ollama.com</a> and click <strong>Download</strong> — Windows is detected automatically.</li>
+                <li>Run <code>OllamaSetup.exe</code>. No admin prompt is required; the installer places Ollama in your user profile.</li>
+                <li>When it finishes, open <strong>PowerShell</strong> or <strong>Windows Terminal</strong> and type:</li>
+            </ol>
+            <pre><code>ollama --version</code></pre>
+            <p>You should see a version number. If PowerShell says "ollama is not recognized," close and reopen the terminal — the installer adds it to your PATH, and the new PATH only applies to new terminal windows.</p>
+        </section>
+
+        <section id="first-model">
+            <h2>Step 2: Run Your First Model</h2>
+            <p>One command downloads, quantizes, and starts a model:</p>
+            <pre><code>ollama run qwen3:8b</code></pre>
+            <p>The first run downloads the model (about 5GB for the 8B Q4 file), which can take a few minutes. After that you're in an interactive chat:</p>
+            <pre><code>&gt;&gt;&gt; Write a Python function to check if a number is prime
+def is_prime(n):
+    if n &lt; 2: return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0: return False
+    return True</code></pre>
+            <p>Type <code>/bye</code> to exit. The model stays downloaded, so <code>ollama run qwen3:8b</code> starts instantly next time. For hardware-appropriate picks, see <a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models by RAM</a> — an 8GB laptop should start with <code>qwen3:4b</code> or <code>phi4-mini</code> instead.</p>
+        </section>
+
+        <section id="models">
+            <h2>Step 3: Manage Models</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>What it does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ollama list</code></td>
+                        <td>Show installed models</td>
+                    </tr>
+                    <tr>
+                        <td><code>ollama pull &lt;model&gt;</code></td>
+                        <td>Download a model without running it</td>
+                    </tr>
+                    <tr>
+                        <td><code>ollama run &lt;model&gt;</code></td>
+                        <td>Download (if needed) and chat</td>
+                    </tr>
+                    <tr>
+                        <td><code>ollama rm &lt;model&gt;</code></td>
+                        <td>Delete a model to free disk space</td>
+                    </tr>
+                    <tr>
+                        <td><code>ollama ps</code></td>
+                        <td>Show what's loaded in memory right now</td>
+                    </tr>
+                    <tr>
+                        <td><code>ollama show &lt;model&gt;</code></td>
+                        <td>Show model details (size, context, params)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>💡 Disk space check:</strong> models are stored in <code>%USERPROFILE%\.ollama\models</code>. Each model is 1–10GB, so watch your free space — <code>ollama rm</code> anything you're not using. To store models on another drive, set the <code>OLLAMA_MODELS</code> environment variable to the new path, restart Ollama (the tray icon → Quit, then relaunch), and re-pull.</p>
+            </div>
+        </section>
+
+        <section id="gpu">
+            <h2>GPU vs CPU on Windows</h2>
+            <ul>
+                <li><strong>NVIDIA GPU:</strong> used automatically if your driver supports CUDA (11.8+). You'll see GPU offload in the logs, and generation will be much faster.</li>
+                <li><strong>AMD GPU:</strong> CPU inference on Windows for most setups; check the Ollama docs for the current support matrix.</li>
+                <li><strong>CPU only:</strong> works fine for models up to ~8B with 16GB RAM — just slower (a few tokens/sec vs 30–60 on GPU).</li>
+                <li><strong>Intel Arc:</strong> supported in recent Ollama releases; verify your driver version.</li>
+            </ul>
+            <p>Want to know what your hardware can actually run? The <a href="top-10-local-ai-models-2026.html">local model ranking by hardware tier</a> has the full picture, and <a href="ollama-vs-llamacpp-2026.html">Ollama vs llama.cpp</a> explains when you'd want the lower-level runtime instead.</p>
+        </section>
+
+        <section id="api">
+            <h2>Step 4: Use the Local API</h2>
+            <p>Ollama starts a local server at <code>http://localhost:11434</code> with an OpenAI-compatible endpoint. Test it from PowerShell:</p>
+            <pre><code>curl http://localhost:11434/v1/chat/completions ^
+  -H "Content-Type: application/json" ^
+  -d "{\"model\":\"qwen3:8b\",\"messages\":[{\"role\":\"user\",\"content\":\"Say hi in one word\"}]}"</code></pre>
+            <p>This means any tool that supports a custom OpenAI base URL — VS Code extensions, Cline, Continue, custom scripts — can point at <code>http://localhost:11434/v1</code> and use your private local model. That's the same API pattern our <a href="how-to-build-rag-system-30-minutes.html">local RAG tutorial</a> uses, and the same privacy architecture as <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a>: your data never leaves the machine.</p>
+        </section>
+
+        <section id="troubleshoot">
+            <h2>Troubleshooting Common Windows Issues</h2>
+            <ul>
+                <li><strong>"ollama is not recognized"</strong> — close and reopen the terminal after install (PATH refresh).</li>
+                <li><strong>Model downloads stall</strong> — check your connection and free disk space; resume with <code>ollama pull &lt;model&gt;</code> again.</li>
+                <li><strong>Slow generation</strong> — confirm GPU usage (<code>ollama ps</code> shows "GPU" in the processor column); if CPU, pick a smaller model or lower quant.</li>
+                <li><strong>Out of memory</strong> — your model is too big for RAM/VRAM; see <a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0</a> and drop to a smaller quant or size.</li>
+                <li><strong>Firewall prompt</strong> — allow Ollama to listen on localhost; it's your own local server.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Beyond the command line</h3>
+                <p>Prefer a GUI? <a href="https://ggufloader.github.io" target="_blank" rel="noopener">GGUF Loader</a> runs the same GGUF models with drag-and-drop on Windows, and LM Studio offers a visual alternative. For model discovery with direct download links, <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone</a> keeps a daily-updated directory. And for the full beginner journey, our <a href="how-to-run-gguf-models-locally-2026-guide.html">beginner's guide to local models</a> covers the whole stack.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>How do I install Ollama on Windows?</h3>
+            <p>Download the OllamaSetup.exe installer from ollama.com, run it (no admin prompt needed), then open PowerShell and run <code>ollama run qwen3:8b</code> (or any model name). The first run downloads the model automatically.</p>
+
+            <h3>Does Ollama use my NVIDIA GPU on Windows?</h3>
+            <p>Yes, automatically if you have a recent NVIDIA driver (CUDA 11.8+). Ollama uses your GPU when VRAM is sufficient and falls back to CPU when it isn't. AMD users on Windows currently get CPU inference; check the Ollama docs for the latest GPU support matrix.</p>
+
+            <h3>Where does Ollama store models on Windows?</h3>
+            <p>Models are stored under <code>%USERPROFILE%\.ollama\models</code> by default. You can change the location by setting the OLLAMA_MODELS environment variable before starting the service.</p>
+
+            <h3>How do I use Ollama's API on Windows?</h3>
+            <p>After installation, Ollama runs a local OpenAI-compatible server at http://localhost:11434. Send POST requests to /api/generate or /api/chat, or point any OpenAI-compatible tool at it by setting base_url to http://localhost:11434/v1.</p>
+
+            <h3>Why is my Ollama model slow on Windows?</h3>
+            <p>Check three things: is it using your GPU (look for GPU offload in the logs)? Is the model quantized (use a GGUF quant like Q4_K_M)? And is the model size right for your RAM/VRAM? An 8B model at Q4 needs ~5GB — see our RAM guide for the right size per machine.</p>
+
+            <h3>How do I uninstall Ollama from Windows?</h3>
+            <p>Use Windows Settings &gt; Apps &gt; Ollama &gt; Uninstall, or uninstall via the Control Panel. Models stored in .ollama\models are kept unless you delete the folder manually.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://ollama.com" target="_blank" rel="noopener">Ollama — official site</a></li>
+                <li><a href="https://github.com/ollama/ollama" target="_blank" rel="noopener">Ollama — GitHub (Windows install &amp; FAQ)</a></li>
+                <li><a href="https://github.com/ollama/ollama/blob/main/docs/gpu.md" target="_blank" rel="noopener">Ollama GPU documentation</a></li>
+                <li><a href="https://ollama.com/library/qwen3" target="_blank" rel="noopener">Qwen3 — Ollama library</a></li>
+                <li><a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone — GGUF model directory</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contextual Retrieval: Chunking That Carries Context (2026)</title>
+    <meta name="description" content="Contextual retrieval explained: adding LLM-generated context blocks to chunks before embedding, the 49% retrieval-failure cut, and a local implementation guide.">
+    <meta name="keywords" content="contextual retrieval, contextual chunking, anthropic contextual retrieval, rag retrieval quality, chunk context, self contained chunks, retrieval failure rate, contextual embedding, rag improvement">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/contextual-retrieval.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Contextual Retrieval: Chunking That Carries Context (2026)">
+    <meta property="og:description" content="Adding LLM-generated context blocks to chunks before embedding, the 49% retrieval-failure cut, and a local implementation guide.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/contextual-retrieval.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contextual Retrieval: Chunking That Carries Context (2026)">
+    <meta name="twitter:description" content="Adding LLM-generated context blocks to chunks before embedding, the 49% retrieval-failure cut, and a local implementation guide.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Contextual Retrieval: Chunking That Carries Context (2026)",
+          "description": "Adding LLM-generated context blocks to chunks before embedding, the 49% retrieval-failure cut, and a local implementation guide.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/contextual-retrieval.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is contextual retrieval?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Contextual retrieval is a technique where each chunk gets a short, LLM-generated context block — where it comes from, what surrounds it, what it's about — before being embedded. The embedded chunk becomes self-contained, so a query can match it even when the chunk text alone is ambiguous. Anthropic's 2024 research measured a ~49% cut in retrieval failures."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does contextual retrieval really cut retrieval failures by half?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Anthropic's controlled evaluation found contextual embeddings reduced top-20 retrieval failures by 49%, and by 67% when combined with hybrid search (BM25 + embeddings). Exact numbers vary by corpus, but the effect is consistently large — the biggest single chunking-level win in recent years."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much does contextual retrieval cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "One LLM call per chunk at index time (plus the embedded context tokens). For a few thousand chunks, that's trivial; for millions it's a real indexing budget. Query-time cost barely changes. Locally, a sub-12B model generates the context blocks for free."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What context should the LLM write for each chunk?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The standard prompt asks for: which document and section the chunk comes from, what the chunk is about, and what precedes/follows it — written so the chunk could be understood completely on its own. Keep it short (2-3 sentences); the point is disambiguation, not summarization."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does contextual retrieval help with hybrid search too?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — the technique applies to both sides. Contextual BM25 indexes the chunk text + context for keyword matching, and contextual embeddings do the same for semantic matching. The two compound: Anthropic measured 49% (embeddings) and 67% (combined) failure reductions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I NOT use contextual retrieval?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When chunks are already self-contained (short standalone documents, single-purpose notes), when indexing budget is extremely tight, or when your eval shows it doesn't move your metrics. Always measure with a small eval set first — see the RAG evaluation guide."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Contextual Retrieval: Chunking That Carries Context (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — The hardest retrieval problem is often the simplest: <em>"the termination clause"</em> — which one? In a 200-page contract, "termination" appears in chunks that all look alike to an embedding model. <strong>Contextual retrieval fixes this by making every chunk self-describing</strong> — an LLM writes a short context block for each chunk before embedding, and retrieval failures drop dramatically (Anthropic measured ~49%). This guide explains the technique and how to run it locally.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>One LLM call per chunk at index time</strong> — cheap, one-time, and the biggest recent retrieval win</li>
+                <li><strong>~49% retrieval-failure reduction</strong> (Anthropic 2024); 67% combined with hybrid search</li>
+                <li><strong>Works on both search sides:</strong> contextual embeddings + contextual BM25</li>
+                <li><strong>Runs locally for free</strong> — a sub-12B model writes the context blocks</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="problem">
+            <h2>The Problem: Ambiguous Chunks</h2>
+            <p>Chunking (covered in <a href="rag-chunking-strategies.html">the strategies guide</a>) cuts documents into pieces — and pieces lose context. A chunk reading <em>"the parties agree to extend the term by 12 months"</em> is unusable to retrieval unless the model knows it's about the <em>supply agreement's renewal clause</em>. Embeddings capture similarity, not provenance. When many chunks look alike, the query matches all of them equally — and the right one gets lost.</p>
+        </section>
+
+        <section id="how">
+            <h2>How Contextual Retrieval Works</h2>
+            <ol>
+                <li><strong>Chunk as usual.</strong> Any strategy from the <a href="rag-chunking-strategies.html">chunking guide</a>.</li>
+                <li><strong>Generate context.</strong> For each chunk, ask an LLM: <em>"Where does this chunk sit in the document, what precedes and follows it, and what is it about? Write it so the chunk can be understood alone."</em></li>
+                <li><strong>Prepend context.</strong> Store <code>context + chunk text</code> as the unit.</li>
+                <li><strong>Embed the enriched unit</strong> — and index the enriched text for BM25 too, if you use <a href="what-is-hybrid-search.html">hybrid search</a>.</li>
+            </ol>
+            <pre><code>CONTEXT_PROMPT = """&lt;document&gt;
+{document}
+&lt;/document&gt;
+The chunk below is from the document above. Write 2-3
+sentences of context: which section it belongs to, what
+surrounds it, and what it's about — so the chunk can be
+understood completely on its own."""
+
+context = llm.generate(CONTEXT_PROMPT.format(chunk=chunk_text))
+enriched = f"{context}\n\n{chunk_text}"
+embedding = embed_model.encode(enriched)  # ← the fix</code></pre>
+        </section>
+
+        <section id="evidence">
+            <h2>The Evidence: 49% Fewer Failures</h2>
+            <p>Anthropic's September 2024 evaluation on a codebase + business documents corpus measured top-20 retrieval failures:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setup</th>
+                        <th>Failure reduction vs baseline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Plain embeddings (baseline)</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contextual embeddings</strong></td>
+                        <td><strong>−49%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Contextual embeddings + hybrid search</td>
+                        <td><strong>−67%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>+ Reranking on top</td>
+                        <td>Further gains (see <a href="reranking-in-rag.html">reranking guide</a>)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The mechanism is simple: the context block turns <em>"extend the term"</em> into <em>"[Supply Agreement, Renewal Clause §5.2: the parties agree to extend the term by 12 months]"</em> — an unambiguous, query-matchable unit. This compounds with every other retrieval lever; it doesn't replace them.</p>
+        </section>
+
+        <section id="local">
+            <h2>Running It Locally (Free)</h2>
+            <ul>
+                <li><strong>Context generation:</strong> any <a href="top-10-models-under-12b-2026.html">sub-12B model</a> via Ollama writes good context blocks. Qwen3-8B or Qwen3.5-9B are solid; even a 4B handles the prompt.</li>
+                <li><strong>Cost shape:</strong> one call per chunk, one-time. 10,000 chunks ≈ an evening on a laptop, minutes on a GPU. Use <a href="speculative-decoding.html">speculative decoding</a> to speed the batch.</li>
+                <li><strong>Storage:</strong> the enriched text is a bit bigger — trivial for ChromaDB/FAISS.</li>
+                <li><strong>Privacy:</strong> everything stays on your machine — a natural fit for <a href="offline-ai-workspace.html">offline workspaces</a> and <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">document assistants</a>.</li>
+            </ul>
+        </section>
+
+        <section id="measure">
+            <h2>Prove It on Your Corpus</h2>
+            <ol>
+                <li>Build a 30–50 question eval set (the <a href="rag-evaluation.html">evaluation guide</a> shows how).</li>
+                <li>Measure baseline recall@k on plain embeddings.</li>
+                <li>Re-index with contextual blocks; re-measure.</li>
+                <li>If recall moved meaningfully, keep it. If not, your chunks were already self-contained — spend the effort elsewhere.</li>
+            </ol>
+            <div class="highlight-box primary">
+                <p><strong>💡 Where it shines most:</strong> long, repetitive, section-heavy documents — contracts, manuals, filings — where identical phrasing repeats across contexts. If your corpus is short standalone notes, contextual retrieval buys less. Measure first.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is contextual retrieval?</h3>
+            <p>Contextual retrieval is a technique where each chunk gets a short, LLM-generated context block — where it comes from, what surrounds it, what it's about — before being embedded. The embedded chunk becomes self-contained, so a query can match it even when the chunk text alone is ambiguous. Anthropic's 2024 research measured a ~49% cut in retrieval failures.</p>
+
+            <h3>Does contextual retrieval really cut retrieval failures by half?</h3>
+            <p>Anthropic's controlled evaluation found contextual embeddings reduced top-20 retrieval failures by 49%, and by 67% when combined with hybrid search (BM25 + embeddings). Exact numbers vary by corpus, but the effect is consistently large — the biggest single chunking-level win in recent years.</p>
+
+            <h3>How much does contextual retrieval cost?</h3>
+            <p>One LLM call per chunk at index time (plus the embedded context tokens). For a few thousand chunks, that's trivial; for millions it's a real indexing budget. Query-time cost barely changes. Locally, a sub-12B model generates the context blocks for free.</p>
+
+            <h3>What context should the LLM write for each chunk?</h3>
+            <p>The standard prompt asks for: which document and section the chunk comes from, what the chunk is about, and what precedes/follows it — written so the chunk could be understood completely on its own. Keep it short (2–3 sentences); the point is disambiguation, not summarization.</p>
+
+            <h3>Does contextual retrieval help with hybrid search too?</h3>
+            <p>Yes — the technique applies to both sides. Contextual BM25 indexes the chunk text + context for keyword matching, and contextual embeddings do the same for semantic matching. The two compound: Anthropic measured 49% (embeddings) and 67% (combined) failure reductions.</p>
+
+            <h3>When should I NOT use contextual retrieval?</h3>
+            <p>When chunks are already self-contained (short standalone documents, single-purpose notes), when indexing budget is extremely tight, or when your eval shows it doesn't move your metrics. Always measure with a small eval set first — see the RAG evaluation guide.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="rag-chunking-strategies.html">Advanced RAG: Chunking Strategies Compared</a></li>
+                <li><a href="rag-evaluation.html">RAG Evaluation: How to Measure Retrieval Quality</a></li>
+                <li><a href="what-is-hybrid-search.html">What Is Hybrid Search? BM25 + Semantic Retrieval</a></li>
+                <li><a href="reranking-in-rag.html">Reranking in RAG: Why Retrieval Order Matters</a></li>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+                <li><a href="https://www.anthropic.com/news/contextual-retrieval" target="_blank" rel="noopener">Introducing Contextual Retrieval (Anthropic, 2024)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

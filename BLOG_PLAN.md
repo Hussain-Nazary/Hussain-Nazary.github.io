@@ -61,6 +61,26 @@ Week-1 starter calendar (see `blog-tracker.csv` for the full list):
 
 ---
 
+## 3b. Milestone: 100 posts (current push)
+
+The tracker now holds **100 concrete rows** (`blog-tracker.csv`). Execution order is by cluster so research compounds:
+
+| Milestone | Post count | Content |
+|-----------|-----------|---------|
+| M1 — done | 23 | GGUF, RAG, privacy, local-AI, top-10 series, Ant Lab, LFM |
+| M2 | 50 | Quantization formats, Ollama installs, RAG depth (chunking, eval, GraphRAG), privacy, agents, model news |
+| M3 | 75 | Mobile, enterprise, SEO/GEO/AEO, multilingual, tutorials |
+| M4 — done | 100 | Product lessons, agentic RAG, GUI roundup + filler topics |
+
+**Rules for every new post (non-negotiable):**
+1. Every model mentioned in a table gets a **Download column** (GGUF/Ollama link, else Hugging Face).
+2. 1 internal link to an existing post + 1 link to a real project (ggufloader.github.io, local-ai-zone.github.io, haal-lab.solutions, lawyers-assistant.github.io, gpt-calendar.github.io).
+3. Meta description ≤160 chars, unique; canonical matches filename; BlogPosting + FAQPage JSON-LD; CRLF line endings.
+4. Card on both `index.html` and `simple-portfolio.html`, sitemap entry, tracker row → published.
+5. No fabricated facts — every claim sourced or from an already-verified post.
+
+---
+
 ## 4. Research → write workflow (per post, ~30–45 min once batched)
 
 1. **Keyword** — pick from tracker; check SERP intent (information vs tutorial vs comparison).

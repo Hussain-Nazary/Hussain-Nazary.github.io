@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speculative Decoding: How Local AI Gets Faster (2026 Guide)</title>
+    <meta name="description" content="Speculative decoding explained: how draft models make local LLMs 1.5-3x faster, when it works, and how to enable it in llama.cpp, Ollama, and vLLM.">
+    <meta name="keywords" content="speculative decoding, draft model, llama.cpp speculative, ollama speculative, vllm speculative decoding, llm inference speedup, assisted generation, local llm faster, token verification, self-speculative decoding">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/speculative-decoding.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Speculative Decoding: How Local AI Gets Faster (2026 Guide)">
+    <meta property="og:description" content="How draft models make local LLMs 1.5-3x faster, when it works, and how to enable it in llama.cpp, Ollama, and vLLM.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/speculative-decoding.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Speculative Decoding: How Local AI Gets Faster (2026 Guide)">
+    <meta name="twitter:description" content="Draft models, parallel verification, and how to enable 1.5-3x local LLM speedups in llama.cpp, Ollama, and vLLM.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Speculative Decoding: How Local AI Gets Faster (2026 Guide)",
+          "description": "How draft models make local LLMs 1.5-3x faster, when it works, and how to enable it in llama.cpp, Ollama, and vLLM.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/speculative-decoding.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is speculative decoding?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Speculative decoding is an inference technique where a small, fast draft model proposes several likely next tokens while the large model verifies them all in one parallel pass. Accepted tokens are kept, rejected ones are corrected, and the output distribution stays identical — but far fewer sequential steps are needed."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does speculative decoding change the model's output?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No — with rejection sampling, the accepted tokens match exactly what the large model would have generated on its own. It is a lossless speedup. Some implementations relax this for extra speed, but the standard version is output-identical."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much faster is speculative decoding?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Typically 1.5-3x on GPU setups where the small draft model runs in the spare compute. Speedup depends on how often the draft agrees with the target model and on draft size — too large a draft eats the gains. On CPU-only setups gains are usually small because both models fight for the same memory bandwidth."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When does speculative decoding NOT help?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "On CPU-only machines (memory-bandwidth-bound, so a second model just slows things down), with badly matched draft/target pairs, and on very short generations where the verification overhead exceeds the saved steps."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I enable speculative decoding in llama.cpp or Ollama?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In llama.cpp use the -md (model draft) flag with a smaller model, e.g. llama-server -m target.gguf -md draft.gguf. In vLLM, set speculative_model=\"draft-name\" in the engine config. Ollama exposes it as OLLAMA_SPECULATIVE_MODEL in recent versions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What makes a good draft model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The best drafts are much smaller (1/4 to 1/10 the target), share the target's tokenizer and vocabulary, and are trained on similar data so their guesses align. A model from the same family as the target is ideal; a mismatched tokenizer silently disables the trick."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Speculative Decoding: How Local AI Gets Faster (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — LLMs generate one token at a time, and each token needs a full forward pass — so the fastest model is still bounded by sequential steps. <strong>Speculative decoding breaks that assumption:</strong> a tiny "draft" model guesses several tokens ahead, and the big model verifies the guesses in a single parallel pass. Accepted guesses are free speed; rejected ones get corrected. The result is a <strong>1.5–3x speedup with zero change to the output</strong> — the closest thing local AI has to a free lunch.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>How it works:</strong> draft proposes, big model verifies several tokens at once</li>
+                <li><strong>Lossless:</strong> rejection sampling keeps the exact output distribution</li>
+                <li><strong>1.5–3x typical speedup</strong> on GPU; little gain on CPU-only machines</li>
+                <li><strong>Easy to enable:</strong> llama.cpp <code>-md</code>, vLLM <code>speculative_model</code>, recent Ollama builds</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="why">
+            <h2>Why Generation Is Slow in the First Place</h2>
+            <p>Every generated token requires a full forward pass through the entire model. That is sequential by design: token N+1 depends on token N. On a GPU, a single pass through a 7B model might take 20–40ms — which is why an un-optimized 7B often lands around 25–50 tokens per second. You cannot parallelize across tokens because of the dependency chain.</p>
+            <p>But here's the observation that makes speculative decoding possible: <strong>most next tokens are predictable.</strong> A much smaller model can guess them with high accuracy. The big model then checks the whole guess sequence in one parallel pass — a pass that costs about the same as generating a single token — and accepts everything it agrees with.</p>
+            <div class="highlight-box primary">
+                <p><strong>💡 The insight:</strong> verification of 4 tokens costs roughly the same as generating 1 token, but yields 4 tokens when the draft guessed right. Speedup = acceptance rate × draft length, minus draft overhead.</p>
+            </div>
+        </section>
+
+        <section id="how">
+            <h2>How Speculative Decoding Works, Step by Step</h2>
+            <ol>
+                <li><strong>Draft.</strong> A small model (e.g. 0.5–2B) generates K candidate tokens quickly — say 4 tokens of a plausible continuation.</li>
+                <li><strong>Verify.</strong> The large model processes all K candidates in one forward pass, computing the true probability of each.</li>
+                <li><strong>Accept or reject.</strong> Tokens where the draft's pick matches the large model's distribution are accepted. The first mismatch is rejected and replaced with the large model's own token.</li>
+                <li><strong>Repeat.</strong> The accepted prefix becomes the new context, and the draft starts guessing again.</li>
+            </ol>
+            <p>The math guarantees the output is <em>indistinguishable</em> from non-speculative decoding — the rejection-sampling step is what preserves exactness. This is why the technique is described as a lossless acceleration, not an approximation.</p>
+        </section>
+
+        <section id="speedup">
+            <h2>How Much Faster, and On What Hardware</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setup</th>
+                        <th>Typical speedup</th>
+                        <th>Why</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GPU, good draft match</td>
+                        <td><strong>1.5–3x</strong></td>
+                        <td>Draft runs in idle GPU capacity; verification is parallel</td>
+                    </tr>
+                    <tr>
+                        <td>GPU, poor draft match</td>
+                        <td>1.0–1.3x</td>
+                        <td>Low acceptance rate; verification overhead dominates</td>
+                    </tr>
+                    <tr>
+                        <td>CPU-only</td>
+                        <td>0.9–1.1x</td>
+                        <td>Both models compete for the same memory bandwidth</td>
+                    </tr>
+                    <tr>
+                        <td>Very short generations</td>
+                        <td>&lt; 1x possible</td>
+                        <td>Fixed overhead exceeds saved steps</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Modern variants push further: <strong>self-speculative decoding</strong> skips the separate draft model by having the target model guess its own next tokens from early layers, and <strong>n-gram drafts</strong> use pure statistics from the context. Both remove the "which draft model?" question entirely.</p>
+        </section>
+
+        <section id="enable">
+            <h2>How to Enable It (2026)</h2>
+            <h3>llama.cpp</h3>
+            <pre><code># Serve a 7B target with a 0.5B draft
+llama-server -m qwen3-8b-q4_k_m.gguf \
+  -md qwen3-0.6b-q4_k_m.gguf \
+  -c 8192
+
+# CLI generation
+llama-cli -m target.gguf -md draft.gguf -p "Write a haiku"</code></pre>
+            <h3>vLLM</h3>
+            <pre><code>from vllm import LLM
+llm = LLM(model="Qwen/Qwen3-8B",
+          speculative_model="Qwen/Qwen3-0.6B")</code></pre>
+            <h3>Ollama</h3>
+            <pre><code># Recent builds support a speculative model via env var
+OLLAMA_SPECULATIVE_MODEL="qwen3:0.6b" ollama serve</code></pre>
+            <p>Verifying it's active: vLLM logs show "Speculative Decoding" with draft stats; llama.cpp prints acceptance-rate diagnostics. If your tokenizer or vocabulary doesn't match between draft and target, the feature silently no-ops — always confirm in the logs.</p>
+        </section>
+
+        <section id="picking">
+            <h2>Picking a Draft Model</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Criterion</th>
+                        <th>Good choice</th>
+                        <th>Bad choice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Size</strong></td>
+                        <td>1/4 to 1/10 the target's size</td>
+                        <td>Same size as target (no gain)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Family</strong></td>
+                        <td>Same model family as target</td>
+                        <td>Different family, different style</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tokenizer</strong></td>
+                        <td>Identical vocab as target</td>
+                        <td>Mismatched — silently disables the feature</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data</strong></td>
+                        <td>Trained on similar domain</td>
+                        <td>Domain mismatch → low acceptance</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Examples that work well in practice: <strong>Qwen3-8B + Qwen3-0.6B</strong>, <strong>Llama 3.1 8B + Llama 3.2 1B</strong>, and same-family pairings from <a href="top-10-models-under-12b-2026.html">the sub-12B rankings</a>. When in doubt, run a quick acceptance-rate test — if it's below ~0.5, the pairing is wrong.</p>
+        </section>
+
+        <section id="when">
+            <h2>When It Helps Your Stack</h2>
+            <ul>
+                <li><strong>Agent loops</strong> — every tool-call round trip is a short generation; shaving 40% per step compounds across a whole agent run. This is why <a href="build-ai-agent-langgraph-ollama.html">LangGraph + Ollama agents</a> and <a href="mcp-explained.html">MCP servers</a> benefit from speculative decoding.</li>
+                <li><strong>Long documents</strong> — summaries, translations, and codegen produce thousands of tokens where acceptance rates stay high.</li>
+                <li><strong>RAG answers</strong> — grounded generation over <a href="how-to-build-rag-system-30-minutes.html">retrieved chunks</a> is long-form; speed directly improves the UX of <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">privacy-first assistants</a>.</li>
+            </ul>
+            <p>Pair it with the other levers in <a href="speed-up-local-llms.html">How to Speed Up Local LLMs</a> — quantization first, then speculative decoding, then batching — for the full stack of free speedups.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is speculative decoding?</h3>
+            <p>Speculative decoding is an inference technique where a small, fast draft model proposes several likely next tokens while the large model verifies them all in one parallel pass. Accepted tokens are kept, rejected ones are corrected, and the output distribution stays identical — but far fewer sequential steps are needed.</p>
+
+            <h3>Does speculative decoding change the model's output?</h3>
+            <p>No — with rejection sampling, the accepted tokens match exactly what the large model would have generated on its own. It is a lossless speedup. Some implementations relax this for extra speed, but the standard version is output-identical.</p>
+
+            <h3>How much faster is speculative decoding?</h3>
+            <p>Typically 1.5–3x on GPU setups where the small draft model runs in the spare compute. Speedup depends on how often the draft agrees with the target model and on draft size — too large a draft eats the gains. On CPU-only setups gains are usually small because both models fight for the same memory bandwidth.</p>
+
+            <h3>When does speculative decoding NOT help?</h3>
+            <p>On CPU-only machines (memory-bandwidth-bound, so a second model just slows things down), with badly matched draft/target pairs, and on very short generations where the verification overhead exceeds the saved steps.</p>
+
+            <h3>How do I enable speculative decoding in llama.cpp or Ollama?</h3>
+            <p>In llama.cpp use the -md (model draft) flag with a smaller model, e.g. llama-server -m target.gguf -md draft.gguf. In vLLM, set speculative_model="draft-name" in the engine config. Ollama exposes it as OLLAMA_SPECULATIVE_MODEL in recent versions.</p>
+
+            <h3>What makes a good draft model?</h3>
+            <p>The best drafts are much smaller (1/4 to 1/10 the target), share the target's tokenizer and vocabulary, and are trained on similar data so their guesses align. A model from the same family as the target is ideal; a mismatched tokenizer silently disables the trick.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="speed-up-local-llms.html">How to Speed Up Local LLMs: CPU vs GPU vs NPU</a></li>
+                <li><a href="kv-cache-quantization.html">KV Cache Quantization: What It Is and Why It Matters</a></li>
+                <li><a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0: Which Quantization Should You Use?</a></li>
+                <li><a href="ollama-vs-llamacpp-2026.html">Ollama vs llama.cpp for Local AI in 2026</a></li>
+                <li><a href="top-10-models-under-12b-2026.html">Top 10 AI Models Under 12B Parameters</a></li>
+                <li><a href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener">Fast Inference from Transformers via Speculative Decoding (arXiv, 2022)</a></li>
+                <li><a href="https://github.com/ggml-org/llama.cpp/blob/master/docs/speculative.md" target="_blank" rel="noopener">llama.cpp speculative decoding docs</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

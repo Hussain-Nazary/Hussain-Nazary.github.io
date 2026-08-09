@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fine-Tuning a Local LLM: LoRA for Beginners (2026)</title>
+    <meta name="description" content="Fine-tune a local LLM with LoRA: what LoRA does, dataset prep, QLoRA on 8GB GPUs, and a complete training + merge + run workflow with unsloth.">
+    <meta name="keywords" content="lora fine tuning, qlora, fine tune local llm, unsloth, peft lora, fine tune ollama model, lora explained, low rank adaptation, fine tuning tutorial 2026, train llm 8gb">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/lora-fine-tuning-local-llm.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Fine-Tuning a Local LLM: LoRA for Beginners (2026)">
+    <meta property="og:description" content="What LoRA does, dataset prep, QLoRA on 8GB GPUs, and a complete training + merge + run workflow with unsloth.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/lora-fine-tuning-local-llm.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fine-Tuning a Local LLM: LoRA for Beginners (2026)">
+    <meta name="twitter:description" content="What LoRA does, dataset prep, QLoRA on 8GB GPUs, and a complete training + merge + run workflow with unsloth.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Fine-Tuning a Local LLM: LoRA for Beginners (2026)",
+          "description": "What LoRA does, dataset prep, QLoRA on 8GB GPUs, and a complete training + merge + run workflow with unsloth.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/lora-fine-tuning-local-llm.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is LoRA?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LoRA (Low-Rank Adaptation) is a fine-tuning technique that freezes the original model weights and trains small low-rank adapter matrices instead — typically 0.1-1% of the parameters. The adapters are added to the frozen weights at inference. Result: fine-tuning a 7B model on a single 8-16GB GPU, with a tiny adapter file instead of a full model copy."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is LoRA different from full fine-tuning?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Full fine-tuning updates every weight — huge VRAM (a 7B model needs 60GB+ in FP16), long training, and a full model copy per variant. LoRA freezes the model and trains small adapters — ~5-10GB VRAM with QLoRA, hours instead of days, and adapters are a few hundred MB. Quality is close to full fine-tuning for most tasks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is QLoRA?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "QLoRA is LoRA on a quantized base model: the frozen weights are loaded in 4-bit (NF4), the small adapters train in full precision. This drops memory to ~5-8GB for a 7B model, making fine-tuning possible on consumer GPUs. The 4-bit base is dequantized at inference so quality loss is minimal."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What hardware do I need to fine-tune with LoRA?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A 7-8B model with QLoRA: 8GB VRAM minimum, 12-16GB comfortable, Apple Silicon 16-32GB via MLX. A 3-4B model fits 6-8GB. Datasets of 500-5,000 examples train in 1-4 hours on a 12GB GPU. No cloud, no API — everything local."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much data do I need for LoRA?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For behavior/style changes: 100-1,000 high-quality examples often suffice. For skills (formatting, tool use, domain writing): 1,000-10,000 examples is the sweet spot. Quality dominates quantity — 500 curated examples beat 50,000 noisy ones. Start small, evaluate, add data only where the model still fails."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I run a LoRA-adapted model in Ollama?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — merge the adapter into the base weights (the workflow in this guide), convert to GGUF, and import with a Modelfile. Merging bakes the adaptation into the weights so every runtime sees a normal model file. Alternatively, llama.cpp supports loading LoRA adapters directly at runtime."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fine-Tuning a Local LLM: LoRA for Beginners (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Fine-tuning used to mean a data center. In 2026 it means <strong>a consumer GPU, an afternoon, and a few hundred megabytes of adapters.</strong> LoRA freezes the model and trains tiny low-rank adapters — close to full fine-tuning quality at a fraction of the cost. This guide is the beginner path: what LoRA actually does, how to prep a dataset, and the complete QLoRA workflow on a single 8–16GB GPU.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>LoRA trains ~0.1–1% of parameters</strong> as small adapters — full model stays frozen</li>
+                <li><strong>QLoRA = LoRA on a 4-bit base</strong> — 7B fine-tuning in 8–16GB VRAM</li>
+                <li><strong>500–5,000 curated examples</strong> is the working range; quality beats quantity</li>
+                <li><strong>Merge → GGUF → Ollama</strong> gets your tuned model running locally in minutes</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="what">
+            <h2>What LoRA Is (In One Paragraph)</h2>
+            <p>Full fine-tuning updates every weight — expensive and memory-hungry. <strong>LoRA (Low-Rank Adaptation) freezes the original weights and trains small "adapter" matrices that capture the change.</strong> Instead of updating a 7B×7B weight matrix, it learns a low-rank factorization (e.g. 7B×r × r×7B with r=16–64) — a tiny fraction of the parameters. At inference, the adapter output is added to the frozen weights. The insight: <strong>fine-tuning changes are low-rank</strong> — a small set of directions captures nearly all the adaptation, so the small adapters capture almost all the quality.</p>
+            <div class="highlight-box primary">
+                <p><strong>💡 Why it matters:</strong> a 7B model fine-tunes in 8–16GB VRAM (QLoRA), produces a ~100–500MB adapter file instead of a 14GB model copy, and you can hold many adapters for one base model — each a different style or domain, swapped at load time.</p>
+            </div>
+        </section>
+
+        <section id="data">
+            <h2>Step 1: The Dataset (The Quality Lever)</h2>
+            <pre><code># Format: instruction-style pairs (JSONL)
+{"instruction": "Summarize this contract clause.",
+ "input": "The parties agree to extend the term by 12 months...",
+ "output": "The agreement's term extends by twelve months."}
+{"instruction": "What is our refund policy?",
+ "input": "",
+ "output": "Full refunds within 14 days of purchase..."}</code></pre>
+            <ul>
+                <li><strong>Quality over quantity:</strong> 500 curated examples beat 50,000 noisy ones. Review every example that goes in.</li>
+                <li><strong>Match the model's chat template</strong> — the trainer formats examples using the model's own template (unsloth handles this automatically).</li>
+                <li><strong>Style tasks need fewer examples</strong> (100–1,000); skill tasks need more (1,000–10,000).</li>
+                <li><strong>Keep a holdout set</strong> — the honest way to know the tuning worked. See <a href="rag-evaluation.html">evaluation</a> for the philosophy.</li>
+            </ul>
+        </section>
+
+        <section id="train">
+            <h2>Step 2: Train with Unsloth (QLoRA, 8–16GB)</h2>
+            <pre><code>pip install unsloth
+
+from unsloth import FastLanguageModel
+import torch
+
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name="unsloth/Qwen3-8B",
+    max_seq_length=2048, load_in_4bit=True,  # QLoRA
+)
+
+model = FastLanguageModel.get_peft_model(
+    model, r=16, lora_alpha=32,
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
+                    "gate_proj", "up_proj", "down_proj"],
+    lora_dropout=0, use_gradient_checkpointing="unsloth",
+)
+
+# Load your JSONL dataset (Hugging Face datasets library)
+from datasets import load_dataset
+ds = load_dataset("json", data_files="tuning.jsonl")["train"]
+
+# Unsloth's chat-template formatting applies the model's template
+trainer = ...  # SFTTrainer with your examples, 3 epochs, lr 2e-4
+trainer.train()
+
+# Save the adapter (~200MB) — not a full model
+model.save_pretrained("lora-qwen3-legal")
+tokenizer.save_pretrained("lora-qwen3-legal")</code></pre>
+            <p>The <code>r</code> (rank) and <code>lora_alpha</code> are the two knobs that matter: <strong>r=16–32 for general adaptation, r=64 for harder tasks;</strong> alpha ≈ 2×r is the standard starting point. Everything else is boilerplate.</p>
+        </section>
+
+        <section id="merge">
+            <h2>Step 3: Merge, Convert, Run</h2>
+            <pre><code># 3a. Merge adapter into the base weights
+from unsloth import FastLanguageModel
+model, _ = FastLanguageModel.from_pretrained("unsloth/Qwen3-8B")
+model.load_adapter("lora-qwen3-legal")
+merged = model.merge_and_unload()
+merged.save_pretrained("qwen3-8b-legal-merged")
+
+# 3b. Convert to GGUF and quantize (llama.cpp)
+python convert_hf_to_gguf.py qwen3-8b-legal-merged \
+    --outfile qwen3-8b-legal-f16.gguf
+./llama-quantize qwen3-8b-legal-f16.gguf \
+    qwen3-8b-legal-q4_k_m.gguf Q4_K_M
+# (Full conversion details: the HF-to-GGUF tutorial)
+
+# 3c. Import into Ollama
+printf 'FROM ./qwen3-8b-legal-q4_k_m.gguf\n' > Modelfile
+ollama create qwen3-legal -f Modelfile
+ollama run qwen3-legal</code></pre>
+            <p>Merging bakes the adaptation into the weights — the output is a normal GGUF file every runtime understands. (llama.cpp can also load the LoRA adapter directly at runtime with <code>--lora</code>, which keeps the adapter separate.) The <a href="how-to-convert-huggingface-model-to-gguf.html">conversion tutorial</a> and <a href="q4-km-vs-q8-0.html">quant guide</a> cover steps 3b in full.</p>
+        </section>
+
+        <section id="when">
+            <h2>LoRA vs the Alternatives: The Decision</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Situation</th>
+                        <th>Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Change style, tone, output format</td>
+                        <td><strong>LoRA</strong> — the textbook case</td>
+                    </tr>
+                    <tr>
+                        <td>Add knowledge that changes often</td>
+                        <td><strong>RAG, not tuning</strong> — see <a href="rag-vs-fine-tuning.html">the comparison</a></td>
+                    </tr>
+                    <tr>
+                        <td>Need a truly new skill at depth</td>
+                        <td>LoRA first; full fine-tune only if LoRA plateaus</td>
+                    </tr>
+                    <tr>
+                        <td>Privacy-sensitive personal data</td>
+                        <td>LoRA locally — data never leaves (<a href="local-ai-gdpr.html">GDPR note</a>)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="toolbox">
+                <h3>🚀 The production pattern</h3>
+                <p>The strongest local assistants combine layers: <strong>LoRA-tuned tone + RAG-grounded facts</strong>. Tune the model to write like your organization (style, format, domain vocabulary), retrieve the current knowledge. That's the architecture behind <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a>-class systems — behavior from tuning, truth from retrieval, all local.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is LoRA?</h3>
+            <p>LoRA (Low-Rank Adaptation) is a fine-tuning technique that freezes the original model weights and trains small low-rank adapter matrices instead — typically 0.1–1% of the parameters. The adapters are added to the frozen weights at inference. Result: fine-tuning a 7B model on a single 8–16GB GPU, with a tiny adapter file instead of a full model copy.</p>
+
+            <h3>How is LoRA different from full fine-tuning?</h3>
+            <p>Full fine-tuning updates every weight — huge VRAM (a 7B model needs 60GB+ in FP16), long training, and a full model copy per variant. LoRA freezes the model and trains small adapters — ~5–10GB VRAM with QLoRA, hours instead of days, and adapters are a few hundred MB. Quality is close to full fine-tuning for most tasks.</p>
+
+            <h3>What is QLoRA?</h3>
+            <p>QLoRA is LoRA on a quantized base model: the frozen weights are loaded in 4-bit (NF4), the small adapters train in full precision. This drops memory to ~5–8GB for a 7B model, making fine-tuning possible on consumer GPUs. The 4-bit base is dequantized at inference so quality loss is minimal.</p>
+
+            <h3>What hardware do I need to fine-tune with LoRA?</h3>
+            <p>A 7–8B model with QLoRA: 8GB VRAM minimum, 12–16GB comfortable, Apple Silicon 16–32GB via MLX. A 3–4B model fits 6–8GB. Datasets of 500–5,000 examples train in 1–4 hours on a 12GB GPU. No cloud, no API — everything local.</p>
+
+            <h3>How much data do I need for LoRA?</h3>
+            <p>For behavior/style changes: 100–1,000 high-quality examples often suffice. For skills (formatting, tool use, domain writing): 1,000–10,000 examples is the sweet spot. Quality dominates quantity — 500 curated examples beat 50,000 noisy ones. Start small, evaluate, add data only where the model still fails.</p>
+
+            <h3>Can I run a LoRA-adapted model in Ollama?</h3>
+            <p>Yes — merge the adapter into the base weights (the workflow in this guide), convert to GGUF, and import with a Modelfile. Merging bakes the adaptation into the weights so every runtime sees a normal model file. Alternatively, llama.cpp supports loading LoRA adapters directly at runtime.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="rag-vs-fine-tuning.html">RAG vs Fine-Tuning: When to Use Which</a></li>
+                <li><a href="how-to-convert-huggingface-model-to-gguf.html">How to Convert a Hugging Face Model to GGUF</a></li>
+                <li><a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0: Which Quantization Should You Use?</a></li>
+                <li><a href="minigpt-pytorch-tutorial.html">Build a Mini GPT in Raw PyTorch</a> — the fine-tuning concept in miniature</li>
+                <li><a href="local-ai-gdpr.html">Local AI for GDPR Compliance</a></li>
+                <li><a href="https://github.com/unslothai/unsloth" target="_blank" rel="noopener">Unsloth — fast LoRA/QLoRA training</a></li>
+                <li><a href="https://arxiv.org/abs/2106.09685" target="_blank" rel="noopener">LoRA: Low-Rank Adaptation of Large Language Models (arXiv, 2021)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

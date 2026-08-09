@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Calling with Local LLMs: A Practical Guide (2026)</title>
+    <meta name="description" content="Tool calling with local LLMs: how function calling works, which local models support it, and a working Python example with Ollama, plus failure-mode fixes.">
+    <meta name="keywords" content="tool calling local llm, function calling ollama, local model tool use, qwen3 tool calling, llama.cpp function calling, tool calling python, ollama tools api, local agent tools, json schema tool">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/tool-calling-local-llm.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Tool Calling with Local LLMs: A Practical Guide (2026)">
+    <meta property="og:description" content="How function calling works, which local models support it, and a working Python example with Ollama, plus failure-mode fixes.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/tool-calling-local-llm.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tool Calling with Local LLMs: A Practical Guide (2026)">
+    <meta name="twitter:description" content="How function calling works, which local models support it, and a working Python example with Ollama, plus failure-mode fixes.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Tool Calling with Local LLMs: A Practical Guide (2026)",
+          "description": "How function calling works, which local models support it, and a working Python example with Ollama, plus failure-mode fixes.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/tool-calling-local-llm.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is tool calling (function calling)?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Tool calling is when an LLM, instead of answering directly, emits a structured request to call a function you defined — with arguments in JSON. Your code runs the function and returns the result, and the model continues from there. It's the mechanism behind agents, RAG lookups, and API integrations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which local models support tool calling well?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The reliable 2026 picks: Qwen3 and Qwen3.5 (excellent), GLM-4-9B, Gemma 4, and Llama 3.1+ derivatives. Check each model card for tool-calling support — some small models only handle single-call, not multi-call parallel invocations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I implement tool calling with Ollama?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ollama's API accepts a tools array of JSON schemas alongside the model name. The response contains a message with tool_calls, which your code executes and appends as tool messages before calling again. The example in this post is a complete minimal loop."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does my local model call the wrong tool or wrong arguments?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Usually one of: tool descriptions too vague (the model doesn't know when to use them), too many tools in one call (models degrade past ~10), arguments colliding with context, or a model without proper function-calling fine-tuning. Fix the schema and descriptions before blaming the model."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a special model for tool calling?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Native tool calling needs a model trained for it — a JSON output in a specific format. Models without it can be coerced with prompt-based protocols (asking for JSON output), which is more fragile. Prefer natively supported models; they're common in 2026."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is tool calling safe with local models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The model is a request generator — your code decides what actually runs. That's the safety boundary: validate arguments, whitelist operations, require confirmation for destructive tools, and log every call. Local execution also means no data leaves the machine for any tool call."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tool Calling with Local LLMs: A Practical Guide (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Tool calling is the difference between a model that talks and a model that <em>does</em>. The model emits a structured request — "call <code>search_kb(query='leave policy')</code>" — your code runs it, and the model continues with the result. <strong>In 2026, local models handle this natively and reliably</strong>, which unlocks fully private agents. This guide covers the mechanics, the models that support it, a working Ollama loop, and the failure modes you'll actually hit.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Tool calling = structured requests, not magic</strong> — the model emits JSON; your code executes</li>
+                <li><strong>Qwen3/Qwen3.5, GLM-4, Gemma 4, Llama 3.1+</strong> are the reliable local tool-callers</li>
+                <li><strong>Ollama's API takes a <code>tools</code> array</strong> — the loop is ~40 lines of Python</li>
+                <li><strong>Your code is the safety boundary</strong> — validate args, whitelist ops, log everything</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="how">
+            <h2>How Tool Calling Works</h2>
+            <ol>
+                <li><strong>You declare tools.</strong> Each tool is a name, a description, and a JSON Schema for its arguments.</li>
+                <li><strong>The model decides.</strong> When a tool would help, the model returns a <code>tool_calls</code> message instead of a plain answer — e.g. <code>search_kb(query="leave policy", limit=3)</code>.</li>
+                <li><strong>You execute.</strong> Your code dispatches to the real function, with validation.</li>
+                <li><strong>You feed back the result.</strong> The tool output is appended as a <code>tool</code> message, and the model answers (or calls again).</li>
+            </ol>
+            <p>The key mental model: <strong>the model proposes; your code disposes.</strong> Everything that actually happens — file writes, API calls, DB queries — runs through code you control. That's the safety property that makes local tool calling safe.</p>
+        </section>
+
+        <section id="models">
+            <h2>Which Local Models Support It</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Tool calling</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Qwen3-8B / Qwen3.5-9B</strong></td>
+                        <td>Excellent</td>
+                        <td>The 2026 default — multi-call, parallel calls, reliable JSON</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GLM-4-9B</strong></td>
+                        <td>Very good</td>
+                        <td>Strong schema adherence, good on CPU</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gemma 4 12B</strong></td>
+                        <td>Very good</td>
+                        <td>Multimodal + tools; needs ~10GB VRAM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Llama 3.1/3.2 8B</strong></td>
+                        <td>Good</td>
+                        <td>Reliable single calls; parallel calls weaker</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Qwen3.5-4B</strong></td>
+                        <td>Decent</td>
+                        <td>Tiny-hardware option; keep tool count low</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phi-4-mini</strong></td>
+                        <td>Weak</td>
+                        <td>Great at math/code, not tool orchestration</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Full rankings with downloads: <a href="top-10-models-under-12b-2026.html">sub-12B by power</a> and <a href="top-10-coding-models-under-12b-2026.html">sub-12B for coding</a>.</p>
+        </section>
+
+        <section id="code">
+            <h2>The Minimal Ollama Tool Loop</h2>
+            <pre><code>import json, requests
+
+# 1. Declare tools (JSON Schema)
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "search_kb",
+        "description": "Search the internal knowledge base for documents about a topic.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Search phrase"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 10}
+            },
+            "required": ["query"]
+        }
+    }
+}]
+
+# 2. The real function behind the tool
+def search_kb(query: str, limit: int = 3) -> str:
+    # In production: query ChromaDB (see the 30-min RAG guide)
+    return f"[KB] Top {limit} results for '{query}'"
+
+messages = [{"role": "user", "content": "What's our leave policy?"}]
+
+for _ in range(5):  # iteration guard
+    r = requests.post("http://localhost:11434/api/chat", json={
+        "model": "qwen3:8b",
+        "messages": messages,
+        "tools": tools,
+    })
+    msg = r.json()["message"]
+    messages.append({"role": "assistant", "content": msg.get("content") or ""})
+
+    if msg.get("tool_calls"):
+        for call in msg["tool_calls"]:
+            fn = call["function"]
+            if fn["name"] == "search_kb":
+                result = search_kb(**fn["arguments"])
+                messages.append({"role": "tool",
+                                 "name": fn["name"],
+                                 "content": result})
+        continue
+
+    print(msg["content"])   # final grounded answer
+    break</code></pre>
+            <p>That's the entire loop: declare tools → send → execute → feed back → repeat. <code>requests</code> and the Ollama API — no framework required. For graph control (loops, interrupts, persistence), layer LangGraph on top — see <a href="build-ai-agent-langgraph-ollama.html">Build an AI Agent with LangGraph + Ollama</a>.</p>
+        </section>
+
+        <section id="failures">
+            <h2>Failure Modes and Fixes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symptom</th>
+                        <th>Cause</th>
+                        <th>Fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Model never calls tools</td>
+                        <td>Descriptions too vague; task doesn't need tools</td>
+                        <td>Write descriptions as triggers ("Call when the user asks about...")</td>
+                    </tr>
+                    <tr>
+                        <td>Wrong arguments (string for number)</td>
+                        <td>Schema unclear; context leak</td>
+                        <td>Add examples to descriptions; enforce types in code</td>
+                    </tr>
+                    <tr>
+                        <td>Calls wrong tool among many</td>
+                        <td>Tool count too high</td>
+                        <td>Keep ≤10 tools; merge related ones; use a router tool</td>
+                    </tr>
+                    <tr>
+                        <td>Loops forever</td>
+                        <td>Tool result doesn't satisfy the task</td>
+                        <td>Iteration guard (see <code>for _ in range(5)</code>); improve tool output quality</td>
+                    </tr>
+                    <tr>
+                        <td>Malformed JSON</td>
+                        <td>Model without native support</td>
+                        <td>Switch model or use prompt-based JSON protocol</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="safety">
+            <h2>The Safety Boundary</h2>
+            <ul>
+                <li><strong>Validate arguments</strong> against the schema again in code — the model's JSON is a suggestion, not a contract.</li>
+                <li><strong>Whitelist operations</strong> — a "run_shell" tool should reject anything not on the allowlist.</li>
+                <li><strong>Require confirmation</strong> for destructive or expensive tools (email, writes, payments).</li>
+                <li><strong>Log every call</strong> — tool logs are your audit trail (<a href="local-ai-gdpr.html">GDPR-relevant</a> and AI-Act-relevant).</li>
+                <li><strong>Local means contained</strong> — with a local model and local tools, no tool call ever touches the network. See <a href="offline-ai-workspace.html">the offline workspace guide</a>.</li>
+            </ul>
+        </section>
+
+        <section id="next">
+            <h2>Where Tool Calling Takes You</h2>
+            <ul>
+                <li><strong>Agents:</strong> the loop above, with a stop condition — <a href="build-ai-agent-langgraph-ollama.html">LangGraph + Ollama agent tutorial</a>.</li>
+                <li><strong>MCP:</strong> expose your tools as <a href="mcp-explained.html">MCP servers</a> and every client can use them.</li>
+                <li><strong>RAG:</strong> make retrieval a tool so the model decides when to search — <a href="agentic-rag.html">agentic RAG</a>.</li>
+                <li><strong>Multi-agent:</strong> route between specialist agents — <a href="multi-agent-systems.html">when one agent isn't enough</a>.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 In production</h3>
+                <p><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> uses exactly this pattern: the local model calls a retrieval tool over a ChromaDB index of legal documents, and every answer is grounded in what the tool returned. No cloud, no prompt leakage — just a model, a tool, and a loop.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is tool calling (function calling)?</h3>
+            <p>Tool calling is when an LLM, instead of answering directly, emits a structured request to call a function you defined — with arguments in JSON. Your code runs the function and returns the result, and the model continues from there. It's the mechanism behind agents, RAG lookups, and API integrations.</p>
+
+            <h3>Which local models support tool calling well?</h3>
+            <p>The reliable 2026 picks: Qwen3 and Qwen3.5 (excellent), GLM-4-9B, Gemma 4, and Llama 3.1+ derivatives. Check each model card for tool-calling support — some small models only handle single-call, not multi-call parallel invocations.</p>
+
+            <h3>How do I implement tool calling with Ollama?</h3>
+            <p>Ollama's API accepts a tools array of JSON schemas alongside the model name. The response contains a message with tool_calls, which your code executes and appends as tool messages before calling again. The example in this post is a complete minimal loop.</p>
+
+            <h3>Why does my local model call the wrong tool or wrong arguments?</h3>
+            <p>Usually one of: tool descriptions too vague (the model doesn't know when to use them), too many tools in one call (models degrade past ~10), arguments colliding with context, or a model without proper function-calling fine-tuning. Fix the schema and descriptions before blaming the model.</p>
+
+            <h3>Do I need a special model for tool calling?</h3>
+            <p>Native tool calling needs a model trained for it — a JSON output in a specific format. Models without it can be coerced with prompt-based protocols (asking for JSON output), which is more fragile. Prefer natively supported models; they're common in 2026.</p>
+
+            <h3>Is tool calling safe with local models?</h3>
+            <p>The model is a request generator — your code decides what actually runs. That's the safety boundary: validate arguments, whitelist operations, require confirmation for destructive tools, and log every call. Local execution also means no data leaves the machine for any tool call.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="build-ai-agent-langgraph-ollama.html">How to Build an AI Agent with LangGraph + Ollama</a></li>
+                <li><a href="mcp-explained.html">MCP Explained: Model Context Protocol for Local AI</a></li>
+                <li><a href="agentic-rag.html">Agentic RAG: Combining Agents with Retrieval</a></li>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="top-10-models-under-12b-2026.html">Top 10 AI Models Under 12B Parameters</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+                <li><a href="https://github.com/ollama/ollama/blob/main/docs/openai.md" target="_blank" rel="noopener">Ollama OpenAI-compatible API docs (tools)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

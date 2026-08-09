@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Evaluate a RAG System Before You Trust It</title>
+    <meta name="description" content="How to evaluate a RAG system before you trust it: build a test set, run the RAG Triad, set thresholds, and decide if it's production-ready.">
+    <meta name="keywords" content="evaluate rag, rag evaluation, rag test set, rag triad, faithfulness answer relevance, when to trust rag, rag accuracy test">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/evaluate-rag-system.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Evaluate a RAG System Before You Trust It">
+    <meta property="og:description" content="How to evaluate a RAG system before you trust it: build a test set, run the RAG Triad, set thresholds, and decide if it's production-ready.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/evaluate-rag-system.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta property="og:image:alt" content="Artificial intelligence illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Evaluate a RAG System Before You Trust It">
+    <meta name="twitter:description" content="How to evaluate a RAG system before you trust it: build a test set, run the RAG Triad, set thresholds, and decide if it's production-ready.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:image:alt" content="Artificial intelligence illustration">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Evaluate a RAG System Before You Trust It",
+          "description": "How to evaluate a RAG system before you trust it: build a test set, run the RAG Triad, set thresholds, and decide if it's production-ready.",
+          "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/evaluate-rag-system.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do you evaluate a RAG system?",
+              "acceptedAnswer": {"@type": "Answer", "text": "You evaluate a RAG system on three layers: retrieval (did it find the right documents?), grounding (is the answer faithful to what was retrieved?), and relevance (does the answer actually address the question?). In practice this means building a small test set of real questions with expected answers, running the system against it, scoring each layer, and comparing scores before and after changes."}
+            },
+            {
+              "@type": "Question",
+              "name": "What is the RAG Triad?",
+              "acceptedAnswer": {"@type": "Answer", "text": "The RAG Triad is a diagnostic framework of three metrics: context relevance (did retrieval return useful documents?), faithfulness (does the answer stick to those documents, with no hallucination?), and answer relevance (does the answer actually answer the question?). The triad pinpoints which stage of the pipeline is failing instead of just reporting a single accuracy number."}
+            },
+            {
+              "@type": "Question",
+              "name": "How many test questions do I need to evaluate a RAG system?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Start small: 30–50 real questions covering the main document types and question patterns your users will ask. That is enough to expose systematic failures. Grow the set over time by logging real user questions and adding the ones the system got wrong — an evaluation set that only contains easy questions will make the system look better than it is."}
+            },
+            {
+              "@type": "Question",
+              "name": "What is a good faithfulness score?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Treat 0.8 or higher on a 0–1 faithfulness scale as the entry bar for production, because faithfulness failures are hallucinations — the most dangerous error class in legal, medical, and financial answers. Relevance targets depend on your domain, but a system with high faithfulness and low relevance usually has a retrieval problem, not a generation problem."}
+            },
+            {
+              "@type": "Question",
+              "name": "When is a RAG system ready to trust?",
+              "acceptedAnswer": {"@type": "Answer", "text": "When three things hold: it scores above your thresholds on a representative test set, the failures you find are acceptable and documented (not surprises), and you have a way to keep measuring after launch by logging questions, citations, and user feedback. Evaluation is a process, not a one-time certification."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        .warning { background-color: #fff3cd; border-color: #ffc107; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        .downloads { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .downloads h3 { color: white; margin-top: 0; }
+        .downloads a { color: #fff; font-weight: 600; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Evaluate a RAG System Before You Trust It</h1>
+        <p><strong>Published: August 9, 2026</strong> — "It answered the demo questions well" is not an evaluation. Most RAG systems fail quietly: they sound confident, cite real-looking sources, and get the answer wrong. Here's the repeatable process to find out whether yours is trustworthy — before it answers for your customers, your doctors, or your lawyers.</p>
+        <div class="highlight-box success">
+            <p><strong>🔍 Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Test the three layers, not one score:</strong> retrieval, grounding, relevance</li>
+                <li><strong>Build a real test set first</strong> — 30–50 real questions with expected answers</li>
+                <li><strong>Run the RAG Triad</strong> — context relevance, faithfulness, answer relevance — to pinpoint the failing stage</li>
+                <li><strong>Set thresholds, then measure again after every change</strong> — evaluation is a loop, not a one-time check</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section id="why-evaluate">
+            <h2>Why "It Looks Right" Isn't Enough</h2>
+            <p>RAG systems have a failure profile that hides well. The generator produces fluent, confident prose. The citations come from your real documents. Yet studies of grounded-answer systems keep finding the same two failure classes: <strong>retrieval misses</strong> (the right document was never fetched, so the answer is built on nothing) and <strong>faithfulness drift</strong> (the model added, contradicted, or guessed beyond what the source said). Neither shows up in a five-question demo.</p>
+            <p>That's why the industry converged on component-level evaluation: score retrieval and generation separately, so a failure tells you <em>where</em> to fix it. Open-source frameworks like RAGAS define the standard metric families — <strong>faithfulness, answer relevancy, context precision, and context recall</strong> — and the widely used "RAG Triad" (context relevance, faithfulness, answer relevance) gives the same diagnostic power in three numbers.</p>
+            <div class="highlight-box warning">
+                <p><strong>⚠️ The failure that matters most:</strong> in legal, healthcare, and finance use, a hallucinated answer is not a quality issue — it's a liability issue. That's why faithfulness gets evaluated first in those domains.</p>
+            </div>
+        </section>
+        <section id="test-set">
+            <h2>Step 1: Build the Test Set Before You Tune Anything</h2>
+            <p>Evaluation is only as honest as its test set. A test set built from the questions you <em>wish</em> users asked will flatter any system. Build one from reality:</p>
+            <ol>
+                <li><strong>Mine real questions.</strong> Support tickets, past emails, FAQ traffic, or the questions your team actually answers.</li>
+                <li><strong>Cover the document types.</strong> If your corpus has contracts, policies, and emails, your test set needs all three — retrieval behaves differently per type.</li>
+                <li><strong>Write the expected answer or the source answer.</strong> For each question, record which document(s) contain the answer and what the correct answer is.</li>
+                <li><strong>Include hard cases deliberately:</strong> questions whose answer spans two documents, near-duplicate documents, and questions with no answer in the corpus (the system should say "I don't know").</li>
+            </ol>
+            <p>Start with 30–50 questions. That's enough to expose systematic failures, and small enough to hand-check. Grow it continuously: after launch, log real user questions and add the ones the system got wrong — an eval set that only grows with failures gets sharper over time instead of going stale.</p>
+        </section>
+        <section id="triad">
+            <h2>Step 2: Run the RAG Triad — and Let It Point the Finger</h2>
+            <p>The RAG Triad scores three things, and each one isolates a different stage of the pipeline:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>What it measures</th>
+                        <th>If it's low, the problem is…</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Context relevance</strong></td>
+                        <td>Did retrieval return documents that actually help answer the question?</td>
+                        <td>Retrieval: embeddings, chunking, hybrid search, reranking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Faithfulness</strong></td>
+                        <td>Does the answer stick to the retrieved context — no invented facts, no contradiction?</td>
+                        <td>Generation: model choice, prompt, temperature, context overload</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Answer relevance</strong></td>
+                        <td>Does the answer address the question that was actually asked?</td>
+                        <td>Both: retrieval fed the wrong context, or the generator answered a different question</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>This is the triad's superpower: it converts "the system is wrong" into "the system retrieves badly" or "the system drifts from its sources." You fix those with completely different tools. (The exact metric formulas — recall@k, MRR, NDCG for retrieval, faithfulness and answer relevance for generation — are covered in the companion post <a href="rag-evaluation.html">RAG Evaluation: How to Measure Retrieval Quality</a>.)</p>
+        </section>
+        <section id="thresholds">
+            <h2>Step 3: Set Thresholds — and Know What "Good Enough" Means</h2>
+            <p>Scores without thresholds are decoration. Set explicit bars per metric before you measure, based on the risk of getting it wrong:</p>
+            <ul>
+                <li><strong>Faithfulness ≥ 0.8 (on a 0–1 scale)</strong> is a reasonable entry bar for production, and the bar should be higher in regulated domains — a hallucination in a contract summary or a medical answer isn't a rounding error.</li>
+                <li><strong>Answer relevance and context relevance ≥ 0.7–0.8</strong> depending on how forgiving the domain is to "close but not quite."</li>
+                <li><strong>Zero tolerance for answered-but-unsupported:</strong> the "I don't know" case must work. A system that confidently fabricates when the answer isn't in the corpus is not fixable by tuning — it needs a refusal strategy (see <a href="rag-hallucination.html">Why RAG Hallucinates and How to Fix It</a>).</li>
+            </ul>
+            <div class="highlight-box primary">
+                <p><strong>💡 Real-world note:</strong> many teams discover after measurement that their retrieval is the bottleneck, not the model. Context relevance is low, faithfulness is fine on what was retrieved — the fix is better retrieval (hybrid search, chunking, reranking), not a bigger model. That's the whole point of measuring the components.</p>
+            </div>
+        </section>
+        <section id="loop">
+            <h2>Step 4: Turn It Into a Loop, Not a Certification</h2>
+            <p>An evaluation you run once is a snapshot of last month's system. Every change — new model, new chunk size, new embedding, new prompt — can silently move scores. The trustworthy setup keeps measuring:</p>
+            <ol>
+                <li><strong>Baseline.</strong> Run the full test set, record the three triad scores. This is your reference point.</li>
+                <li><strong>Change one thing.</strong> Never tune retrieval, prompt, and model in the same iteration — you won't know what moved the score.</li>
+                <li><strong>Re-run, compare, keep or revert.</strong> Only keep changes that hold or improve the triad.</li>
+                <li><strong>After launch, keep logging.</strong> Track citations clicked, thumbs-downs, and regenerated answers. New question patterns flow back into the test set (Step 1), which keeps the eval sharp.</li>
+            </ol>
+            <p>Automation helps here: evaluation frameworks can score a test set headlessly on every change, so regressions get caught in minutes instead of weeks. But start manual — a spreadsheet of 40 questions, hand-scored, will teach you more about your system than any framework.</p>
+        </section>
+        <section id="checklist">
+            <h2>The Pre-Trust Checklist</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>✅ Test set is real</h4>
+                    <p>Real user questions, all document types, includes "no answer in corpus" cases.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>✅ Triad measured</h4>
+                    <p>Context relevance, faithfulness, and answer relevance — scored separately, not one blended number.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>✅ Thresholds set</h4>
+                    <p>Explicit bars per metric, chosen by risk, with faithfultness held highest.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>✅ Loop in place</h4>
+                    <p>Re-measure on every change; log real usage after launch; feed failures back into the test set.</p>
+                </div>
+            </div>
+        </section>
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <h3>How do you evaluate a RAG system?</h3>
+            <p>You evaluate a RAG system on three layers: retrieval (did it find the right documents?), grounding (is the answer faithful to what was retrieved?), and relevance (does the answer actually address the question?). In practice this means building a small test set of real questions with expected answers, running the system against it, scoring each layer, and comparing scores before and after changes.</p>
+            <h3>What is the RAG Triad?</h3>
+            <p>The RAG Triad is a diagnostic framework of three metrics: context relevance (did retrieval return useful documents?), faithfulness (does the answer stick to those documents, with no hallucination?), and answer relevance (does the answer actually answer the question?). The triad pinpoints which stage of the pipeline is failing instead of just reporting a single accuracy number.</p>
+            <h3>How many test questions do I need to evaluate a RAG system?</h3>
+            <p>Start small: 30–50 real questions covering the main document types and question patterns your users will ask. That is enough to expose systematic failures. Grow the set over time by logging real user questions and adding the ones the system got wrong — an evaluation set that only contains easy questions will make the system look better than it is.</p>
+            <h3>What is a good faithfulness score?</h3>
+            <p>Treat 0.8 or higher on a 0–1 faithfulness scale as the entry bar for production, because faithfulness failures are hallucinations — the most dangerous error class in legal, medical, and financial answers. Relevance targets depend on your domain, but a system with high faithfulness and low relevance usually has a retrieval problem, not a generation problem.</p>
+            <h3>When is a RAG system ready to trust?</h3>
+            <p>When three things hold: it scores above your thresholds on a representative test set, the failures you find are acceptable and documented (not surprises), and you have a way to keep measuring after launch by logging questions, citations, and user feedback. Evaluation is a process, not a one-time certification.</p>
+        </section>
+        <section id="cta">
+            <div class="downloads">
+                <h3>🔍 Need your RAG system evaluated — or built right the first time?</h3>
+                <p>I design, build, and evaluate private RAG systems with cited answers through <a href="https://haal-lab.solutions" target="_blank" rel="noopener">Haal Lab</a>. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> for a scoping conversation — no obligation.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

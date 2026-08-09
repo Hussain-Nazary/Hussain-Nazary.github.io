@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)</title>
+    <meta name="description" content="RAG evaluation explained: retrieval metrics (recall@k, MRR, NDCG), generation metrics (faithfulness, answer relevance), and how to build an eval set locally.">
+    <meta name="keywords" content="rag evaluation, retrieval metrics, recall at k, mrr, ndcg, faithfulness, answer relevance, ragas, llm-as-judge, rag eval set, ragas metrics, retrieval quality">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/rag-evaluation.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)">
+    <meta property="og:description" content="Retrieval metrics (recall@k, MRR, NDCG), generation metrics (faithfulness, answer relevance), and how to build an eval set locally.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/rag-evaluation.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)">
+    <meta name="twitter:description" content="Retrieval metrics, generation metrics, and how to build an eval set locally — the honest way to know if your RAG works.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)",
+          "description": "Retrieval metrics (recall@k, MRR, NDCG), generation metrics (faithfulness, answer relevance), and how to build an eval set locally.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/rag-evaluation.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What metrics should I use to evaluate RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Split into two layers. Retrieval: recall@k (did the right chunk get retrieved), MRR (how high was it ranked), NDCG@k (ranking quality). Generation: faithfulness (is the answer grounded in the context) and answer relevance (does it answer the question). Track all five; they isolate which layer is failing."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many eval questions do I need?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Start with 30-50 high-quality questions built from real user queries — enough to catch major regressions. 100+ gives stable scores for small changes like chunk-size tweaks. Quality beats quantity: questions must be realistic and have known-good answers."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is faithfulness in RAG evaluation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Faithfulness measures whether every claim in the answer is supported by the retrieved context. A faithful answer can still be wrong or irrelevant — which is why it is paired with answer relevance. Low faithfulness means the model is hallucinating despite good retrieval."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is a good recall@k score?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For a well-tuned RAG system on its own corpus, recall@5 above 0.8 and recall@10 above 0.9 are reasonable targets. Below 0.7 signals a chunking, embedding, or retrieval problem worth fixing before touching generation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need an LLM judge to evaluate RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For retrieval metrics, no — they are computed from rankings against labeled chunks. For generation metrics, an LLM judge (or framework like RAGAS) is the standard approach, and a local sub-12B model works for judging in 2026, keeping the whole loop offline."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I build an eval set without labeled data?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Two honest paths: (1) mine real questions from logs or from domain experts and label the expected chunk manually; (2) generate synthetic questions from your own chunks with an LLM (RAGAS does this), then spot-check a sample by hand. Never trust synthetic labels without human review."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — "It mostly works" is how broken RAG systems are described. If you cannot measure retrieval and generation separately, you cannot know which half is failing — and you will chase the wrong fix. <strong>RAG evaluation is two separate measurement problems:</strong> did the right context get retrieved (<em>retrieval metrics</em>), and did the answer stay grounded in it (<em>generation metrics</em>). This guide covers the metrics, how to build an eval set, and how to run the whole loop locally in 2026.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Measure both layers:</strong> recall@k / MRR / NDCG for retrieval, faithfulness / relevance for generation</li>
+                <li><strong>Low retrieval scores → fix chunking and embeddings;</strong> low faithfulness → fix generation and prompts</li>
+                <li><strong>30–50 real questions</strong> is a workable starting eval set</li>
+                <li><strong>RAGAS-style LLM judging runs on local sub-12B models</strong> — fully offline evaluation</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="layers">
+            <h2>The Two Layers of RAG Quality</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Question it answers</th>
+                        <th>Key metrics</th>
+                        <th>If it fails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Retrieval</strong></td>
+                        <td>Did the right context get found?</td>
+                        <td>Recall@k, MRR, NDCG@k</td>
+                        <td>Fix chunking, embeddings, hybrid search</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Generation</strong></td>
+                        <td>Was the answer grounded and on-point?</td>
+                        <td>Faithfulness, answer relevance</td>
+                        <td>Fix prompts, model, context overflow</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The debugging rule follows directly: <strong>if recall@k is low, no prompt will save you. If recall is high but faithfulness is low, the model is ignoring good context.</strong> Knowing which layer is broken halves your debugging time — and in <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">privacy-first legal AI</a>, where a hallucinated clause is a liability, this separation is non-negotiable.</p>
+        </section>
+
+        <section id="metrics">
+            <h2>Retrieval Metrics, Explained Without Math Anxiety</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Measures</th>
+                        <th>Typical target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Recall@k</strong></td>
+                        <td>Of the k retrieved chunks, how many of the truly relevant ones made it in</td>
+                        <td>≥ 0.8 at k=5 on a clean corpus</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MRR</strong> (Mean Reciprocal Rank)</td>
+                        <td>How high the first correct chunk ranks</td>
+                        <td>≥ 0.7</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NDCG@k</strong></td>
+                        <td>Ranking quality — relevant chunks near the top, weighted</td>
+                        <td>≥ 0.8</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Precision@k</strong></td>
+                        <td>Of the k retrieved, how many were relevant at all</td>
+                        <td>≥ 0.6 (context budget matters)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Retrieval metrics only need <em>rankings + labeled relevant chunks</em> — no LLM judge required. Write the labels once per question; the scores are then pure computation.</p>
+        </section>
+
+        <section id="gen">
+            <h2>Generation Metrics: Faithfulness and Relevance</h2>
+            <ul>
+                <li><strong>Faithfulness</strong> — every claim in the answer is supported by the retrieved context. A 0.95-faithful system still hallucinates ~1 sentence in 20; for legal/medical work you want 0.99+ or a refusal policy.</li>
+                <li><strong>Answer relevance</strong> — the answer actually addresses the question. A faithful answer to the wrong question scores low here.</li>
+                <li><strong>Context precision/recall</strong> (RAGAS-style) — bridging metrics: how much of the retrieved context was actually needed, and how much of what was needed got retrieved.</li>
+            </ul>
+            <p>These are typically scored by an <strong>LLM-as-judge</strong>. In 2026, a local <a href="top-10-models-under-12b-2026.html">sub-12B model</a> judges faithfully on structured scales, so the whole evaluation loop stays on your machine — matching the privacy posture this blog covers in <a href="offline-ai-regulated-industries.html">regulated-industry AI</a>.</p>
+        </section>
+
+        <section id="evalset">
+            <h2>Building an Eval Set (Without Fake Data)</h2>
+            <ol>
+                <li><strong>Mine real questions.</strong> User logs, support tickets, domain experts. 30–50 questions covering the range of real queries.</li>
+                <li><strong>Label the gold chunks.</strong> For each question, mark which chunk(s) contain the answer. This is the expensive, honest part — and it's what makes the numbers trustworthy.</li>
+                <li><strong>Synthetic augmentation (optional).</strong> RAGAS-style generation: sample chunks, ask an LLM to write questions only those chunks can answer. Good for coverage; <strong>always spot-check by hand</strong>, because synthetic questions are unrealistically aligned with the chunks.</li>
+                <li><strong>Keep it versioned.</strong> Your eval set is a regression test suite. Rerun it on every pipeline change — chunk size, embedding model, reranker, prompt.</li>
+            </ol>
+            <pre><code># Eval set shape (JSONL)
+{"question": "What does clause 4.2 cover?",
+ "gold_chunk_ids": ["contract-a#chunk-37"],
+ "source": "user-logs"}</code></pre>
+        </section>
+
+        <section id="tools">
+            <h2>Tooling: RAGAS and Friends, Locally</h2>
+            <pre><code>from ragas import evaluate
+from ragas.metrics import (
+    faithfulness, answer_relevancy, context_precision,
+    context_recall, LLMContextRecall
+)
+
+# Point RAGAS at a local Ollama endpoint
+os.environ["OPENAI_BASE_URL"] = "http://localhost:11434/v1"
+os.environ["OPENAI_API_KEY"] = "ollama"
+
+result = evaluate(dataset, metrics=[
+    faithfulness, answer_relevancy,
+    context_precision, context_recall,
+])
+print(result.to_pandas())</code></pre>
+            <p>RAGAS runs against any OpenAI-compatible endpoint, which means Ollama works out of the box. Pair the scores with the manual <a href="reranking-in-rag.html">reranking</a> and <a href="what-is-hybrid-search.html">hybrid-search</a> experiments to see which change actually moved the numbers — that's the loop that turns a "mostly works" RAG into a measurable one. Also see <a href="top-10-rag-tools-2026.html">Top 10 RAG Tools</a> for where evaluation fits the wider ecosystem.</p>
+        </section>
+
+        <section id="workflow">
+            <h2>A Minimal Evaluation Workflow</h2>
+            <ol>
+                <li>Baseline: run your current pipeline over the eval set, record all five metrics.</li>
+                <li>Change one thing (chunk size, embedding model, reranker on/off, prompt).</li>
+                <li>Rerun, compare. If nothing moved, the change doesn't matter to your corpus.</li>
+                <li>Ship the changes that improve metrics without breaking answers you've manually reviewed.</li>
+                <li>Re-run monthly — new documents quietly degrade retrieval over time.</li>
+            </ol>
+            <div class="highlight-box primary">
+                <p><strong>💡 The trap:</strong> chasing a single aggregate score. A system with great retrieval and terrible generation needs a prompt fix, not a new embedding model. Evaluate the layers separately, always.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What metrics should I use to evaluate RAG?</h3>
+            <p>Split into two layers. Retrieval: recall@k (did the right chunk get retrieved), MRR (how high was it ranked), NDCG@k (ranking quality). Generation: faithfulness (is the answer grounded in the context) and answer relevance (does it answer the question). Track all five; they isolate which layer is failing.</p>
+
+            <h3>How many eval questions do I need?</h3>
+            <p>Start with 30–50 high-quality questions built from real user queries — enough to catch major regressions. 100+ gives stable scores for small changes like chunk-size tweaks. Quality beats quantity: questions must be realistic and have known-good answers.</p>
+
+            <h3>What is faithfulness in RAG evaluation?</h3>
+            <p>Faithfulness measures whether every claim in the answer is supported by the retrieved context. A faithful answer can still be wrong or irrelevant — which is why it is paired with answer relevance. Low faithfulness means the model is hallucinating despite good retrieval.</p>
+
+            <h3>What is a good recall@k score?</h3>
+            <p>For a well-tuned RAG system on its own corpus, recall@5 above 0.8 and recall@10 above 0.9 are reasonable targets. Below 0.7 signals a chunking, embedding, or retrieval problem worth fixing before touching generation.</p>
+
+            <h3>Do I need an LLM judge to evaluate RAG?</h3>
+            <p>For retrieval metrics, no — they are computed from rankings against labeled chunks. For generation metrics, an LLM judge (or framework like RAGAS) is the standard approach, and a local sub-12B model works for judging in 2026, keeping the whole loop offline.</p>
+
+            <h3>How do I build an eval set without labeled data?</h3>
+            <p>Two honest paths: (1) mine real questions from logs or from domain experts and label the expected chunk manually; (2) generate synthetic questions from your own chunks with an LLM (RAGAS does this), then spot-check a sample by hand. Never trust synthetic labels without human review.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="rag-chunking-strategies.html">Advanced RAG: Chunking Strategies Compared</a></li>
+                <li><a href="reranking-in-rag.html">Reranking in RAG: Why Retrieval Order Matters</a></li>
+                <li><a href="what-is-hybrid-search.html">What Is Hybrid Search? BM25 + Semantic Retrieval</a></li>
+                <li><a href="top-10-rag-tools-2026.html">Top 10 RAG Tools in 2026</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+                <li><a href="https://docs.ragas.io" target="_blank" rel="noopener">RAGAS — documentation</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

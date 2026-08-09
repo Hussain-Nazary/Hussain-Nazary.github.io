@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)</title>
+    <meta name="description" content="Build a local AI agent with LangGraph and Ollama: tool calling, state graphs, and a working example agent that runs 100% offline.">
+    <meta name="keywords" content="langgraph ollama, build ai agent, langgraph agent tutorial, local ai agent, tool calling agent, langgraph local llm, ollama agent, agentic workflow python, langgraph state machine">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/build-ai-agent-langgraph-ollama.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)">
+    <meta property="og:description" content="Tool calling, state graphs, and a working example agent that runs 100% offline with LangGraph and Ollama.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/build-ai-agent-langgraph-ollama.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)">
+    <meta name="twitter:description" content="Tool calling, state graphs, and a working example agent that runs 100% offline.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)",
+          "description": "Tool calling, state graphs, and a working example agent that runs 100% offline with LangGraph and Ollama.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/build-ai-agent-langgraph-ollama.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is LangGraph?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LangGraph is a Python (and JS) framework for building agent workflows as stateful graphs — nodes are steps, edges are transitions, and a shared state carries data between them. It adds cycles, persistence, and human-in-the-loop control that plain LangChain chains lack."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I build agents with Ollama and local models?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — LangGraph's ChatOllama integration speaks to Ollama's OpenAI-compatible API, and tool calling works with models that support it (Qwen3, Qwen2.5, Llama 3.1+, Mistral). The whole agent runs locally with no cloud dependency."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is a good local model for agent tool calling?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In 2026 the reliable picks are Qwen3-8B or Qwen3.5-9B (excellent function calling), Gemma 4 12B (multimodal agent work), and GLM-4-9B. For small hardware, Qwen3.5-4B still handles simple tool loops. Models without tool-calling support can use a text-based protocol, but it's less robust."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is an agent different from a chatbot?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A chatbot responds. An agent acts: it can call tools, inspect results, decide next steps, and loop until the task is done. The loop — decide, act, observe, repeat — is the defining structure, and LangGraph makes that loop explicit and controllable."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do agents need the cloud?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No — agent infrastructure (model, tools, graph runtime) all run locally. What agents often want is access to external services (APIs, databases, browsers), and that's a design choice, not a requirement. A fully private agent is very achievable in 2026."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are the limits of local-model agents?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Long multi-step plans, complex reasoning chains, and large contexts are where small local models stumble compared to frontier models. Mitigations: keep steps small, add a reranker or memory, and set a max-iteration guard so a confused agent doesn't loop forever."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Build an AI Agent with LangGraph + Ollama (2026 Tutorial)</h1>
+        <p><strong>Published: August 8, 2026</strong> — An agent is a loop: the model decides what to do, calls a tool, observes the result, and decides again — until the task is done. <strong>LangGraph gives you the loop as an explicit, controllable graph, and Ollama gives you the model with zero cloud dependency.</strong> This tutorial builds a working local agent — a research assistant with search and calculator tools — that runs entirely on your machine.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Agent = loop, not chatbot:</strong> decide → act → observe → repeat, with a stop condition</li>
+                <li><strong>LangGraph models the loop as a graph</strong> — nodes, edges, and shared state</li>
+                <li><strong>Ollama + Qwen3-class models handle tool calling locally</strong> — fully offline agents are real in 2026</li>
+                <li><strong>Always set a max-iteration guard</strong> — confused agents loop forever otherwise</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="setup">
+            <h2>Setup: The Local Stack</h2>
+            <pre><code># 1. Start Ollama and pull a tool-calling model
+ollama pull qwen3:8b        # strong function calling
+ollama serve
+
+# 2. Install LangGraph
+pip install langgraph langchain-ollama langchain</code></pre>
+            <p>Model choice matters for tool calling — the <a href="top-10-models-under-12b-2026.html">sub-12B ranking</a> and <a href="top-10-coding-models-under-12b-2026.html">coding ranking</a> both note function-calling strength. Qwen3-8B is the reliable default; Qwen3.5-4B for small hardware.</p>
+        </section>
+
+        <section id="tools">
+            <h2>Step 1: Define the Tools</h2>
+            <p>Tools are ordinary Python functions with type hints — LangGraph (via LangChain) turns them into the JSON schema the model calls.</p>
+            <pre><code>from langchain_core.tools import tool
+
+@tool
+def search_docs(query: str) -> str:
+    """Search the local knowledge base for documents about the query."""
+    # In production: hit ChromaDB — see the 30-minute RAG pipeline
+    return f"Top result for '{query}': the 2026 policy handbook, section 4."
+
+@tool
+def calculate(expression: str) -> str:
+    """Evaluate a math expression safely."""
+    # Whitelist only — never eval() raw user input
+    import ast, operator
+    ops = {ast.Add: operator.add, ast.Sub: operator.sub,
+           ast.Mult: operator.mul, ast.Div: operator.truediv}
+    node = ast.parse(expression, mode="eval").body
+    def walk(n):
+        if isinstance(n, ast.Constant): return n.value
+        return ops[type(n.op)](walk(n.left), walk(n.right))
+    return str(walk(node))
+
+tools = [search_docs, calculate]</code></pre>
+            <p>The docstrings are the model's instructions — write them as usage guides, not descriptions. See <a href="tool-calling-local-llm.html">Tool Calling with Local LLMs</a> for the full pattern guide.</p>
+        </section>
+
+        <section id="graph">
+            <h2>Step 2: Build the Graph</h2>
+            <pre><code>from langgraph.graph import StateGraph, START, END
+from langgraph.prebuilt import ToolNode, tools_condition
+from typing import Annotated, TypedDict
+from langgraph.graph.message import add_messages
+from langchain_ollama import ChatOllama
+
+class AgentState(TypedDict):
+    messages: Annotated[list, add_messages]
+
+llm = ChatOllama(model="qwen3:8b", temperature=0)
+llm_with_tools = llm.bind_tools(tools)
+
+def agent(state: AgentState):
+    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+
+graph = StateGraph(AgentState)
+graph.add_node("agent", agent)
+graph.add_node("tools", ToolNode(tools))
+graph.add_edge(START, "agent")
+graph.add_conditional_edges("agent", tools_condition)
+graph.add_edge("tools", "agent")          # loop back
+graph.add_edge("agent", END)              # only reached when no tool call
+app = graph.compile()</code></pre>
+            <p>The shape is simple: <code>agent</code> calls the model; if the model requested tools, <code>tools_condition</code> routes to the <code>tools</code> node, which runs them and loops back to <code>agent</code>. The loop ends when the model answers without a tool call. That's the whole agent.</p>
+        </section>
+
+        <section id="run">
+            <h2>Step 3: Run It</h2>
+            <pre><code>from langchain_core.messages import HumanMessage
+
+result = app.invoke({"messages": [
+    HumanMessage("What does the handbook say about leave policy? "
+                 "Also compute 17*43 for me.")
+]})
+
+for m in result["messages"]:
+    print(f"{m.type}: {m.content}")</code></pre>
+            <p>Watch the message list: you'll see the model call a tool, the tool result come back, and the model produce the final grounded answer. That's the decide–act–observe loop in action.</p>
+        </section>
+
+        <section id="guards">
+            <h2>Step 4: Production Guards</h2>
+            <ul>
+                <li><strong>Max iterations:</strong> <code>app.invoke(input, config={"recursion_limit": 10})</code> — a confused agent must not loop forever.</li>
+                <li><strong>Human-in-the-loop:</strong> LangGraph's <code>interrupt_before</code> pauses before risky nodes — mandatory for anything that sends emails or edits files.</li>
+                <li><strong>Persistence:</strong> <code>checkpointer=MemorySaver()</code> gives the graph memory across turns and enables resuming after interrupts.</li>
+                <li><strong>Streaming:</strong> <code>app.stream(...)</code> yields token-by-token updates for the UI.</li>
+            </ul>
+            <pre><code>from langgraph.checkpoint.memory import MemorySaver
+from langgraph.types import interrupt
+
+app = graph.compile(
+    checkpointer=MemorySaver(),
+    interrupt_before=["tools"],   # human approves tool calls
+)
+# First run with a thread_id; LangGraph pauses before tools
+config = {"configurable": {"thread_id": "session-1"}}
+app.invoke({"messages": [HumanMessage("Email the draft to the client")]}, config)</code></pre>
+        </section>
+
+        <section id="next">
+            <h2>Leveling Up: From One Agent to a System</h2>
+            <ul>
+                <li><strong>Give the agent retrieval.</strong> The <code>search_docs</code> tool above can call a ChromaDB query — that's <a href="agentic-rag.html">agentic RAG</a>, the pattern that lets agents decide <em>when</em> to search.</li>
+                <li><strong>Expose it over MCP.</strong> Wrap your tools as <a href="mcp-explained.html">Model Context Protocol</a> servers so any MCP client (Claude Desktop, Cursor, or your own UI) can use them.</li>
+                <li><strong>Split into specialist agents.</strong> When one agent juggles too many tools, it degrades — see <a href="multi-agent-systems.html">Multi-Agent Systems</a> for the coordinator pattern.</li>
+                <li><strong>Watch the memory.</strong> Long agent runs grow the context; <a href="kv-cache-quantization.html">KV cache management</a> and <a href="speculative-decoding.html">speculative decoding</a> keep local agents fast.</li>
+            </ul>
+            <div class="toolbox">
+                <h3>🚀 Why local agents matter</h3>
+                <p>An agent that calls tools on your machine never sends a prompt anywhere. For a privacy-first product — like <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> — that's the difference between an agent and a liability. The loop pattern in this tutorial is exactly the engine behind such assistants: local model + local tools + explicit graph control.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is LangGraph?</h3>
+            <p>LangGraph is a Python (and JS) framework for building agent workflows as stateful graphs — nodes are steps, edges are transitions, and a shared state carries data between them. It adds cycles, persistence, and human-in-the-loop control that plain LangChain chains lack.</p>
+
+            <h3>Can I build agents with Ollama and local models?</h3>
+            <p>Yes — LangGraph's ChatOllama integration speaks to Ollama's OpenAI-compatible API, and tool calling works with models that support it (Qwen3, Qwen2.5, Llama 3.1+, Mistral). The whole agent runs locally with no cloud dependency.</p>
+
+            <h3>What is a good local model for agent tool calling?</h3>
+            <p>In 2026 the reliable picks are Qwen3-8B or Qwen3.5-9B (excellent function calling), Gemma 4 12B (multimodal agent work), and GLM-4-9B. For small hardware, Qwen3.5-4B still handles simple tool loops. Models without tool-calling support can use a text-based protocol, but it's less robust.</p>
+
+            <h3>How is an agent different from a chatbot?</h3>
+            <p>A chatbot responds. An agent acts: it can call tools, inspect results, decide next steps, and loop until the task is done. The loop — decide, act, observe, repeat — is the defining structure, and LangGraph makes that loop explicit and controllable.</p>
+
+            <h3>Do agents need the cloud?</h3>
+            <p>No — agent infrastructure (model, tools, graph runtime) all run locally. What agents often want is access to external services (APIs, databases, browsers), and that's a design choice, not a requirement. A fully private agent is very achievable in 2026.</p>
+
+            <h3>What are the limits of local-model agents?</h3>
+            <p>Long multi-step plans, complex reasoning chains, and large contexts are where small local models stumble compared to frontier models. Mitigations: keep steps small, add a reranker or memory, and set a max-iteration guard so a confused agent doesn't loop forever.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="tool-calling-local-llm.html">Tool Calling with Local LLMs: A Practical Guide</a></li>
+                <li><a href="mcp-explained.html">MCP Explained: Model Context Protocol for Local AI</a></li>
+                <li><a href="multi-agent-systems.html">Multi-Agent Systems: When One Agent Isn't Enough</a></li>
+                <li><a href="agentic-rag.html">Agentic RAG: Combining Agents with Retrieval</a></li>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="top-10-models-under-12b-2026.html">Top 10 AI Models Under 12B Parameters</a></li>
+                <li><a href="https://langchain-ai.github.io/langgraph/" target="_blank" rel="noopener">LangGraph documentation</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

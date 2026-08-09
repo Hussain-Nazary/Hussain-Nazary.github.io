@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RAG: Combining Agents with Retrieval (2026 Guide)</title>
+    <meta name="description" content="Agentic RAG combines LLM agents with retrieval — multi-hop search, tool calls, and self-correction. Explained with patterns, local examples, and when it beats classic RAG.">
+    <meta name="keywords" content="agentic rag, AI agents retrieval, RAG agents, multi-hop RAG, LangGraph RAG, local RAG agents, agentic search">
+    <meta name="author" content="Mohammad Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hussain-nazary.github.io/agentic-rag.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Agentic RAG: Combining Agents with Retrieval (2026 Guide)">
+    <meta property="og:description" content="Agentic RAG combines LLM agents with retrieval — multi-hop search, tool calls, and self-correction. Explained with patterns, local examples, and when it beats classic RAG.">
+    <meta property="og:url" content="https://hussain-nazary.github.io/agentic-rag.html">
+    <meta property="og:site_name" content="Hussain Nazary">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agentic RAG: Combining Agents with Retrieval (2026 Guide)">
+    <meta name="twitter:description" content="Agentic RAG combines LLM agents with retrieval — multi-hop search, tool calls, and self-correction. Explained with patterns, local examples, and when it beats classic RAG.">
+
+    <!-- FAQ JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is agentic RAG?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Agentic RAG gives the retrieval pipeline to an AI agent. Instead of one embed-and-search step, the agent decides what to search for, calls retrieval tools, reads results, searches again, and iterates until it can answer — a multi-step loop instead of a single lookup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is agentic RAG different from classic RAG?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Classic RAG is a fixed pipeline: embed the query, search the vector store, stuff results into the prompt, generate. Agentic RAG replaces the fixed steps with an agent loop: query rewriting, multiple retrievals, tool calls, self-correction, and reflection before the final answer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does agentic RAG need a big model?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Tool-calling and reasoning work well on 7-14B local models like Qwen3 and Gemma 4. Agentic loops cost more tokens per question, but with a local model the cost is compute time, not API fees — which is exactly why agentic RAG is practical on local stacks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run agentic RAG locally?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. LangGraph, LlamaIndex, and Haystack all run against local models through Ollama or llama.cpp, with ChromaDB or FAISS for retrieval. A full local agentic RAG stack fits on 16GB of RAM with a Q4-quantized 7-14B model."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When does agentic RAG beat classic RAG?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When questions are multi-hop (need facts from several documents), ambiguous (need rephrasing), or involve comparisons across sources. Classic RAG wins for simple, fact-lookup questions where the extra tokens and latency of an agent loop add nothing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you evaluate agentic RAG?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Beyond classic retrieval metrics (recall@k, NDCG) and answer faithfulness, you track the loop itself: tool-call success rate, number of retrieval steps, whether the agent converged or hit its step limit, and end-to-end answer correctness on a test set."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- BlogPosting JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Agentic RAG: Combining Agents with Retrieval (2026 Guide)",
+      "description": "Agentic RAG combines LLM agents with retrieval — multi-hop search, tool calls, and self-correction. Explained with patterns, local examples, and when it beats classic RAG.",
+      "datePublished": "2026-08-09",
+      "dateModified": "2026-08-09",
+      "author": {
+        "@type": "Person",
+        "name": "Mohammad Hussain Nazary"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Mohammad Hussain Nazary"
+      },
+      "mainEntityOfPage": "https://hussain-nazary.github.io/agentic-rag.html"
+    }
+    </script>
+
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: #0f1117; color: #e6e6e6; line-height: 1.7; }
+        a { color: #5cb8ff; }
+        .container { max-width: 860px; margin: 0 auto; padding: 24px 20px 80px; }
+        .post-meta { color: #8a93a6; font-size: 0.9rem; margin-bottom: 24px; }
+        .post-meta a { color: #8a93a6; }
+        h1 { font-size: 2.2rem; line-height: 1.25; margin: 8px 0 12px; }
+        h2 { font-size: 1.5rem; margin-top: 40px; border-bottom: 1px solid #2a2f3a; padding-bottom: 8px; }
+        h3 { font-size: 1.15rem; margin-top: 28px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid #2a2f3a; padding: 10px 12px; text-align: left; vertical-align: top; }
+        th { background: #161a24; color: #fff; }
+        tr:nth-child(even) td { background: #141824; }
+        pre { background: #161a24; border: 1px solid #2a2f3a; border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55; }
+        code { font-family: "SF Mono", "Cascadia Code", Consolas, monospace; }
+        p code, li code { background: #161a24; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        .note { background: #1a2233; border-left: 4px solid #5cb8ff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 20px 0; }
+        .note strong { color: #5cb8ff; }
+        ul, ol { padding-left: 24px; }
+        li { margin: 6px 0; }
+        .tag { display: inline-block; background: #1a2233; color: #5cb8ff; border-radius: 20px; padding: 3px 12px; font-size: 0.8rem; margin-right: 6px; }
+        .back { display: inline-block; margin-top: 32px; color: #8a93a6; text-decoration: none; }
+        .back:hover { color: #5cb8ff; }
+        @media (max-width: 600px) { h1 { font-size: 1.7rem; } .container { padding: 16px 14px 60px; } table { font-size: 0.8rem; } th, td { padding: 7px 8px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="post-meta">
+        <a href="index.html">← Back to portfolio</a> &nbsp;|&nbsp; <a href="simple-portfolio.html">Blog</a> &nbsp;|&nbsp; August 9, 2026
+        <div style="margin-top:8px;">
+            <span class="tag">RAG</span><span class="tag">Agents</span><span class="tag">Local AI</span>
+        </div>
+    </div>
+
+    <h1>Agentic RAG: Combining Agents with Retrieval</h1>
+
+    <p>Classic RAG answers a question in one pass: embed the query, search, stuff the top chunks into the prompt, generate. It is fast, simple, and it solves the majority of "ask my documents" problems. But it breaks down the moment a question is <em>multi-hop</em> — "what did the Q3 report say about churn, and how does that compare to the marketing deck?" — because no single retrieval answers that.</p>
+
+    <p>Agentic RAG hands the pipeline to an agent. The agent decides what to look for, calls retrieval as a tool, reads what comes back, decides it needs more, searches again, and only then writes the final answer. This guide explains how the loop works, the patterns that actually matter in 2026, and how to build it with local models.</p>
+
+    <h2>What Agentic RAG Actually Is</h2>
+
+    <p>Think of classic RAG as a vending machine: you press a button, it drops a result. Agentic RAG is a researcher: it takes notes, follows threads, asks follow-up questions of the data, and comes back when it is confident.</p>
+
+    <p>Concretely, the agent loop wraps the same retrieval building blocks you already know — embeddings, vector search, BM25, rerankers — behind <strong>tool calls</strong>. The LLM decides which tool to call (search, lookup, web, calculator, code), with what arguments, and inspects the results before deciding the next step. The loop terminates when the model emits a final answer.</p>
+
+    <h2>The Four Patterns That Matter</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Pattern</th>
+                <th>What it does</th>
+                <th>Best for</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Query rewriting</strong></td>
+                <td>The agent rephrases or decomposes the user question before each retrieval (e.g., "churn" → "Q3 churn rate by segment")</td>
+                <td>Ambiguous or jargon-heavy queries; one retrieval rarely matches the intent</td>
+            </tr>
+            <tr>
+                <td><strong>Multi-hop retrieval</strong></td>
+                <td>Uses facts from the first retrieval to formulate the second search (answer to one sub-question feeds the next)</td>
+                <td>Comparisons, causal chains, questions spanning several documents</td>
+            </tr>
+            <tr>
+                <td><strong>Tool use</strong></td>
+                <td>Retrieval is one tool among many — calculator, code interpreter, SQL, web, document lookup</td>
+                <td>Questions mixing documents with computation or live data</td>
+            </tr>
+            <tr>
+                <td><strong>Reflection / self-correction</strong></td>
+                <td>The agent critiques its own draft, checks citations against retrieved chunks, and re-retrieves if evidence is weak</td>
+                <td>High-stakes answers where hallucination is expensive</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>The patterns compose. A strong agentic RAG setup uses query rewriting <em>and</em> multi-hop <em>and</em> a reflection step — which is why it costs 3–10× more tokens than a single-shot pipeline.</p>
+
+    <h2>Agentic RAG vs Classic RAG</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Classic RAG</th>
+                <th>Agentic RAG</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Retrieval passes</strong></td>
+                <td>Exactly one</td>
+                <td>As many as needed (bounded by a step limit)</td>
+            </tr>
+            <tr>
+                <td><strong>Query handling</strong></td>
+                <td>As typed</td>
+                <td>Rewritten, decomposed, refined</td>
+            </tr>
+            <tr>
+                <td><strong>Latency</strong></td>
+                <td>~1–3 s</td>
+                <td>~5–30 s (loop + multiple generations)</td>
+            </tr>
+            <tr>
+                <td><strong>Token cost</strong></td>
+                <td>Low</td>
+                <td>3–10× (API) or compute time (local)</td>
+            </tr>
+            <tr>
+                <td><strong>Multi-hop questions</strong></td>
+                <td>Weak — single retrieval misses context</td>
+                <td>Strong — iterative search finds the chain</td>
+            </tr>
+            <tr>
+                <td><strong>Hallucination control</strong></td>
+                <td>Depends on grounding</td>
+                <td>Reflection + citation checks reduce it</td>
+            </tr>
+            <tr>
+                <td><strong>Predictability</strong></td>
+                <td>Very high — fixed pipeline</td>
+                <td>Lower — agent can go down dead ends</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note"><strong>The honest rule:</strong> if a question can be answered by one good search, classic RAG is better — faster, cheaper, and deterministic. Agentic RAG earns its tokens on questions that <em>require</em> iteration: "summarize the changes between this year's and last year's contract," not "what is the return policy?"</div>
+
+    <h2>A Local Agentic RAG Loop (LangGraph + Ollama)</h2>
+
+    <p>Here is the minimal loop — agent → retrieval tool → reflection — running entirely on a local stack. It assumes Ollama is serving a tool-calling model like <code>qwen3:8b</code> and ChromaDB holds your chunks (the same setup as our <a href="local-rag-8gb-ram.html">local RAG on 8GB</a> guide).</p>
+
+    <pre><code>from langgraph.graph import StateGraph, END
+from langchain_ollama import ChatOllama
+from langchain_core.tools import tool
+from langchain_community.vectorstores import Chroma
+
+llm = ChatOllama(model="qwen3:8b", temperature=0)
+store = Chroma(persist_directory="./chroma_db")
+
+@tool
+def search_docs(query: str) -> str:
+    """Search the document store and return the top 4 chunks."""
+    results = store.similarity_search(query, k=4)
+    return "\n\n".join(f"[{i+1}] {r.page_content}" for i, r in enumerate(results))
+
+tools = [search_docs]
+model = llm.bind_tools(tools)
+
+def agent(state):
+    response = model.invoke(state["messages"])
+    return {"messages": [response]}
+
+def should_continue(state):
+    last = state["messages"][-1]
+    return "tool_calls" if last.tool_calls else END
+
+def tool_node(state):
+    out = []
+    for call in state["messages"][-1].tool_calls:
+        if call["name"] == "search_docs":
+            out.append(search_docs.invoke(call["args"]))
+    return {"messages": out}
+
+graph = StateGraph(dict)
+graph.add_node("agent", agent)
+graph.add_node("tools", tool_node)
+graph.set_entry_point("agent")
+graph.add_conditional_edges("agent", should_continue, {"tool_calls": "tools", END: END})
+graph.add_edge("tools", "agent")
+
+app = graph.compile()
+result = app.invoke({"messages": [("user", "How does Q3 churn compare to the marketing claims?")]})
+print(result["messages"][-1].content)</code></pre>
+
+    <p>The loop is deliberately short: the agent searches, sees the chunks, and either searches again or answers. Add a reflection node — "check that every claim in your draft is supported by a retrieved chunk, re-search if not" — and you have the full pattern. LangGraph's state graph makes the <em>control flow</em> explicit, which is why it beats ad-hoc <code>while</code> loops for anything beyond a demo.</p>
+
+    <h2>When to Add Each Piece (Decision Guide)</h2>
+
+    <ul>
+        <li><strong>Query rewriting</strong> — add first. Users type badly; one rewritten search usually fixes 80% of retrieval misses. Cheapest win in the whole list.</li>
+        <li><strong>Multi-hop</strong> — add when your questions span documents ("compare", "across", "from X to Y").</li>
+        <li><strong>Reflection</strong> — add when wrong answers are expensive (legal, medical, contracts). It roughly doubles latency; budget for it.</li>
+        <li><strong>Extra tools</strong> — add only when questions mix docs with computation (aggregate a table, run a formula). Every extra tool is a new failure mode.</li>
+        <li><strong>Step limits</strong> — always. A 4–6 step cap turns a runaway loop into a graceful "I could not find enough evidence" answer.</li>
+    </ul>
+
+    <h2>Does It Need a Big Model?</h2>
+
+    <p>No — and this is where local AI shines. Tool calling and multi-step reasoning are now solid on 7–14B models; <a href="top-10-coding-models-under-12b-2026.html">Qwen3.5-9B</a> and Gemma 4 handle agent loops reliably at Q4 on a 16GB machine. Because there is no per-token API bill, the 3–10× token overhead of an agent loop is just a few extra seconds of compute — which makes agentic RAG far more attractive locally than on metered APIs.</p>
+
+    <h2>How to Evaluate It</h2>
+
+    <p>Classic RAG metrics (recall@k, NDCG, faithfulness) still apply, but agentic RAG adds loop-level metrics you should track:</p>
+
+    <ul>
+        <li><strong>Convergence rate</strong> — % of questions answered before the step limit (target: &gt;95%)</li>
+        <li><strong>Tool-call success</strong> — % of search calls that returned useful (non-empty, on-topic) results</li>
+        <li><strong>Steps per question</strong> — if this creeps up, retrieval quality is slipping and the agent compensates by searching more</li>
+        <li><strong>End-to-end answer accuracy</strong> — the only number that ultimately matters, on a labeled test set (build one from 50–100 real questions)</li>
+    </ul>
+
+    <p>Start small: measure classic RAG on your test set first, then add pieces one at a time and re-measure. If query rewriting alone closes the gap, stop there — every added pattern is added complexity.</p>
+
+    <h2>Where It Fits in the Local AI Stack</h2>
+
+    <p>Agentic RAG is the next rung on the ladder this blog has been building: embeddings → vector search → hybrid search → reranking → <a href="build-ai-agent-langgraph-ollama.html">agents</a> → agentic RAG. The retrieval fundamentals from the <a href="top-10-embedding-models-2026.html">embedding models</a> and <a href="top-10-vector-databases-2026.html">vector databases</a> posts are exactly what the agent calls as tools — nothing changes at the storage layer, only the control flow above it.</p>
+
+    <p>For a privacy-first use case, agentic RAG is the reason <a href="lawyer-assistant.html">Lawyer Assistant</a> can answer "does this clause contradict the other agreement?" — a genuinely multi-hop question that a single-pass pipeline would miss, all without a single document leaving the machine.</p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>What is agentic RAG?</h3>
+    <p>Agentic RAG gives the retrieval pipeline to an AI agent: instead of one embed-and-search step, the agent decides what to search, calls retrieval as a tool, reads results, searches again, and iterates until it can answer.</p>
+
+    <h3>How is agentic RAG different from classic RAG?</h3>
+    <p>Classic RAG is a fixed single-pass pipeline. Agentic RAG is a loop with query rewriting, multiple retrievals, tool calls, and self-correction before the final answer.</p>
+
+    <h3>Does agentic RAG need a big model?</h3>
+    <p>No — 7–14B local models like Qwen3 and Gemma 4 handle tool calling and agent loops well, and local inference makes the extra tokens essentially free.</p>
+
+    <h3>Can I run agentic RAG locally?</h3>
+    <p>Yes. LangGraph, LlamaIndex, and Haystack all run against Ollama or llama.cpp with ChromaDB or FAISS. A full stack fits on 16GB of RAM with a Q4 7–14B model.</p>
+
+    <h3>When does agentic RAG beat classic RAG?</h3>
+    <p>For multi-hop, ambiguous, or cross-document questions. For simple fact lookups, classic RAG is faster, cheaper, and more predictable.</p>
+
+    <h3>How do you evaluate agentic RAG?</h3>
+    <p>Track convergence rate, tool-call success, steps per question, and end-to-end answer accuracy on a labeled test set — in addition to classic retrieval and faithfulness metrics.</p>
+
+    <a class="back" href="simple-portfolio.html">← All blog posts</a>
+</div>
+</body>
+</html>

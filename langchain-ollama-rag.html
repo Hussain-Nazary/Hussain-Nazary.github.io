@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)</title>
+    <meta name="description" content="Build local RAG with LangChain and Ollama: load, split, embed, retrieve, and answer with a step-by-step Python pipeline that runs 100% offline.">
+    <meta name="keywords" content="langchain ollama rag, langchain rag tutorial, local rag python, ollama embeddings langchain, chromadb langchain, rag pipeline python, langchain document loader, local llm rag">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/langchain-ollama-rag.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)">
+    <meta property="og:description" content="Load, split, embed, retrieve, and answer with a step-by-step Python pipeline that runs 100% offline.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/langchain-ollama-rag.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)">
+    <meta name="twitter:description" content="Load, split, embed, retrieve, and answer with a step-by-step Python pipeline that runs 100% offline.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)",
+          "description": "Load, split, embed, retrieve, and answer with a step-by-step Python pipeline that runs 100% offline.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/langchain-ollama-rag.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is LangChain and why use it for RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LangChain is a framework with ready-made components for every RAG stage — document loaders, text splitters, embedding wrappers, vector-store integrations, and chat models. You write the glue instead of the plumbing. For local RAG it works with Ollama on both the embedding and generation sides."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can LangChain use Ollama for both embeddings and generation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — ChatOllama handles chat/generation and OllamaEmbeddings handles embeddings (e.g. BGE-M3 or nomic-embed-text). Both point at your local Ollama server, so the entire RAG pipeline runs offline with no API keys."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which vector store should I use with LangChain?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ChromaDB is the default choice for local work (langchain-chroma, persistent to disk, zero server). FAISS is faster for pure in-memory search. Both have one-line LangChain integrations — the ChromaDB vs FAISS guide in this blog compares them."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is LangChain still the right choice in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For beginners and teams wanting batteries included, yes. LangChain has real complexity overhead and its API shifts between versions — pin your version. If you want minimal dependencies, the 30-minute RAG guide in this blog shows the same pipeline in ~40 lines of plain Python."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best embedding model for LangChain local RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "BGE-M3 (dense + sparse + multi-vector, strong multilingual) and nomic-embed-text are the common local picks via Ollama. See the embedding-models ranking in this blog for the full table with context lengths and licenses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I improve a LangChain RAG pipeline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In order of impact: better chunking (document-aware, contextual retrieval), hybrid search (BM25 + embeddings), reranking with a cross-encoder, and evaluating with a proper eval set. Each is covered by its own guide in this blog."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Build RAG with LangChain + Ollama Locally (2026 Tutorial)</h1>
+        <p><strong>Published: August 8, 2026</strong> — LangChain gives you every RAG component as a building block; Ollama gives you the models, fully local. Together they're the fastest path to <strong>a working RAG system in an afternoon — no API keys, no cloud, no cost.</strong> This tutorial builds the complete pipeline: load → split → embed → store → retrieve → answer, in runnable Python.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>One stack, all local:</strong> LangChain + Ollama (ChatOllama + OllamaEmbeddings) + ChromaDB</li>
+                <li><strong>~60 lines of Python</strong> covers the whole pipeline</li>
+                <li><strong>BGE-M3 via Ollama</strong> is the embedding default — strong multilingual, no API key</li>
+                <li><strong>Pin your LangChain version</strong> — its API shifts between releases</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="setup">
+            <h2>Setup</h2>
+            <pre><code># Ollama: pull the models once
+ollama pull qwen3:8b          # generation
+ollama pull bge-m3            # embeddings
+
+# Python
+pip install langchain langchain-community \
+            langchain-chroma langchain-ollama \
+            chromadb pypdf</code></pre>
+        </section>
+
+        <section id="ingest">
+            <h2>Step 1: Load and Split</h2>
+            <pre><code>from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+loader = PyPDFLoader("policy-handbook.pdf")
+docs = loader.load()
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50,
+    separators=["\n\n", "\n", ".", " ", ""],
+)
+chunks = splitter.split_documents(docs)
+print(f"{len(chunks)} chunks")</code></pre>
+            <p>Splitter choice matters enormously — the <a href="rag-chunking-strategies.html">chunking guide</a> covers when to upgrade to document-aware or <a href="contextual-retrieval.html">contextual</a> splitting.</p>
+        </section>
+
+        <section id="embed">
+            <h2>Step 2: Embed and Store</h2>
+            <pre><code>from langchain_ollama import OllamaEmbeddings
+from langchain_chroma import Chroma
+
+embeddings = OllamaEmbeddings(model="bge-m3")
+
+vectorstore = Chroma.from_documents(
+    documents=chunks,
+    embedding=embeddings,
+    persist_directory="./chroma_db",   # saved to disk
+)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 4})</code></pre>
+            <p>ChromaDB persists to a folder — re-run this and you load instead of re-embed. The <a href="chromadb-vs-faiss.html">ChromaDB vs FAISS</a> guide explains the store choice.</p>
+        </section>
+
+        <section id="answer">
+            <h2>Step 3: Retrieve and Answer</h2>
+            <pre><code>from langchain_ollama import ChatOllama
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+
+llm = ChatOllama(model="qwen3:8b", temperature=0)
+
+prompt = ChatPromptTemplate.from_template("""
+Answer using ONLY the context below. If the context
+doesn't contain the answer, say so. Cite the source
+section when possible.
+
+Context:
+{context}
+
+Question: {question}""")
+
+def format_docs(docs):
+    return "\n\n".join(f"[{d.metadata.get('source','?')}] {d.page_content}"
+                       for d in docs)
+
+rag_chain = (
+    {"context": retriever | format_docs,
+     "question": RunnablePassthrough()}
+    | prompt
+    | llm
+)
+
+answer = rag_chain.invoke(
+    "What is the leave policy for part-time staff?")
+print(answer.content)</code></pre>
+            <p>That's the pipeline. <strong>Load → split → embed → retrieve → ground → answer</strong> — every stage local, every stage replaceable. The <a href="how-to-build-rag-system-30-minutes.html">30-minute plain-Python version</a> shows the same logic without the framework, if you prefer minimal dependencies.</p>
+        </section>
+
+        <section id="upgrade">
+            <h2>Leveling Up the Same Pipeline</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Upgrade</th>
+                        <th>How</th>
+                        <th>Guide</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Better chunking</td>
+                        <td>Document-aware or contextual splitting</td>
+                        <td><a href="rag-chunking-strategies.html">Chunking strategies</a></td>
+                    </tr>
+                    <tr>
+                        <td>Hybrid search</td>
+                        <td>Add BM25 alongside ChromaDB, merge results</td>
+                        <td><a href="what-is-hybrid-search.html">Hybrid search</a></td>
+                    </tr>
+                    <tr>
+                        <td>Reranking</td>
+                        <td>Cross-encoder over the top-k candidates</td>
+                        <td><a href="reranking-in-rag.html">Reranking in RAG</a></td>
+                    </tr>
+                    <tr>
+                        <td>Evaluation</td>
+                        <td>Recall@k + faithfulness on an eval set</td>
+                        <td><a href="rag-evaluation.html">RAG evaluation</a></td>
+                    </tr>
+                    <tr>
+                        <td>Agents</td>
+                        <td>Make retrieval a tool the model decides to call</td>
+                        <td><a href="agentic-rag.html">Agentic RAG</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is LangChain and why use it for RAG?</h3>
+            <p>LangChain is a framework with ready-made components for every RAG stage — document loaders, text splitters, embedding wrappers, vector-store integrations, and chat models. You write the glue instead of the plumbing. For local RAG it works with Ollama on both the embedding and generation sides.</p>
+
+            <h3>Can LangChain use Ollama for both embeddings and generation?</h3>
+            <p>Yes — ChatOllama handles chat/generation and OllamaEmbeddings handles embeddings (e.g. BGE-M3 or nomic-embed-text). Both point at your local Ollama server, so the entire RAG pipeline runs offline with no API keys.</p>
+
+            <h3>Which vector store should I use with LangChain?</h3>
+            <p>ChromaDB is the default choice for local work (langchain-chroma, persistent to disk, zero server). FAISS is faster for pure in-memory search. Both have one-line LangChain integrations — the ChromaDB vs FAISS guide in this blog compares them.</p>
+
+            <h3>Is LangChain still the right choice in 2026?</h3>
+            <p>For beginners and teams wanting batteries included, yes. LangChain has real complexity overhead and its API shifts between versions — pin your version. If you want minimal dependencies, the 30-minute RAG guide in this blog shows the same pipeline in ~40 lines of plain Python.</p>
+
+            <h3>What is the best embedding model for LangChain local RAG?</h3>
+            <p>BGE-M3 (dense + sparse + multi-vector, strong multilingual) and nomic-embed-text are the common local picks via Ollama. See the embedding-models ranking in this blog for the full table with context lengths and licenses.</p>
+
+            <h3>How do I improve a LangChain RAG pipeline?</h3>
+            <p>In order of impact: better chunking (document-aware, contextual retrieval), hybrid search (BM25 + embeddings), reranking with a cross-encoder, and evaluating with a proper eval set. Each is covered by its own guide in this blog.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="top-10-embedding-models-2026.html">Top 10 Embedding Models for RAG in 2026</a></li>
+                <li><a href="chromadb-vs-faiss.html">ChromaDB vs FAISS: Choosing a Vector Database</a></li>
+                <li><a href="reranking-in-rag.html">Reranking in RAG: Why Retrieval Order Matters</a></li>
+                <li><a href="what-is-hybrid-search.html">What Is Hybrid Search? BM25 + Semantic Retrieval</a></li>
+                <li><a href="rag-evaluation.html">RAG Evaluation: How to Measure Retrieval Quality</a></li>
+                <li><a href="https://python.langchain.com/docs/tutorials/rag/" target="_blank" rel="noopener">LangChain RAG tutorial (official docs)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

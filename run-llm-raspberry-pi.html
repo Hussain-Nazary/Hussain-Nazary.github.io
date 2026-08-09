@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Run LLMs on a Raspberry Pi (2026 Guide)</title>
+    <meta name="description" content="Run LLMs on a Raspberry Pi in 2026: which models fit, real tokens-per-second on Pi 5, Ollama setup, and what a Pi can honestly do with local AI.">
+    <meta name="keywords" content="raspberry pi llm, run llm on raspberry pi, pi 5 local ai, ollama raspberry pi, llama.cpp pi, small model pi, edge ai raspberry pi, 1b model pi, pi ai assistant">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/run-llm-raspberry-pi.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Run LLMs on a Raspberry Pi (2026 Guide)">
+    <meta property="og:description" content="Which models fit, real tokens-per-second on Pi 5, Ollama setup, and what a Pi can honestly do with local AI.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/run-llm-raspberry-pi.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Run LLMs on a Raspberry Pi (2026 Guide)">
+    <meta name="twitter:description" content="Which models fit, real tokens-per-second on Pi 5, Ollama setup, and what a Pi can honestly do with local AI.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Run LLMs on a Raspberry Pi (2026 Guide)",
+          "description": "Which models fit, real tokens-per-second on Pi 5, Ollama setup, and what a Pi can honestly do with local AI.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/run-llm-raspberry-pi.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can a Raspberry Pi run an LLM?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — small models (0.5B to 3B at Q4 quantization) run on a Pi 5 at usable speeds. Expect roughly 5-15 tokens per second on a Pi 5 with 8GB RAM. Larger models are possible with heavy quantization but become impractical."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the best LLM for a Raspberry Pi?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In 2026 the practical picks are Qwen3.5-4B (best quality per GB on Pi 5 8GB), Gemma 4 E4B, SmolLM3-3B (very fast), Qwen3-1.7B and 0.6B (older Pi 4 / 4GB boards), and LFM2.5-1.2B-Thinking for on-device reasoning. Quantize to Q4_K_M and test the actual speed before committing."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How fast is an LLM on a Raspberry Pi 5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Realistic figures: 1-2B models run ~10-15 t/s, 3-4B models run ~5-8 t/s on a Pi 5 with 8GB RAM and a good (AVX/NEON-optimized) build. That's usable for chat and simple automation, slow for long documents."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I use Ollama or llama.cpp on a Pi?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ollama is the easiest (one install, model pulls) and works well on Pi OS. llama.cpp gives more control (custom builds, KV cache flags) and slightly better performance. For most Pi projects, start with Ollama; switch if you need the knobs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are realistic Raspberry Pi AI projects?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A private voice assistant (Whisper + small LLM + TTS), a local RAG box for a few hundred documents, home-automation natural language, offline chat kiosk, and sensor-log summarization. Pi AI is for small, focused, always-on jobs — not general assistants."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does the Pi 5's AI kit (Hailo) help with LLMs?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Hailo-8 AI kit accelerates vision models and some small transformer inference, but LLM support is limited — it shines for object detection, pose, and similar vision workloads. For text LLMs, the CPU with an optimized llama.cpp build is still the main path."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Run LLMs on a Raspberry Pi (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — A Raspberry Pi is the smallest machine people actually try to run AI on — and in 2026, it works. <strong>Small models at Q4 quantization run at usable speed on a Pi 5,</strong> and the 1–3B class has gotten dramatically better since 2024. This guide is the honest version: what fits, how fast it really is, how to set it up, and which projects a Pi is actually good for.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Pi 5 (8GB) runs 1–3B models at 5–15 t/s</strong> — usable, not fast</li>
+                <li><strong>Best 2026 picks:</strong> Qwen3.5-4B (quality), SmolLM3-3B (speed), LFM2.5-1.2B-Thinking (reasoning under 1GB)</li>
+                <li><strong>Ollama for ease, llama.cpp for control</strong> — both work on Pi OS</li>
+                <li><strong>Pi AI = small, focused, always-on jobs</strong> — voice boxes, RAG kiosks, home automation</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="what-fits">
+            <h2>What Actually Fits and How Fast</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Board</th>
+                        <th>RAM</th>
+                        <th>Models (Q4_K_M)</th>
+                        <th>Typical speed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pi 5</strong></td>
+                        <td>8GB</td>
+                        <td>0.6B – 4B</td>
+                        <td>1–2B: 10–15 t/s · 3–4B: 5–8 t/s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pi 5</strong></td>
+                        <td>4GB</td>
+                        <td>0.6B – 2B</td>
+                        <td>5–10 t/s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pi 4</strong></td>
+                        <td>4–8GB</td>
+                        <td>0.6B – 1.5B</td>
+                        <td>3–6 t/s — patience required</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pi Zero 2</strong></td>
+                        <td>0.5GB</td>
+                        <td>None practically</td>
+                        <td>— use it for clients, not models</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The RAM math: a Q4_K_M 4B model is ~2.5GB, a 3B ~2GB, a 1.7B ~1GB — plus the OS and KV cache. That's why 8GB is the real Pi AI spec. The <a href="top-10-gguf-models-by-ram.html">RAM-ranked guide</a> has the full size table.</p>
+        </section>
+
+        <section id="setup">
+            <h2>Setup: Ollama on Pi OS (10 Minutes)</h2>
+            <pre><code># 1. Install Ollama (official Pi OS / ARM64 support)
+curl -fsSL https://ollama.com/install.sh | sh
+
+# 2. Pull a model that fits — 3B is the sweet spot
+ollama pull smollm3:3b        # fast
+ollama pull qwen3.5:4b        # quality (8GB board)
+ollama pull qwen3:1.7b        # safe on 4GB
+
+# 3. Chat
+ollama run smollm3:3b "Explain what a vector database is."
+
+# 4. Serve for other devices on your network
+ollama serve
+# Other machines: OLLAMA_HOST=0.0.0.0:11434 python client.py</code></pre>
+            <p><strong>llama.cpp alternative</strong> (more control, slightly faster): build with <code>make -j4</code> and run <code>llama-cli -m model-q4_k_m.gguf -p "..."</code> — the <a href="how-to-run-gguf-models-locally-2026-guide.html">GGUF run guide</a> covers it. Enable the right flags in your build; the NEON optimizations matter a lot on ARM.</p>
+        </section>
+
+        <section id="projects">
+            <h2>Realistic Pi AI Projects (2026)</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🗣️ Private voice assistant</h3>
+                    <p>Whisper (STT) + a 1–3B model + Piper/Kokoro (TTS) — a fully local, always-on voice box for ~15W. The full stack is in <a href="local-voice-assistant.html">local voice assistants</a>.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📚 Offline RAG kiosk</h3>
+                    <p>A Pi serving Q&amp;A over a few hundred documents via ChromaDB + a small embedding model. Chunk carefully and keep the corpus small — <a href="local-rag-8gb-ram.html">the 8GB RAG guide</a> is the template.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏠 Home-automation brain</h3>
+                    <p>Natural-language control of Home Assistant: the model turns "dim the lights after 9pm" into structured tool calls. Small models handle this well.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📝 Sensor-log summarizer</h3>
+                    <p>A nightly job that summarizes the day's logs or sensor data into a readable report — batch work where 5 t/s doesn't matter.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="honest">
+            <h2>The Honest Limits</h2>
+            <ul>
+                <li><strong>No large models.</strong> 7B+ on a Pi means extreme quantization and 1–2 t/s — technically possible, practically painful. The <a href="top-10-models-under-12b-2026.html">sub-12B rankings</a> assume real computers; on a Pi, stay ≤4B.</li>
+                <li><strong>Long context is slow.</strong> The KV cache grows in CPU RAM and every token re-reads the model — keep contexts short (<a href="kv-cache-quantization.html">KV cache quantization</a> helps a little).</li>
+                <li><strong>The Hailo AI kit is for vision, not text.</strong> The Pi 5's Hailo-8 accelerator is excellent for object detection and pose — <a href="on-device-ai-apps.html">on-device vision patterns</a> — but LLM support is limited; CPU is still your text path.</li>
+                <li><strong>SD card I/O matters.</strong> Use a good A2 card or NVMe hat — swapping models off a slow card makes everything worse.</li>
+            </ul>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Can a Raspberry Pi run an LLM?</h3>
+            <p>Yes — small models (0.5B to 3B at Q4 quantization) run on a Pi 5 at usable speeds. Expect roughly 5–15 tokens per second on a Pi 5 with 8GB RAM. Larger models are possible with heavy quantization but become impractical.</p>
+
+            <h3>What is the best LLM for a Raspberry Pi?</h3>
+            <p>In 2026 the practical picks are Qwen3.5-4B (best quality per GB on Pi 5 8GB), Gemma 4 E4B, SmolLM3-3B (very fast), Qwen3-1.7B and 0.6B (older Pi 4 / 4GB boards), and LFM2.5-1.2B-Thinking for on-device reasoning. Quantize to Q4_K_M and test the actual speed before committing.</p>
+
+            <h3>How fast is an LLM on a Raspberry Pi 5?</h3>
+            <p>Realistic figures: 1–2B models run ~10–15 t/s, 3–4B models run ~5–8 t/s on a Pi 5 with 8GB RAM and a good (AVX/NEON-optimized) build. That's usable for chat and simple automation, slow for long documents.</p>
+
+            <h3>Should I use Ollama or llama.cpp on a Pi?</h3>
+            <p>Ollama is the easiest (one install, model pulls) and works well on Pi OS. llama.cpp gives more control (custom builds, KV cache flags) and slightly better performance. For most Pi projects, start with Ollama; switch if you need the knobs.</p>
+
+            <h3>What are realistic Raspberry Pi AI projects?</h3>
+            <p>A private voice assistant (Whisper + small LLM + TTS), a local RAG box for a few hundred documents, home-automation natural language, offline chat kiosk, and sensor-log summarization. Pi AI is for small, focused, always-on jobs — not general assistants.</p>
+
+            <h3>Does the Pi 5's AI kit (Hailo) help with LLMs?</h3>
+            <p>The Hailo-8 AI kit accelerates vision models and some small transformer inference, but LLM support is limited — it shines for object detection, pose, and similar vision workloads. For text LLMs, the CPU with an optimized llama.cpp build is still the main path.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="local-voice-assistant.html">Voice Assistants You Can Build with Local AI</a></li>
+                <li><a href="local-rag-8gb-ram.html">Local RAG on 8GB RAM: The Complete Guide</a></li>
+                <li><a href="top-10-models-under-12b-2026.html">Top 10 AI Models Under 12B Parameters</a></li>
+                <li><a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models Ranked by RAM Size</a></li>
+                <li><a href="how-to-install-ollama-windows.html">How to Install Ollama (any OS)</a></li>
+                <li><a href="lfm-models-guide-2026.html">LFM Models: Liquid Foundation Models Explained</a></li>
+                <li><a href="https://www.raspberrypi.com/documentation/computers/ai.html" target="_blank" rel="noopener">Raspberry Pi AI Kit documentation</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)</title>
+    <meta name="description" content="Multi-agent systems explained: coordinator, supervisor, and swarm patterns, when they beat a single agent, and how to build them locally with LangGraph.">
+    <meta name="keywords" content="multi agent systems, multi agent architecture, supervisor agent, swarm pattern, langgraph multi agent, agent orchestration, coordinator agent, when to use multi agent, local multi agent">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/multi-agent-systems.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)">
+    <meta property="og:description" content="Coordinator, supervisor, and swarm patterns, when they beat a single agent, and how to build them locally with LangGraph.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/multi-agent-systems.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)">
+    <meta name="twitter:description" content="Coordinator, supervisor, and swarm patterns — when they beat a single agent, and how to build them locally.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)",
+          "description": "Coordinator, supervisor, and swarm patterns, when they beat a single agent, and how to build them locally with LangGraph.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/multi-agent-systems.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is a multi-agent system?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A multi-agent system is multiple AI agents collaborating on one task — each specialized (research, coding, retrieval, QA), coordinated by a router or supervisor that decides which agent handles what and when. The structure mirrors how human teams divide work."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I use multiple agents instead of one?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When the task spans distinct skills that fight each other in one context (long research + strict formatting), when tools exceed ~10 (models degrade), when you need parallel workstreams, or when different steps need different models (a small fast one for routing, a big one for deep reasoning)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I NOT use multiple agents?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For simple linear tasks. Multi-agent adds latency (more model calls), cost, and failure points — a confused supervisor routes badly, and failures cascade. Rule of thumb: start single-agent, split only when the single agent measurably fails or the task genuinely parallelizes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are the main multi-agent patterns?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Three dominate: supervisor (a central agent routes to specialists), coordinator/handoff (agents delegate tasks to each other peer-to-peer, the 'swarm' pattern), and hierarchical (teams of agents with sub-supervisors — for very large problems). LangGraph supports all three."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can multi-agent systems run locally?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — a supervisor routing between 3-5 specialist agents, each on a local model via Ollama, is very feasible on 16-32GB machines. Costs scale with the number of calls, so keep the routing cheap (small model) and the heavy work targeted."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are the failure modes of multi-agent systems?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Routing loops (agent A delegates back to B forever), context pollution (each agent re-reads the whole transcript), cost explosion, and cascading errors where one agent's mistake poisons the next. Mitigations: max-hops, shared but structured state, per-agent isolation, and evaluation."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — A single agent with ten tools eventually hits a wall: too many tools confuse the model, one giant context mixes unrelated skills, and every request pays for everything. <strong>Multi-agent systems split the work the way teams do</strong> — a router, specialists, and a handoff protocol. This guide covers the three patterns that matter (supervisor, coordinator/swarm, hierarchical), when splitting actually pays, and how to build it locally with LangGraph and Ollama.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Split when it helps; don't split for its own sake</strong> — start single-agent, always</li>
+                <li><strong>Three patterns:</strong> supervisor (central router), swarm (peer handoffs), hierarchical (teams)</li>
+                <li><strong>Local multi-agent is feasible in 2026</strong> — small router + specialist models on Ollama</li>
+                <li><strong>Watch the failure modes:</strong> routing loops, context pollution, cascading errors</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="when">
+            <h2>When One Agent Fails (and Splitting Helps)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symptom</th>
+                        <th>Why it happens</th>
+                        <th>Multi-agent fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Model calls the wrong tool among many</td>
+                        <td>Tool-selection accuracy degrades past ~10 tools</td>
+                        <td>Router sends the task to a specialist with 3–5 tools</td>
+                    </tr>
+                    <tr>
+                        <td>Context mixes unrelated skills</td>
+                        <td>One transcript carries research + formatting + code</td>
+                        <td>Each agent gets a clean, focused context</td>
+                    </tr>
+                    <tr>
+                        <td>Latency from a big model doing everything</td>
+                        <td>Every step pays frontier-model cost</td>
+                        <td>Small cheap model routes; big model only where needed</td>
+                    </tr>
+                    <tr>
+                        <td>Task has parallel independent parts</td>
+                        <td>One agent is sequential by nature</td>
+                        <td>Run specialists in parallel, merge results</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>And the honest inverse: <strong>for linear tasks, multi-agent is pure overhead.</strong> More calls, more latency, more failure points. The decision rule is measurement: if the single agent fails eval (see <a href="rag-evaluation.html">evaluation</a> patterns) on tasks that a split structure would fix, split.</p>
+        </section>
+
+        <section id="patterns">
+            <h2>The Three Patterns</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>1. Supervisor (Central Router)</h3>
+                    <p>One supervisor agent reads the request and routes to specialist agents — research, retrieval, code, formatting. Specialists return results; the supervisor composes the final answer. Best when tasks are clearly classifiable. LangGraph's <code>create_supervisor</code> helper builds this in ~10 lines.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>2. Coordinator / Swarm (Peer Handoffs)</h3>
+                    <p>Agents delegate to each other — agent A finishes and hands the baton to agent B, which is right for the next step. OpenAI's Swarm popularized the pattern; no central brain, flexible chains, but more routing freedom = more loop risk.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>3. Hierarchical (Teams of Agents)</h3>
+                    <p>Supervisors supervise sub-supervisors, each managing their own team. Overkill for most products, but the right shape for genuinely large problem spaces — e.g. a legal workflow with a contracts team, a research team, and a filings team.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="build">
+            <h2>Building a Local Supervisor in LangGraph</h2>
+            <pre><code>from langchain_ollama import ChatOllama
+from langgraph.prebuilt import create_react_agent
+from langgraph_supervisor import create_supervisor
+
+llm = ChatOllama(model="qwen3:8b")          # router + workers
+
+researcher = create_react_agent(llm, tools=[search_web_local])
+retriever  = create_react_agent(llm, tools=[query_kb])   # ChromaDB
+writer     = create_react_agent(llm, tools=[format_doc])
+
+supervisor = create_supervisor(
+    [researcher, retriever, writer],
+    model=llm,
+    prompt=("Route to researcher for web facts, retriever for the "
+            "knowledge base, writer for final output."),
+)
+
+result = supervisor.invoke({"messages": [
+    ("user", "Summarize the KB docs on GDPR and draft a client memo.")
+]})</code></pre>
+            <p>Note the pattern: <strong>each agent gets a focused toolset</strong> — retriever only touches the vector store — which is the entire point of splitting. The routing prompt is your control surface: the more explicit the routing rules, the fewer misroutes. (<code>langgraph-supervisor</code> is the current package name in 2026; see the LangGraph docs for the latest import path.)</p>
+        </section>
+
+        <section id="local">
+            <h2>Running It Locally: The Budget Reality</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Setup</th>
+                        <th>What works</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>16GB RAM laptop</strong></td>
+                        <td>1 router + 2 specialists at 4–8B (Qwen3.5-4B router, Qwen3-8B specialists)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>24GB unified / 16GB VRAM</strong></td>
+                        <td>Router at 4B + 3–4 specialists at 8–12B — the sweet spot</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Server with 2× GPUs</strong></td>
+                        <td>Multiple 12–32B specialists, parallel workstreams</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Cost management rule: <strong>route with the smallest model that routes correctly, and reserve the big model for the step that needs it.</strong> Every agent call is a model call — a careless supervisor burns 3x the tokens for the same answer. <a href="speed-up-local-llms.html">Speed optimizations</a> (quantization, KV cache, speculative decoding) apply to every agent in the system.</p>
+        </section>
+
+        <section id="failures">
+            <h2>The Failure Modes (They're Specific)</h2>
+            <ul>
+                <li><strong>Routing loops.</strong> A delegates to B, B delegates back to A. Fix: max-hops counter in the graph (LangGraph's recursion_limit), and supervisors instead of peer handoffs for risky chains.</li>
+                <li><strong>Context pollution.</strong> Every agent re-reading the full transcript bloats cost and confuses focus. Fix: give each agent only its slice of state.</li>
+                <li><strong>Cascading errors.</strong> One agent's hallucinated output becomes the next agent's input. Fix: validate outputs at handoff boundaries (schema checks, faithfulness spot-checks).</li>
+                <li><strong>Cost explosion.</strong> N agents × M steps × tokens. Fix: measure per-step cost; the supervisor prompt is the cheapest lever.</li>
+            </ul>
+            <p>These are exactly why the <a href="build-ai-agent-langgraph-ollama.html">single-agent tutorial</a> comes first — you need the baseline to justify the split, and the graph machinery to control it.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is a multi-agent system?</h3>
+            <p>A multi-agent system is multiple AI agents collaborating on one task — each specialized (research, coding, retrieval, QA), coordinated by a router or supervisor that decides which agent handles what and when. The structure mirrors how human teams divide work.</p>
+
+            <h3>When should I use multiple agents instead of one?</h3>
+            <p>When the task spans distinct skills that fight each other in one context (long research + strict formatting), when tools exceed ~10 (models degrade), when you need parallel workstreams, or when different steps need different models (a small fast one for routing, a big one for deep reasoning).</p>
+
+            <h3>When should I NOT use multiple agents?</h3>
+            <p>For simple linear tasks. Multi-agent adds latency (more model calls), cost, and failure points — a confused supervisor routes badly, and failures cascade. Rule of thumb: start single-agent, split only when the single agent measurably fails or the task genuinely parallelizes.</p>
+
+            <h3>What are the main multi-agent patterns?</h3>
+            <p>Three dominate: supervisor (a central agent routes to specialists), coordinator/handoff (agents delegate tasks to each other peer-to-peer, the "swarm" pattern), and hierarchical (teams of agents with sub-supervisors — for very large problems). LangGraph supports all three.</p>
+
+            <h3>Can multi-agent systems run locally?</h3>
+            <p>Yes — a supervisor routing between 3–5 specialist agents, each on a local model via Ollama, is very feasible on 16–32GB machines. Costs scale with the number of calls, so keep the routing cheap (small model) and the heavy work targeted.</p>
+
+            <h3>What are the failure modes of multi-agent systems?</h3>
+            <p>Routing loops (agent A delegates back to B forever), context pollution (each agent re-reads the whole transcript), cost explosion, and cascading errors where one agent's mistake poisons the next. Mitigations: max-hops, shared but structured state, per-agent isolation, and evaluation.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="build-ai-agent-langgraph-ollama.html">How to Build an AI Agent with LangGraph + Ollama</a></li>
+                <li><a href="mcp-explained.html">MCP Explained: Model Context Protocol for Local AI</a></li>
+                <li><a href="agentic-rag.html">Agentic RAG: Combining Agents with Retrieval</a></li>
+                <li><a href="tool-calling-local-llm.html">Tool Calling with Local LLMs: A Practical Guide</a></li>
+                <li><a href="top-10-models-under-12b-2026.html">Top 10 AI Models Under 12B Parameters</a></li>
+                <li><a href="https://langchain-ai.github.io/langgraph/concepts/multi_agent/" target="_blank" rel="noopener">LangGraph multi-agent concepts</a></li>
+                <li><a href="https://github.com/openai/swarm" target="_blank" rel="noopener">OpenAI Swarm (handoff pattern reference)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

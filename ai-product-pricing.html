@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Pricing: How to Charge for Local AI (2026)</title>
+    <meta name="description" content="How to price AI products in 2026: local vs cloud unit economics, per-seat vs usage vs value pricing, and the pricing models that survive growth.">
+    <meta name="keywords" content="ai product pricing, price ai product, local ai pricing, ai unit economics, per seat vs usage pricing, value based pricing ai, ai startup pricing, llm cost per request, ai saas pricing 2026">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/ai-product-pricing.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="AI Product Pricing: How to Charge for Local AI (2026)">
+    <meta property="og:description" content="Local vs cloud unit economics, per-seat vs usage vs value pricing, and the pricing models that survive growth.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/ai-product-pricing.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AI Product Pricing: How to Charge for Local AI (2026)">
+    <meta name="twitter:description" content="Local vs cloud unit economics, per-seat vs usage vs value pricing, and the pricing models that survive growth.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "AI Product Pricing: How to Charge for Local AI (2026)",
+          "description": "Local vs cloud unit economics, per-seat vs usage vs value pricing, and the pricing models that survive growth.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/ai-product-pricing.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How should I price an AI product in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Price on value delivered, not tokens consumed. Start with per-seat (predictable, simple) and add usage-based tiers only where heavy users genuinely exceed fair use. The architecture decision (local vs cloud) sets your unit cost floor — local AI's near-zero marginal cost is a pricing advantage, not just a cost saving."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is per-token pricing a good idea for my product?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For consumer products, rarely — users can't predict token use and will fear the bill. For developer platforms, often — developers understand usage pricing and prefer paying for what they use. Match the pricing model to who's buying: end users buy predictability, developers buy flexibility."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does local AI change how I can price?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — fundamentally. Cloud AI products carry a per-request cost that scales with usage; local AI (model on the user's device or your server) has near-zero marginal cost after hardware. That unlocks flat pricing, aggressive tiers, and privacy as a premium feature — none of which work with a per-token bill."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is value-based pricing for AI?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Charging for the outcome the AI produces, not the compute it used: a legal assistant priced per contract reviewed, an analytics tool priced per report, an automation priced per workflow completed. It's the strongest model when you can measure the outcome — and the hardest when you can't."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I compute my AI unit cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For cloud: tokens per request × price per token (add eval + fallback overhead). For local: hardware amortized over lifetime requests + power — typically fractions of a cent per request at volume. The number that matters is cost per completed user task, not cost per API call."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What pricing mistakes kill AI products?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Pricing below marginal cost with cloud models (growth = losses), usage pricing for consumer users who fear bills, free tiers so generous they fund your competitors' users, and — the subtle one — pricing the AI as a feature add-on instead of the value it creates. Each has a fix in this guide."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Product Pricing: How to Charge for Local AI (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Most AI pricing failures aren't pricing failures at all — they're architecture failures. <strong>Cloud AI's per-token cost forces you into pricing models that punish your own success; local AI's near-zero marginal cost frees you.</strong> This guide covers the unit economics both ways, the pricing models that survive growth, and when to use per-seat, usage, or value-based pricing.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Price the value, not the tokens</strong> — the marginal-cost model is a trap for consumer products</li>
+                <li><strong>Local AI = near-zero marginal cost</strong> — flat pricing, aggressive tiers, privacy as premium</li>
+                <li><strong>Match model to buyer:</strong> per-seat for end users, usage for developers, value for outcomes</li>
+                <li><strong>Know your cost per completed task</strong> — not cost per API call</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="economics">
+            <h2>The Unit Economics, Both Ways</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Cloud AI</th>
+                        <th>Local AI (on your server or device)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Marginal cost per request</strong></td>
+                        <td>Tens of cents to dollars (tokens × price)</td>
+                        <td><strong>Fractions of a cent</strong> (power + amortized hardware)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cost driver</strong></td>
+                        <td>Usage — scales against you</td>
+                        <td>Capacity — fixed, predictable</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scaling</strong></td>
+                        <td>Growth increases costs linearly</td>
+                        <td>Growth increases costs in steps (buy a bigger server)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pricing freedom</strong></td>
+                        <td>Constrained by per-token floor</td>
+                        <td><strong>Unconstrained</strong> — flat, per-seat, value-based all work</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The honest math: a mid-size RAG request on cloud costs ~$0.01–0.05; on local hardware it's ~$0.0005. That 20–100x difference is the entire pricing strategy debate in one number. The architecture choice in <a href="ai-mvp-lessons.html">the MVP guide</a> is therefore also a pricing choice.</p>
+        </section>
+
+        <section id="models">
+            <h2>The Three Pricing Models</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>How it works</th>
+                        <th>Best for</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Per-seat</strong></td>
+                        <td>Flat monthly per user</td>
+                        <td>End-user products; predictable revenue; the 2026 default</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Usage-based</strong></td>
+                        <td>Per token / per request / per document</td>
+                        <td>Developer platforms; API products; power-user honesty</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Value-based</strong></td>
+                        <td>Per outcome: per contract reviewed, per report, per workflow</td>
+                        <td>B2B where the outcome is measurable — the strongest margins</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The 2026 hybrid most products settle into: <strong>per-seat base + a generous usage allowance + a value-based premium tier.</strong> The usage allowance protects against power users; the premium tier captures the outcomes. With local AI, the allowance costs you almost nothing to give — which makes the whole structure easier to sustain.</p>
+        </section>
+
+        <section id="local">
+            <h2>What Local AI Unlocks Specifically</h2>
+            <ul>
+                <li><strong>Flat pricing that's honest.</strong> "Unlimited" is a lie on cloud tokens and true on local hardware — a genuine differentiator.</li>
+                <li><strong>Privacy as a premium tier.</strong> "Your data never leaves your machine" is a $10/month upgrade for businesses; it's also the <a href="data-privacy-vs-cloud-ai.html">defensible compliance story</a>.</li>
+                <li><strong>On-prem as an enterprise SKU.</strong> Sell the hardware-ready deployment as a one-time license — see <a href="on-premise-llm-deployment.html">the deployment checklist</a>.</li>
+                <li><strong>Bundled device pricing.</strong> For on-device products (<a href="on-device-ai-apps.html">patterns here</a>), the model rides in the purchase price — the marginal cost story disappears entirely.</li>
+            </ul>
+        </section>
+
+        <section id="mistakes">
+            <h2>The Mistakes That Kill AI Pricing</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mistake</th>
+                        <th>Fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pricing below marginal cost (cloud)</td>
+                        <td>Know your cost per task first; never sell tokens below their price</td>
+                    </tr>
+                    <tr>
+                        <td>Usage pricing for consumer users</td>
+                        <td>Per-seat + allowance; consumers fear variable bills</td>
+                    </tr>
+                    <tr>
+                        <td>Free tier so generous it funds competitors</td>
+                        <td>Free tier = the single workflow, not the whole product</td>
+                    </tr>
+                    <tr>
+                        <td>AI as a $5 add-on to a $10 product</td>
+                        <td>Price the outcome; if AI is the value, AI is the price</td>
+                    </tr>
+                    <tr>
+                        <td>Ignoring evaluation cost in unit economics</td>
+                        <td>Every request may carry an eval/fallback call — count it</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="checklist">
+            <h2>The Pricing Setup Checklist</h2>
+            <ol>
+                <li>Compute <strong>cost per completed task</strong> (not per API call) for your architecture.</li>
+                <li>Define the <strong>value per outcome</strong> — what does the user save or earn?</li>
+                <li>Pick the model per buyer: per-seat (end users), usage (developers), value (B2B).</li>
+                <li>Set the free tier to <strong>one workflow</strong> — enough to validate, not enough to live on.</li>
+                <li>Recompute unit costs quarterly — <a href="open-models-beat-closed.html">model prices keep falling</a>, and your margins should improve, not erode.</li>
+            </ol>
+            <div class="toolbox">
+                <h3>🚀 From the field</h3>
+                <p>The flagship projects on this portfolio are pricing case studies: a <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">privacy-first legal assistant</a> sells on-prem value pricing (per firm, per deployment) because local AI makes the marginal cost irrelevant; a <a href="ai-mvp-lessons.html">five-in-one calendar</a> sells per-seat because consumers buy predictability. Same tech, different buyers, different models — architecture first, then price.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>How should I price an AI product in 2026?</h3>
+            <p>Price on value delivered, not tokens consumed. Start with per-seat (predictable, simple) and add usage-based tiers only where heavy users genuinely exceed fair use. The architecture decision (local vs cloud) sets your unit cost floor — local AI's near-zero marginal cost is a pricing advantage, not just a cost saving.</p>
+
+            <h3>Is per-token pricing a good idea for my product?</h3>
+            <p>For consumer products, rarely — users can't predict token use and will fear the bill. For developer platforms, often — developers understand usage pricing and prefer paying for what they use. Match the pricing model to who's buying: end users buy predictability, developers buy flexibility.</p>
+
+            <h3>Does local AI change how I can price?</h3>
+            <p>Yes — fundamentally. Cloud AI products carry a per-request cost that scales with usage; local AI (model on the user's device or your server) has near-zero marginal cost after hardware. That unlocks flat pricing, aggressive tiers, and privacy as a premium feature — none of which work with a per-token bill.</p>
+
+            <h3>What is value-based pricing for AI?</h3>
+            <p>Charging for the outcome the AI produces, not the compute it used: a legal assistant priced per contract reviewed, an analytics tool priced per report, an automation priced per workflow completed. It's the strongest model when you can measure the outcome — and the hardest when you can't.</p>
+
+            <h3>How do I compute my AI unit cost?</h3>
+            <p>For cloud: tokens per request × price per token (add eval + fallback overhead). For local: hardware amortized over lifetime requests + power — typically fractions of a cent per request at volume. The number that matters is cost per completed user task, not cost per API call.</p>
+
+            <h3>What pricing mistakes kill AI products?</h3>
+            <p>Pricing below marginal cost with cloud models (growth = losses), usage pricing for consumer users who fear bills, free tiers so generous they fund your competitors' users, and — the subtle one — pricing the AI as a feature add-on instead of the value it creates. Each has a fix in this guide.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="ai-mvp-lessons.html">From Idea to AI MVP: Lessons from Shipping Smart Calendar</a></li>
+                <li><a href="on-device-ai-apps.html">On-Device AI Apps: Architecture Patterns That Work</a></li>
+                <li><a href="on-premise-llm-deployment.html">On-Premise LLM Deployment: A Practical Checklist</a></li>
+                <li><a href="open-models-beat-closed.html">Open Models That Beat Closed Ones: 2026 Edition</a></li>
+                <li><a href="data-privacy-vs-cloud-ai.html">Data Privacy vs Cloud AI: The Real Risks in 2026</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant (value-priced on-prem case study)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

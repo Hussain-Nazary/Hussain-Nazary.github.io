@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local RAG on 8GB RAM: The Complete Guide</title>
+    <meta name="description" content="Build a fully local RAG system on 8GB RAM: which models fit, how to chunk, and a working pipeline with Ollama and ChromaDB that stays under budget.">
+    <meta name="keywords" content="rag 8gb ram, local rag small memory, rag laptop, run rag without gpu, chromadb 8gb, nomic embed rag, phi-4-mini rag, low memory rag">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/local-rag-8gb-ram.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Local RAG on 8GB RAM: The Complete Guide">
+    <meta property="og:description" content="Build a fully local RAG system on 8GB RAM: which models fit, how to chunk, and a working pipeline with Ollama and ChromaDB that stays under budget.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/local-rag-8gb-ram.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Local RAG on 8GB RAM: The Complete Guide">
+    <meta name="twitter:description" content="A working RAG pipeline that fits in 8GB — models, chunking, and code.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Local RAG on 8GB RAM: The Complete Guide",
+          "description": "Build a fully local RAG system on 8GB RAM: which models fit, how to chunk, and a working pipeline with Ollama and ChromaDB that stays under budget.",
+          "image": ["https://Hussain-Nazary.github.io/AI_Technology.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/local-rag-8gb-ram.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I run RAG on 8GB of RAM?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Yes. An 8GB machine can run a complete local RAG pipeline if you budget carefully: a small embedding model (~300-500MB), a 3-4B chat model at Q4 (~2-3GB), and ChromaDB in-process. The 30-minute RAG tutorial on this blog works on 8GB with phi4-mini or qwen3:4b."}
+            },
+            {
+              "@type": "Question",
+              "name": "What LLM should I use for RAG on 8GB RAM?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Phi-4-mini (3.8B, MIT) is the best balance — 74.4% HumanEval, 128K context, ~2.5GB at Q4. Qwen3-4B and Gemma 3 4B are solid alternatives. Avoid 8B+ models, which eat 5GB+ and leave nothing for context and the OS."}
+            },
+            {
+              "@type": "Question",
+              "name": "Which embedding model fits 8GB RAM?",
+              "acceptedAnswer": {"@type": "Answer", "text": "nomic-embed-text (137M, 274MB, 8192-token context) is the ideal fit, with mxbai-embed-large (335M, ~650MB) as a higher-quality option. Both run via Ollama and are CPU-friendly."}
+            },
+            {
+              "@type": "Question",
+              "name": "How much RAM does the context window use?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Context memory grows with the KV cache — roughly 1-2GB extra for a 3-4B model at long context. Keep context to 2-4K tokens for a typical Q&A on 8GB, or use a smaller chunk size to stay comfortable."}
+            },
+            {
+              "@type": "Question",
+              "name": "Will RAG on 8GB be fast?",
+              "acceptedAnswer": {"@type": "Answer", "text": "CPU-only generation is a few tokens/sec on a 3-4B model — usable for Q&A, not for real-time chat. Embedding and retrieval are fast (ms). The bottleneck is generation, so batch questions and accept a 10-30 second answer time per query."}
+            },
+            {
+              "@type": "Question",
+              "name": "What can I do if I run out of memory?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Drop to Q4_K_M (or Q4_0) instead of Q8, switch to nomic-embed-text, reduce context to 2048, close browsers, or use a 1-2B model for generation. See our Q4_K_M vs Q8_0 guide for the size math."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 15px 0; }
+        pre code { background: transparent; padding: 0; color: inherit; }
+        .toolbox { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .toolbox h3 { color: white; margin-top: 0; }
+        .toolbox a { color: #fff; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Local RAG on 8GB RAM: The Complete Guide</h1>
+        <p><strong>Published: August 9, 2026</strong> — The most common question we get is "can I run RAG on my laptop?" — and for the vast majority of laptops, the answer is yes, even with just 8GB of RAM. The trick is budgeting: a small embedding model, a 3–4B chat model, and an embedded vector store add up to a complete, private RAG system that fits. This guide walks through the exact components, the memory math, and the working pipeline.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li>LLM: <strong>Phi-4-mini</strong> (3.8B, ~2.5GB Q4) — the best quality-per-RAM pick</li>
+                <li>Embeddings: <strong>nomic-embed-text</strong> (274MB) — tiny, 8K context</li>
+                <li>Vector store: <strong>ChromaDB</strong> in-process — no server, no extra RAM</li>
+                <li>Total budget: ~4GB, leaving room for OS and context</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="math">
+            <h2>The 8GB Memory Budget</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Pick</th>
+                        <th>Memory</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chat LLM (Q4_K_M)</td>
+                        <td>Phi-4-mini (3.8B) · <a href="https://ollama.com/library/phi4-mini" target="_blank" rel="noopener">Download</a></td>
+                        <td>~2.5 GB</td>
+                    </tr>
+                    <tr>
+                        <td>Embedding model</td>
+                        <td>nomic-embed-text · <a href="https://ollama.com/library/nomic-embed-text" target="_blank" rel="noopener">Download</a></td>
+                        <td>~0.3 GB</td>
+                    </tr>
+                    <tr>
+                        <td>Context window (2–4K tokens)</td>
+                        <td>—</td>
+                        <td>~0.5–1 GB</td>
+                    </tr>
+                    <tr>
+                        <td>ChromaDB + Python</td>
+                        <td>In-process</td>
+                        <td>~0.3–0.5 GB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td>—</td>
+                        <td><strong>~3.6–4.3 GB</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>That leaves ~4GB for the operating system and applications — tight but workable on a modern 8GB machine. The two levers if you need more room: drop context to 2K tokens, or use a 1–2B model. The math follows the rule from <a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0</a>: a 4B model at Q4 ≈ 0.56 bytes/param ≈ 2.5GB, plus context and overhead.</p>
+        </section>
+
+        <section id="stack">
+            <h2>The 8GB Stack</h2>
+            <ul>
+                <li><strong>Chat model:</strong> <a href="https://ollama.com/library/phi4-mini" target="_blank" rel="noopener">phi4-mini</a> — 3.8B, MIT license, 128K context, 74.4% HumanEval. The best quality-per-gigabyte in its class (see <a href="top-10-models-under-12b-2026.html">the sub-12B ranking</a>).</li>
+                <li><strong>Embedding model:</strong> <a href="https://ollama.com/library/nomic-embed-text" target="_blank" rel="noopener">nomic-embed-text</a> — 137M params, 274MB, 8192-token context. Small enough to live comfortably beside the LLM.</li>
+                <li><strong>Vector store:</strong> ChromaDB — runs embedded in your Python process, so there's no separate server eating RAM. (Or FAISS — see <a href="chromadb-vs-faiss.html">the comparison</a>.)</li>
+                <li><strong>Runtime:</strong> Ollama serves both models via one local API — the same stack as <a href="how-to-build-rag-system-30-minutes.html">the 30-minute RAG tutorial</a>.</li>
+            </ul>
+            <div class="highlight-box info">
+                <p><strong>💡 Why not an 8B model?</strong> An 8B at Q4 is ~5GB — that alone leaves almost nothing for context, the OS, and a browser. On 8GB, the 3–4B class is the sweet spot, and Phi-4-mini specifically punches far above its size on reasoning and math. If you absolutely need 8B quality, run it at Q3 or close everything else — but expect swapping.</p>
+            </div>
+        </section>
+
+        <section id="pipeline">
+            <h2>The Working Pipeline</h2>
+            <p>Pull the models, then run the pipeline. This is the same code as the <a href="how-to-build-rag-system-30-minutes.html">30-minute tutorial</a>, tuned for low memory:</p>
+            <pre><code># Install once
+pip install chromadb ollama
+
+# Pull the two models
+ollama pull phi4-mini
+ollama pull nomic-embed-text</code></pre>
+            <pre><code>import chromadb
+import ollama
+
+client = chromadb.PersistentClient(path="./rag_db")
+collection = client.get_or_create_collection("docs")
+
+def index_documents(docs):
+    for i, doc in enumerate(docs):
+        embedding = ollama.embed(model="nomic-embed-text", input=doc)["embeddings"][0]
+        collection.add(ids=[f"doc-{i}"], embeddings=[embedding], documents=[doc])
+
+def ask(question):
+    q_emb = ollama.embed(model="nomic-embed-text", input=question)["embeddings"][0]
+    results = collection.query(query_embeddings=[q_emb], n_results=3)
+    context = "\n\n".join(results["documents"][0])
+    response = ollama.chat(model="phi4-mini", messages=[
+        {"role": "system", "content": "Answer using only the context."},
+        {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {question}"}
+    ])
+    return response["message"]["content"]</code></pre>
+            <p>For keyword-heavy queries, add <a href="what-is-hybrid-search.html">hybrid search</a>; for precision, add <a href="reranking-in-rag.html">a reranker</a> — but on 8GB, start simple. The architecture here is exactly what <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> uses at full scale: local models, local storage, zero cloud.</p>
+        </section>
+
+        <section id="tips">
+            <h2>Memory-Saving Tips</h2>
+            <ul>
+                <li><strong>Chunk at 300–500 chars</strong> — smaller chunks mean smaller context, which directly cuts KV-cache RAM.</li>
+                <li><strong>Keep context to 2–4K tokens</strong> — the KV cache is the hidden memory cost at long context.</li>
+                <li><strong>Close the browser</strong> — Chrome alone can eat 2–3GB. Run the pipeline in a focused terminal session.</li>
+                <li><strong>Use Q4_K_M, not Q8</strong> — half the weight memory for ~1–2% quality loss (the numbers are in <a href="q4-km-vs-q8-0.html">our quant guide</a>).</li>
+                <li><strong>Batch embeddings</strong> — embed documents in one call (<code>input=list</code>) instead of one at a time.</li>
+                <li><strong>Persist ChromaDB to disk</strong> — <code>PersistentClient</code> keeps RAM free between runs.</li>
+            </ul>
+        </section>
+
+        <section id="when">
+            <h2>When 8GB Isn't Enough</h2>
+            <p>If you're processing very long documents, running many concurrent queries, or need frontier-level reasoning, 8GB will feel cramped. The honest upgrade paths, in order: <strong>16GB RAM</strong> (unlocks 8B models and long context — the single best upgrade), a <strong>used GPU with 12–16GB VRAM</strong> (24GB cards like the RTX 3090 are the community favorite), or Apple Silicon with unified memory, where <a href="how-to-install-ollama-macos.html">the whole RAM pool is available to the model</a>. The full hardware tier map is in <a href="top-10-local-ai-models-2026.html">the local-model ranking</a>.</p>
+            <div class="toolbox">
+                <h3>🚀 Start with the right files</h3>
+                <p>For exact download sizes per tier, see <a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models by RAM</a>. For a zero-CLI way to run the model side on 8GB, <a href="https://ggufloader.github.io" target="_blank" rel="noopener">GGUF Loader</a> handles GGUF drag-and-drop. And for model discovery with direct links, <a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone</a> keeps a daily-updated directory.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Can I run RAG on 8GB of RAM?</h3>
+            <p>Yes. An 8GB machine can run a complete local RAG pipeline if you budget carefully: a small embedding model (~300–500MB), a 3–4B chat model at Q4 (~2–3GB), and ChromaDB in-process. The 30-minute RAG tutorial on this blog works on 8GB with phi4-mini or qwen3:4b.</p>
+
+            <h3>What LLM should I use for RAG on 8GB RAM?</h3>
+            <p>Phi-4-mini (3.8B, MIT) is the best balance — 74.4% HumanEval, 128K context, ~2.5GB at Q4. Qwen3-4B and Gemma 3 4B are solid alternatives. Avoid 8B+ models, which eat 5GB+ and leave nothing for context and the OS.</p>
+
+            <h3>Which embedding model fits 8GB RAM?</h3>
+            <p>nomic-embed-text (137M, 274MB, 8192-token context) is the ideal fit, with mxbai-embed-large (335M, ~650MB) as a higher-quality option. Both run via Ollama and are CPU-friendly.</p>
+
+            <h3>How much RAM does the context window use?</h3>
+            <p>Context memory grows with the KV cache — roughly 1–2GB extra for a 3–4B model at long context. Keep context to 2–4K tokens for a typical Q&amp;A on 8GB, or use a smaller chunk size to stay comfortable.</p>
+
+            <h3>Will RAG on 8GB be fast?</h3>
+            <p>CPU-only generation is a few tokens/sec on a 3–4B model — usable for Q&amp;A, not for real-time chat. Embedding and retrieval are fast (ms). The bottleneck is generation, so batch questions and accept a 10–30 second answer time per query.</p>
+
+            <h3>What can I do if I run out of memory?</h3>
+            <p>Drop to Q4_K_M (or Q4_0) instead of Q8, switch to nomic-embed-text, reduce context to 2048, close browsers, or use a 1–2B model for generation. See our Q4_K_M vs Q8_0 guide for the size math.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources</h2>
+            <ul>
+                <li><a href="https://docs.trychroma.com" target="_blank" rel="noopener">ChromaDB — official docs</a></li>
+                <li><a href="https://ollama.com/library/phi4-mini" target="_blank" rel="noopener">Phi-4-mini — Ollama library</a></li>
+                <li><a href="https://ollama.com/library/nomic-embed-text" target="_blank" rel="noopener">nomic-embed-text — Ollama library</a></li>
+                <li><a href="https://local-ai-zone.github.io" target="_blank" rel="noopener">Local AI Zone — GGUF model directory</a></li>
+                <li><a href="https://ggufloader.github.io" target="_blank" rel="noopener">GGUF Loader — zero-CLI local inference</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

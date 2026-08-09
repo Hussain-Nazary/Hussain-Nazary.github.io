@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build a Document Q&A System That Cites Its Sources (for Law Firms)</title>
+    <meta name="description" content="Build a document Q&A system for law firms that cites its sources: RAG architecture, citation grounding, hybrid retrieval, and privacy.">
+    <meta name="keywords" content="document qa with citations, legal document qa, rag for law firms, cited answers ai, grounded ai answers, legal knowledge base ai, local rag legal">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/document-qa-with-citations-law-firms.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How to Build a Document Q&A System That Cites Its Sources (for Law Firms)">
+    <meta property="og:description" content="Build a document Q&A system for law firms that cites its sources: RAG architecture, citation grounding, hybrid retrieval, and privacy.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/document-qa-with-citations-law-firms.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta property="og:image:alt" content="Artificial intelligence illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Build a Document Q&A System That Cites Its Sources (for Law Firms)">
+    <meta name="twitter:description" content="Build a document Q&A system for law firms that cites its sources: RAG architecture, citation grounding, hybrid retrieval, and privacy.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:image:alt" content="Artificial intelligence illustration">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Build a Document Q&A System That Cites Its Sources (for Law Firms)",
+          "description": "Build a document Q&A system for law firms that cites its sources: RAG architecture, citation grounding, hybrid retrieval, and privacy.",
+          "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/document-qa-with-citations-law-firms.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does it mean for a document Q&A system to cite its sources?",
+              "acceptedAnswer": {"@type": "Answer", "text": "The system retrieves the relevant passages from your own documents first, then generates the answer using only those passages — and appends a citation in the form [Source: file, p.N] to every claim. Each citation points at the exact passage the model relied on, so a lawyer can open the source and verify before relying on it."}
+            },
+            {
+              "@type": "Question",
+              "name": "Why hybrid retrieval (BM25 + vectors) for legal documents?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Legal language is both exact and paraphrased. A clause may use boilerplate phrasing that a pure semantic search would paraphrase away, while a casual question may use words that never appear in the document. BM25 catches exact terms, clause citations, and legal shorthand; vector search catches meaning and paraphrase. Fusing both with reciprocal rank fusion beats either alone."}
+            },
+            {
+              "@type": "Question",
+              "name": "Does this run on a normal laptop, and is it private?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Yes. The whole pipeline — BGE-M3 embeddings, ChromaDB, BM25, and a quantized 7-14B model via Ollama — runs on a modern laptop with 16GB of RAM. Documents, embeddings, and answers never leave the machine, which is the strongest position you can take on attorney-client confidentiality (Model Rule 1.6)."}
+            },
+            {
+              "@type": "Question",
+              "name": "How do you stop the model from inventing citations?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Three layers: the prompt is constrained to answer only from numbered retrieved passages and to cite the passage's real file name and page; generation runs at temperature 0; and a verification step parses every [Source: X, p.N] marker and checks it against the passages that were actually retrieved, flagging any that don't exist."}
+            },
+            {
+              "@type": "Question",
+              "name": "How do you measure whether the system is trustworthy?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Build a small evaluation set of questions with known answers, then measure faithfulness (does the answer stay within the retrieved passages?) and answer relevancy (does it address the question?) using a framework like RAGAS. Pair that with a manual spot-check: take ten answers and open every citation."}
+            },
+            {
+              "@type": "Question",
+              "name": "Can I just use ChatGPT for this?",
+              "acceptedAnswer": {"@type": "Answer", "text": "For drafting, yes. For answering from client documents, no: pasting privileged material into a public chatbot exposes it to third parties — the pattern courts found defeats privilege in United States v. Heppner (S.D.N.Y. 2026) — and the model answers from memory, not from your documents. A local, cited RAG system solves both problems."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        .warning { background-color: #fff3cd; border-color: #ffc107; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 15px 0; }
+        pre code { background: transparent; padding: 0; color: inherit; }
+        .downloads { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .downloads h3 { color: white; margin-top: 0; }
+        .downloads a { color: #fff; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Build a Document Q&amp;A System That Cites Its Sources (for Law Firms)</h1>
+        <p><strong>Published: August 9, 2026</strong> — Ask a question in plain English, get an answer drawn from your own contracts and briefs — with a citation to the exact file and page behind every claim. This tutorial builds that system in runnable Python: ingest, legal-aware chunking, hybrid retrieval (BM25 + BGE-M3 vectors fused with reciprocal rank fusion), citation-enforced generation, and a verification step that catches invented citations. It runs 100% on your own machine — no API keys, no cloud, no client data leaving the building.</p>
+        <div class="highlight-box success">
+            <p><strong>⚖️ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>The whole pipeline is ~80 lines of Python</strong> — load → chunk → embed → hybrid retrieve → cite → verify</li>
+                <li><strong>Hybrid retrieval wins for legal text:</strong> BM25 for exact boilerplate and clause citations, BGE-M3 vectors for paraphrase, fused with reciprocal rank fusion</li>
+                <li><strong>Citations are enforced in two places:</strong> the generation prompt (answer only from numbered passages) and a post-hoc verifier that rejects markers pointing at passages that were never retrieved</li>
+                <li><strong>Privacy is architecture:</strong> embeddings, store, and LLM all run locally via Ollama + ChromaDB</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section id="why">
+            <h2>Why Citations, and Why Local</h2>
+            <p>An uncited AI answer is an assertion. A cited answer is a finding. That distinction is the whole game for legal work, and it maps onto two obligations lawyers already have.</p>
+            <p><strong>Confidentiality.</strong> The moment a client document touches a cloud chatbot, a third party holds the very material that may be protected by attorney–client privilege — the pattern a federal court found defeats privilege in <a href="ai-waived-attorney-client-privilege-court.html"><em>United States v. Heppner</em> (S.D.N.Y. 2026)</a>. ABA Formal Opinion 512 is explicit that lawyers must protect client confidences when using generative AI under Model Rule 1.6. Running the pipeline on your own hardware is the strongest architectural answer: there is no moment where the document exists anywhere but your disk.</p>
+            <p><strong>Competence.</strong> Opinion 512 also requires competence: understand the tool's limits and verify its output. A system that answers from memory makes verification impossible — you can't check a citation that doesn't exist. A system that answers from retrieved passages and shows the source makes verification a two-second operation. For the full ethics picture, see <a href="is-it-ethical-to-use-chatgpt-for-contract-review.html">Is It Ethical to Use ChatGPT for Contract Review?</a> and the <a href="attorney-client-privilege-and-ai-plain-english-guide.html">plain-English privilege guide</a>.</p>
+        </section>
+
+        <section id="stack">
+            <h2>The Stack</h2>
+            <p>This is the same architecture the open-source <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> uses — embeddings, vector store, keyword index, and LLM running as separate local services so each piece can be swapped without touching the rest.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Tool</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Document parsing</td>
+                        <td><a href="https://python.langchain.com/docs/tutorials/rag/" target="_blank" rel="noopener">PyPDFLoader</a> (+ OCR for scans)</td>
+                        <td>Turns PDFs into pages with source + page metadata</td>
+                    </tr>
+                    <tr>
+                        <td>Chunking</td>
+                        <td>RecursiveCharacterTextSplitter, clause-aware separators</td>
+                        <td>Splits on clause and paragraph boundaries, keeps metadata</td>
+                    </tr>
+                    <tr>
+                        <td>Embeddings</td>
+                        <td><a href="https://huggingface.co/BAAI/bge-m3" target="_blank" rel="noopener">BGE-M3</a> via Ollama</td>
+                        <td>Multilingual semantic vectors (dense + sparse)</td>
+                    </tr>
+                    <tr>
+                        <td>Vector store</td>
+                        <td><a href="https://docs.trychroma.com/" target="_blank" rel="noopener">ChromaDB</a></td>
+                        <td>Local, persistent index of embedded chunks</td>
+                    </tr>
+                    <tr>
+                        <td>Keyword index</td>
+                        <td><a href="https://pypi.org/project/rank-bm25/" target="_blank" rel="noopener">BM25 (rank-bm25)</a></td>
+                        <td>Exact-term retrieval for boilerplate, clause cites, shorthand</td>
+                    </tr>
+                    <tr>
+                        <td>Generation</td>
+                        <td>qwen3:8b (or Llama/Mistral) via <a href="https://ollama.com/" target="_blank" rel="noopener">Ollama</a></td>
+                        <td>On-device LLM, temperature 0, citation-enforced prompt</td>
+                    </tr>
+                    <tr>
+                        <td>Evaluation</td>
+                        <td><a href="https://docs.ragas.io/" target="_blank" rel="noopener">RAGAS</a></td>
+                        <td>Faithfulness and answer-relevancy scores on an eval set</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="setup">
+            <h2>Setup</h2>
+            <pre><code># Pull the models once (Ollama)
+ollama pull bge-m3          # embeddings
+ollama pull qwen3:8b        # generation
+
+# Python
+pip install langchain langchain-community \
+            langchain-chroma langchain-ollama \
+            chromadb pypdf rank-bm25</code></pre>
+        </section>
+
+        <section id="ingest">
+            <h2>Step 1: Load and Chunk Legally</h2>
+            <p>Contracts and briefs are not Wikipedia articles. A definition in Section 1 governs a term in Section 12, and a clause spans paragraphs. So chunking is a first-class decision: split on clause boundaries first, and carry <code>source</code> and <code>page</code> metadata through every chunk — that metadata is what becomes the citation later.</p>
+            <pre><code>from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+loader = PyPDFLoader("merger-agreement.pdf")
+pages = loader.load()  # one Document per page, page number in metadata
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=600,
+    chunk_overlap=80,
+    # legal text breaks on clause boundaries before sentences
+    separators=["\n\n", "\n", ". ", "; ", " ", ""],
+)
+chunks = splitter.split_documents(pages)
+
+for i, chunk in enumerate(chunks):
+    chunk.metadata["doc_id"] = f"c{i}"  # stable id for fusion
+
+print(f"{len(chunks)} chunks")
+print(chunks[0].metadata)  # {'source': 'merger-agreement.pdf', 'page': 1, 'doc_id': 'c0', ...}</code></pre>
+            <p>If your PDFs are scans, run OCR before this step — Lawyer Assistant does this automatically so scanned exhibits are searchable too. For the full trade-off between fixed-size, document-aware, and <a href="contextual-retrieval.html">contextual chunking</a>, see <a href="rag-chunking-strategies.html">Advanced RAG: Chunking Strategies Compared</a>.</p>
+        </section>
+
+        <section id="embed">
+            <h2>Step 2: Embed and Store</h2>
+            <p>Each chunk gets embedded with BGE-M3 and stored in ChromaDB, persisted to disk. Re-run and you load instead of re-embedding.</p>
+            <pre><code>from langchain_ollama import OllamaEmbeddings
+from langchain_chroma import Chroma
+
+embeddings = OllamaEmbeddings(model="bge-m3")
+
+vectorstore = Chroma.from_documents(
+    documents=chunks,
+    embedding=embeddings,
+    ids=[c.metadata["doc_id"] for c in chunks],
+    persist_directory="./legal_index",
+)
+# prove it works: the store answers a similarity query immediately
+probe = vectorstore.similarity_search("indemnification cap", k=1)
+print("indexed", len(chunks), "chunks; probe returned",
+      probe[0].metadata["doc_id"])</code></pre>
+        </section>
+
+        <section id="hybrid">
+            <h2>Step 3: Hybrid Retrieval — BM25 + Vectors, Fused</h2>
+            <p>Legal language is unforgiving in both directions. A contract clause may use exact boilerplate phrasing that pure semantic search would paraphrase away; a casual question may use words that never appear in the document. So run <strong>two retrievers in parallel</strong> and merge the rankings with reciprocal rank fusion (RRF):</p>
+            <ul>
+                <li><strong>BM25</strong> catches exact terms, clause citations, and legal shorthand</li>
+                <li><strong>Vector search</strong> catches meaning, so "what happens if the other party breaches" finds a clause about "default by counterparty"</li>
+            </ul>
+            <pre><code>from rank_bm25 import BM25Okapi
+
+tokenized = [c.page_content.lower().split() for c in chunks]
+bm25 = BM25Okapi(tokenized)
+
+
+def hybrid_search(query: str, k: int = 6, rrf_k: int = 60):
+    # 1) semantic ranking — nearest chunks first
+    vec_hits = vectorstore.similarity_search_with_score(query, k=k)
+    vec_ids = [d.metadata["doc_id"] for d, _ in vec_hits]
+
+    # 2) keyword ranking — BM25 over the same chunks
+    scores = bm25.get_scores(query.lower().split())
+    bm25_ids = [chunks[i].metadata["doc_id"]
+                for i in scores.argsort()[::-1][:k]]
+
+    # 3) reciprocal rank fusion — merge both orders into one
+    fused = {}
+    for rank, doc_id in enumerate(vec_ids + bm25_ids):
+        fused[doc_id] = fused.get(doc_id, 0.0) + 1.0 / (rrf_k + rank + 1)
+    top = sorted(fused, key=fused.get, reverse=True)[:k]
+
+    by_id = {c.metadata["doc_id"]: c for c in chunks}
+    return [by_id[d] for d in top]
+
+
+for d in hybrid_search("What happens if the buyer breaches closing?"):
+    print(d.metadata["doc_id"], d.metadata["page"], d.page_content[:60])</code></pre>
+            <p>RRF needs no score normalization — it just fuses ranks, which is why it works when BM25 scores and embedding distances are on totally different scales. For the deeper reasoning, see <a href="what-is-hybrid-search.html">What Is Hybrid Search? BM25 + Semantic Retrieval</a>. If precision matters more, add a cross-encoder reranker over the top-k — the pattern is in <a href="reranking-in-rag.html">Reranking in RAG</a>.</p>
+        </section>
+
+        <section id="generate">
+            <h2>Step 4: Cited Generation</h2>
+            <p>Now the part that makes answers verifiable. The retrieved passages are numbered and passed as grounding context; the prompt instructs the model to answer <em>only</em> from them and to end every factual claim with a citation carrying the passage's real file name and page. Generation runs at temperature 0.</p>
+            <pre><code>from langchain_ollama import ChatOllama
+from langchain_core.prompts import ChatPromptTemplate
+
+llm = ChatOllama(model="qwen3:8b", temperature=0)
+
+PROMPT = """You are a legal research assistant working from a document set.
+Answer using ONLY the numbered passages below. For every factual claim,
+end the sentence with a citation in this exact form:
+[Source: {{source}}, p.{{page}}]
+Use the passage's real file name and page number. If the passages do not
+contain the answer, say "The documents do not address this." Never invent
+a citation.
+
+Passages:
+{context}
+
+Question: {question}"""
+
+
+def format_context(docs):
+    blocks = []
+    for i, d in enumerate(docs, 1):
+        src = d.metadata.get("source", "unknown")
+        page = d.metadata.get("page", "?")
+        blocks.append(f"[{i}] ({src}, p.{page})\n{d.page_content}")
+    return "\n\n".join(blocks)
+
+
+prompt = ChatPromptTemplate.from_template(PROMPT)
+chain = prompt | llm
+
+question = "What happens if the buyer breaches the closing obligations?"
+answer = chain.invoke(
+    {"context": format_context(hybrid_search(question)), "question": question}
+)
+print(answer.content)</code></pre>
+            <p>Note the doubled braces around <code>{{source}}</code> and <code>{{page}}</code> — that's how LangChain templates emit a literal citation format to the model while keeping <code>{context}</code> and <code>{question}</code> as real variables.</p>
+        </section>
+
+        <section id="verify">
+            <h2>Step 5: Verify the Citations</h2>
+            <p>Prompting is not enough — citation-shaped hallucinations are a known failure mode. So verify mechanically: parse every <code>[Source: X, p.N]</code> marker and check it against the passages that were actually retrieved. Anything that doesn't match is flagged. This is a contract, not a suggestion: if the passage doesn't exist, the answer doesn't ship.</p>
+            <pre><code>import re
+
+
+def verify_citations(answer, docs):
+    markers = re.findall(r"\[Source:\s*(.+?),\s*p\.(\d+)\]", answer)
+    real = {(d.metadata.get("source"), str(d.metadata.get("page"))) for d in docs}
+    invented = [(s, p) for s, p in markers if (s, p) not in real]
+    print(f"{len(markers) - len(invented)}/{len(markers)} citations "
+          "trace to retrieved passages")
+    if invented:
+        print("INVENTED:", invented)
+    return invented
+
+
+verify_citations(answer.content, hybrid_search(question))</code></pre>
+        </section>
+
+        <section id="measure">
+            <h2>Step 6: Measure It, Don't Trust It</h2>
+            <p>Before this system earns a place in a real workflow, measure it the way you'd measure any legal tool: on a fixed test set. Build ~50 questions with known answers from your own documents, then score the pipeline with <a href="https://docs.ragas.io/" target="_blank" rel="noopener">RAGAS</a> on the two metrics that matter for legal work:</p>
+            <ul>
+                <li><strong>Faithfulness</strong> — does the answer stay within the retrieved passages, or does the model drift into memory?</li>
+                <li><strong>Answer relevancy</strong> — does it actually address the question asked?</li>
+            </ul>
+            <p>Pair that with the manual spot-check: take ten answers and open every citation. If a page doesn't match, the system isn't grounded, no matter how confident it sounds. The full methodology — building the eval set, setting thresholds, and deciding when a system is trustworthy — is in <a href="evaluate-rag-system.html">How to Evaluate a RAG System</a>, with the metric definitions in <a href="rag-evaluation.html">RAG Evaluation</a>.</p>
+        </section>
+
+        <section id="production">
+            <h2>What a Firm Adds Before Production</h2>
+            <ol>
+                <li><strong>Access control</strong> — who may query which matters; privilege and confidentiality flow from who can reach the data</li>
+                <li><strong>Audit logging</strong> — every question, answer, and opened citation logged, so usage is reviewable</li>
+                <li><strong>A written AI policy</strong> — approved tools, prohibited tools, and review procedures; under Model Rule 5.1, firm leadership is responsible for supervision</li>
+                <li><strong>Human review</strong> — AI triages and cites; a lawyer decides. Every answer crosses a desk before it shapes advice</li>
+                <li><strong>Client communication</strong> — where required, informed consent about how AI is used on the matter</li>
+            </ol>
+            <div class="highlight-box primary">
+                <p><strong>💡 See it working end-to-end:</strong> <a href="https://lawyers-assistant.github.io" target="_blank" rel="noopener">Lawyer Assistant</a> is the free, open-source, MIT-licensed implementation of exactly this design — hybrid search, cited answers, compliance playbook scans, and a planner agent that streams over REST + SSE, all on-device. The full pipeline walkthrough is in <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: A Privacy-First Legal AI Built on a Local RAG Pipeline</a>.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <h3>What does it mean for a document Q&amp;A system to cite its sources?</h3>
+            <p>The system retrieves the relevant passages from your own documents first, then generates the answer using only those passages — and appends a citation in the form [Source: file, p.N] to every claim. Each citation points at the exact passage the model relied on, so a lawyer can open the source and verify before relying on it.</p>
+            <h3>Why hybrid retrieval (BM25 + vectors) for legal documents?</h3>
+            <p>Legal language is both exact and paraphrased. A clause may use boilerplate phrasing that a pure semantic search would paraphrase away, while a casual question may use words that never appear in the document. BM25 catches exact terms, clause citations, and legal shorthand; vector search catches meaning and paraphrase. Fusing both with reciprocal rank fusion beats either alone.</p>
+            <h3>Does this run on a normal laptop, and is it private?</h3>
+            <p>Yes. The whole pipeline — BGE-M3 embeddings, ChromaDB, BM25, and a quantized 7–14B model via Ollama — runs on a modern laptop with 16GB of RAM. Documents, embeddings, and answers never leave the machine, which is the strongest position you can take on attorney–client confidentiality (Model Rule 1.6).</p>
+            <h3>How do you stop the model from inventing citations?</h3>
+            <p>Three layers: the prompt is constrained to answer only from numbered retrieved passages and to cite the passage's real file name and page; generation runs at temperature 0; and a verification step parses every [Source: X, p.N] marker and checks it against the passages that were actually retrieved, flagging any that don't exist.</p>
+            <h3>How do you measure whether the system is trustworthy?</h3>
+            <p>Build a small evaluation set of questions with known answers, then measure faithfulness (does the answer stay within the retrieved passages?) and answer relevancy (does it address the question?) using a framework like RAGAS. Pair that with a manual spot-check: take ten answers and open every citation.</p>
+            <h3>Can I just use ChatGPT for this?</h3>
+            <p>For drafting, yes. For answering from client documents, no: pasting privileged material into a public chatbot exposes it to third parties — the pattern courts found defeats privilege in <em>United States v. Heppner</em> (S.D.N.Y. 2026) — and the model answers from memory, not from your documents. A local, cited RAG system solves both problems.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="https://www.americanbar.org/content/dam/aba/administrative/professional_responsibility/aba-formal-opinion-512.pdf" target="_blank" rel="noopener">ABA Formal Opinion 512: Generative Artificial Intelligence Tools (PDF)</a> — the competence, confidentiality, and supervision duties for lawyers using AI</li>
+                <li><a href="https://python.langchain.com/docs/tutorials/rag/" target="_blank" rel="noopener">LangChain RAG tutorial (official docs)</a></li>
+                <li><a href="https://python.langchain.com/docs/how_to/recursive_text_splitter/" target="_blank" rel="noopener">RecursiveCharacterTextSplitter documentation</a></li>
+                <li><a href="https://huggingface.co/BAAI/bge-m3" target="_blank" rel="noopener">BGE-M3 — multilingual embedding model (Hugging Face)</a></li>
+                <li><a href="https://docs.trychroma.com/" target="_blank" rel="noopener">ChromaDB documentation</a></li>
+                <li><a href="https://ollama.com/" target="_blank" rel="noopener">Ollama — run LLMs locally</a></li>
+                <li><a href="https://pypi.org/project/rank-bm25/" target="_blank" rel="noopener">rank-bm25 (PyPI)</a></li>
+                <li><a href="https://docs.ragas.io/" target="_blank" rel="noopener">RAGAS — evaluation framework for RAG pipelines</a></li>
+            </ul>
+        </section>
+
+        <section id="cta">
+            <div class="downloads">
+                <h3>⚖️ Need this built for your firm?</h3>
+                <p>I design and deploy privacy-first local AI systems — private RAG, cited answers, on-premise LLMs for legal work. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> for a scoping conversation. Or start with the free, open-source <a href="https://lawyers-assistant.github.io" target="_blank" rel="noopener">Lawyer Assistant</a>.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

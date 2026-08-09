@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)</title>
+    <meta name="description" content="GraphRAG explained: how knowledge graphs fix RAG's cross-document blind spot, when to use it, and how to build a local GraphRAG pipeline in 2026.">
+    <meta name="keywords" content="graphrag, knowledge graph rag, microsoft graphrag, llm knowledge graph, graph rag vs vector rag, entity relationship extraction, graphrag local, rag limitations, graphrag pipeline">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/graphrag-explained.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)">
+    <meta property="og:description" content="How knowledge graphs fix RAG's cross-document blind spot, when to use it, and how to build a local GraphRAG pipeline.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/graphrag-explained.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)">
+    <meta name="twitter:description" content="How knowledge graphs fix RAG's cross-document blind spot, when to use it, and how to build a local pipeline.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)",
+          "description": "How knowledge graphs fix RAG's cross-document blind spot, when to use it, and how to build a local GraphRAG pipeline in 2026.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/graphrag-explained.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is GraphRAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "GraphRAG is a retrieval pattern where documents are first distilled into a knowledge graph — entities as nodes, relationships as edges — and retrieval traverses that graph alongside (or instead of) vector similarity. It was popularized by Microsoft's open-source GraphRAG project in 2024."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is GraphRAG different from normal RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Vector RAG retrieves chunks by embedding similarity, which is great for direct questions but blind to relationships spread across documents. GraphRAG models how facts connect — who works for whom, which clause modifies which contract — so it can answer multi-hop and global questions vector search misses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "When should I use GraphRAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use it when your questions are relational or global: 'How do these teams depend on each other?', 'Which clauses conflict?', 'Summarize the whole corpus'. For simple fact lookup, vector RAG is cheaper and often better. Many 2026 systems run both — vector for lookup, graph for connection."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is GraphRAG expensive?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Indexing is the expensive part — extracting entities and relationships with an LLM costs per-token and can be 10-100x the cost of embedding. Query time is usually fine. Small local graphs with sub-12B models are very achievable; corpus-wide graphs of millions of documents are an enterprise budget decision."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I run GraphRAG locally?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Microsoft's GraphRAG supports local models through LiteLLM, and lightweight alternatives (like Neo4j's llm-graph-builder or custom pipelines) run happily on a laptop with Ollama and a sub-12B model for extraction. Graph databases like Neo4j Community Edition are free."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does GraphRAG replace vector RAG?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No — they complement each other. Vector retrieval finds relevant chunks fast; the graph reasons over how those chunks relate. The strongest 2026 setups combine both: vector search for candidates, graph traversal for connections, then reranking."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GraphRAG Explained: Knowledge Graphs Meet RAG (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Vector RAG has a blind spot: it finds <em>similar</em> chunks, not <em>connected</em> facts. Ask "how do these three contracts relate?" and a vector database returns three similar-looking passages with no idea how they interact. <strong>GraphRAG fixes that by building a knowledge graph first</strong> — entities as nodes, relationships as edges — and retrieving through the graph. This guide explains what it is, when it beats plain RAG, and how to run it locally.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>GraphRAG = RAG over a knowledge graph</strong> — distilled from your documents with an LLM</li>
+                <li><strong>It answers multi-hop and global questions</strong> that vector similarity structurally cannot</li>
+                <li><strong>The cost is at index time</strong> — entity extraction is LLM-heavy; queries stay cheap</li>
+                <li><strong>Best 2026 setups run both:</strong> vector for lookup, graph for connection</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="problem">
+            <h2>The Problem GraphRAG Solves</h2>
+            <p>Classic vector RAG (the <a href="how-to-build-rag-system-30-minutes.html">30-minute pipeline</a>) embeds chunks and retrieves by similarity. It answers "what does the contract say about indemnification?" beautifully — the answer is literally in a chunk. It fails at:</p>
+            <ul>
+                <li><strong>Multi-hop questions:</strong> "Which employees of Company A sit on boards of Company B's suppliers?" — no single chunk holds the answer.</li>
+                <li><strong>Global questions:</strong> "What are the recurring themes across all 500 support tickets?" — no chunk represents the whole.</li>
+                <li><strong>Relational questions:</strong> "Which clauses in this contract reference the change-control section?" — the links live between documents.</li>
+            </ul>
+            <p>These are exactly the questions <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">legal document analysis</a>, due diligence, and research workflows ask. Vector search returns noise; the graph returns structure.</p>
+        </section>
+
+        <section id="how">
+            <h2>How GraphRAG Works</h2>
+            <ol>
+                <li><strong>Extract.</strong> An LLM reads each chunk and pulls out entities (people, companies, clauses, terms) and relationships ("<em>Clause 4.2</em> <strong>references</strong> <em>Exhibit B</em>", "<em>Alice</em> <strong>reports to</strong> <em>Bob</em>").</li>
+                <li><strong>Build.</strong> Entities become nodes, relationships become typed edges, each edge keeps its source chunk for grounding.</li>
+                <li><strong>Community detection.</strong> Optional but powerful: the graph is clustered into communities (Microsoft GraphRAG's signature step), and each community gets an LLM summary.</li>
+                <li><strong>Retrieve.</strong> Queries match entities, then traverse edges — one hop, two hops, or across an entire community — pulling the connected chunks into context.</li>
+                <li><strong>Generate.</strong> The model answers from the graph-grounded context, with each fact still traceable to its source chunk.</li>
+            </ol>
+            <pre><code># Conceptual pipeline (graph part)
+entities, relations = llm.extract(chunk)        # step 1
+graph.add_edges(relations, source=chunk)        # step 2
+communities = graph.detect_communities()        # step 3
+for c in communities:
+    summaries[c.id] = llm.summarize(c.nodes)    # step 3b
+
+# Query time
+seeds = entity_linker.match(query)
+ctx = graph.traverse(seeds, hops=2)             # step 4
+answer = llm.generate(query, context=ctx)       # step 5</code></pre>
+        </section>
+
+        <section id="when">
+            <h2>Vector RAG vs GraphRAG: When Each Wins</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question type</th>
+                        <th>Vector RAG</th>
+                        <th>GraphRAG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Direct fact lookup ("What does section 4 say?")</td>
+                        <td><strong>Wins</strong> — fast, cheap, precise</td>
+                        <td>Overkill</td>
+                    </tr>
+                    <tr>
+                        <td>Multi-hop ("How do A, B, and C relate?")</td>
+                        <td>Fails or guesses</td>
+                        <td><strong>Wins</strong> — traversal by design</td>
+                    </tr>
+                    <tr>
+                        <td>Corpus-wide synthesis ("Themes across 1,000 docs")</td>
+                        <td>Misses the global picture</td>
+                        <td><strong>Wins</strong> — community summaries</td>
+                    </tr>
+                    <tr>
+                        <td>Fresh, frequently updated docs</td>
+                        <td><strong>Wins</strong> — re-index one chunk</td>
+                        <td>Graph rebuild is expensive</td>
+                    </tr>
+                    <tr>
+                        <td>Small, stable, relationship-dense corpus</td>
+                        <td>Works, but shallow</td>
+                        <td><strong>Wins</strong> — the sweet spot</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>💡 The honest 2026 position:</strong> GraphRAG is not a RAG replacement. It's a <em>retrieval mode</em>. Production systems increasingly route — vector for lookup, graph for connection — which is precisely the pattern in <a href="agentic-rag.html">agentic RAG</a>.</p>
+            </div>
+        </section>
+
+        <section id="costs">
+            <h2>The Real Cost Structure</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Cost driver</th>
+                        <th>Local 2026 reality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Entity extraction</strong></td>
+                        <td>LLM tokens per chunk</td>
+                        <td>Sub-12B model via Ollama — slow but free (see <a href="top-10-models-under-12b-2026.html">rankings</a>)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Graph storage</strong></td>
+                        <td>Graph DB or files</td>
+                        <td>Neo4j Community / NetworkX — both free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Community summarization</strong></td>
+                        <td>LLM calls per community</td>
+                        <td>One-time index cost</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Query</strong></td>
+                        <td>Entity matching + traversal</td>
+                        <td>Cheap — usually faster than big-context vector rerank</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Microsoft's GraphRAG <em>local</em> mode runs the entire index on an Ollama-served model, and the 2026 lightweight alternatives (llm-graph-builder, GraphRAG-Lite style tools) have cut index cost by using smaller extraction prompts. For a few hundred documents, a laptop handles it overnight.</p>
+        </section>
+
+        <section id="build">
+            <h2>Building a Local GraphRAG Pipeline</h2>
+            <ul>
+                <li><strong>Microsoft GraphRAG</strong> — the reference implementation, <code>graphrag index --method local</code> with Ollama endpoints.</li>
+                <li><strong>Neo4j + llm-graph-builder</strong> — a friendlier UI, LLM extraction into a real graph DB, Cypher queries at retrieval time.</li>
+                <li><strong>Custom light path</strong> — extract with a local model into NetworkX, embed entity descriptions in <a href="chromadb-vs-faiss.html">ChromaDB</a>, traverse edges in Python. ~100 lines, full control, zero cloud.</li>
+            </ul>
+            <p>Whatever the stack, the retrieval layer still benefits from the standard toolkit — <a href="reranking-in-rag.html">reranking</a>, <a href="what-is-hybrid-search.html">hybrid search</a>, and <a href="rag-evaluation.html">evaluation</a>. GraphRAG changes <em>how</em> you find context; it doesn't change the need to verify it.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is GraphRAG?</h3>
+            <p>GraphRAG is a retrieval pattern where documents are first distilled into a knowledge graph — entities as nodes, relationships as edges — and retrieval traverses that graph alongside (or instead of) vector similarity. It was popularized by Microsoft's open-source GraphRAG project in 2024.</p>
+
+            <h3>How is GraphRAG different from normal RAG?</h3>
+            <p>Vector RAG retrieves chunks by embedding similarity, which is great for direct questions but blind to relationships spread across documents. GraphRAG models how facts connect — who works for whom, which clause modifies which contract — so it can answer multi-hop and global questions vector search misses.</p>
+
+            <h3>When should I use GraphRAG?</h3>
+            <p>Use it when your questions are relational or global: "How do these teams depend on each other?", "Which clauses conflict?", "Summarize the whole corpus". For simple fact lookup, vector RAG is cheaper and often better. Many 2026 systems run both — vector for lookup, graph for connection.</p>
+
+            <h3>Is GraphRAG expensive?</h3>
+            <p>Indexing is the expensive part — extracting entities and relationships with an LLM costs per-token and can be 10–100x the cost of embedding. Query time is usually fine. Small local graphs with sub-12B models are very achievable; corpus-wide graphs of millions of documents are an enterprise budget decision.</p>
+
+            <h3>Can I run GraphRAG locally?</h3>
+            <p>Yes. Microsoft's GraphRAG supports local models through LiteLLM, and lightweight alternatives (like Neo4j's llm-graph-builder or custom pipelines) run happily on a laptop with Ollama and a sub-12B model for extraction. Graph databases like Neo4j Community Edition are free.</p>
+
+            <h3>Does GraphRAG replace vector RAG?</h3>
+            <p>No — they complement each other. Vector retrieval finds relevant chunks fast; the graph reasons over how those chunks relate. The strongest 2026 setups combine both: vector search for candidates, graph traversal for connections, then reranking.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="agentic-rag.html">Agentic RAG: Combining Agents with Retrieval</a></li>
+                <li><a href="how-to-build-rag-system-30-minutes.html">How to Build a RAG System in 30 Minutes (Local, Free)</a></li>
+                <li><a href="what-is-hybrid-search.html">What Is Hybrid Search? BM25 + Semantic Retrieval</a></li>
+                <li><a href="rag-evaluation.html">RAG Evaluation: How to Measure Retrieval Quality</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+                <li><a href="https://www.microsoft.com/en-us/research/blog/graphrag-unlocking-llm-discovery-on-narrative-private-data/" target="_blank" rel="noopener">GraphRAG: unlocking LLM discovery on narrative private data (Microsoft Research, 2024)</a></li>
+                <li><a href="https://github.com/microsoft/graphrag" target="_blank" rel="noopener">Microsoft GraphRAG — GitHub</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

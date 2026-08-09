@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Hallucination: Why It Happens and How to Fix It (2026)</title>
+    <meta name="description" content="Why RAG systems hallucinate and how to fix it: retrieval failures, context misuse, grounding prompts, faithfulness checks, and the evaluation loop.">
+    <meta name="keywords" content="rag hallucination, llm hallucination rag, grounding, faithfulness, retrieval failure, reduce hallucination, rag prompt grounding, citation rag, hallucination fix, context poisoning">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/rag-hallucination.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="RAG Hallucination: Why It Happens and How to Fix It (2026)">
+    <meta property="og:description" content="Retrieval failures, context misuse, grounding prompts, faithfulness checks, and the evaluation loop.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/rag-hallucination.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RAG Hallucination: Why It Happens and How to Fix It (2026)">
+    <meta name="twitter:description" content="Retrieval failures, context misuse, grounding prompts, faithfulness checks, and the evaluation loop.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "RAG Hallucination: Why It Happens and How to Fix It (2026)",
+          "description": "Retrieval failures, context misuse, grounding prompts, faithfulness checks, and the evaluation loop.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/rag-hallucination.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Why does RAG still hallucinate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Four causes, in order of frequency: retrieval returns the wrong or missing context; the retrieved context is relevant but the model ignores it and uses trained knowledge; the prompt doesn't enforce grounding; or the context is contradictory. Hallucination in RAG is almost never 'the model making things up' — it's a pipeline failure upstream of generation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I stop my RAG system from hallucinating?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Fix in order: (1) measure recall@k — if the right chunks aren't retrieved, nothing downstream works; (2) strengthen the grounding prompt with explicit 'answer only from context / say you don't know' instructions; (3) add citations so answers are traceable; (4) add a faithfulness check that flags ungrounded claims; (5) measure with an eval set."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is a grounding prompt?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A grounding prompt constrains the model to answer only from the retrieved context, with an explicit refusal path ('if the context doesn't answer, say so') and citation instructions. It doesn't eliminate hallucination by itself — if the context is wrong, a grounded answer is wrong — but it stops the model from freewheeling beyond the context."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does 'answer only from context' actually work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It works much better than no instruction, but it is not a guarantee — strong models can still leak trained knowledge into answers, especially for common topics. Pair it with retrieval quality, citations, and a faithfulness check. The combination is what makes regulated-domain RAG trustworthy."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is a faithfulness check?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A faithfulness check verifies that each claim in the answer is supported by the retrieved context — usually an LLM-as-judge that compares answer claims against source chunks. It catches residual hallucination at the output stage. RAGAS implements it; see the evaluation guide for setup."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between hallucination and a wrong retrieval?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Wrong retrieval means the system found the wrong context — the answer may be perfectly faithful to that context, but the context doesn't answer the question. Hallucination means the answer isn't grounded in the provided context at all. Fixing wrong retrieval is chunking/embedding/reranking work; fixing hallucination is prompt and verification work."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>RAG Hallucination: Why It Happens and How to Fix It (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — "It's grounded, so it can't hallucinate" is the most expensive myth in RAG. <strong>RAG reduces hallucination dramatically — it does not eliminate it.</strong> The failures are pipeline-shaped: wrong retrieval, ignored context, weak prompts, contradictory sources. This guide maps each cause to its fix, with the grounding prompt and faithfulness check you can add today.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Hallucination in RAG is a pipeline failure, not a model quirk</strong> — fix the stage, not the symptoms</li>
+                <li><strong>Wrong retrieval first:</strong> if recall@k fails, no prompt or model fixes the answer</li>
+                <li><strong>Grounding prompt + citations + faithfulness check</strong> — the three-layer defense</li>
+                <li><strong>For regulated work, target faithfulness ≥0.99 or a refusal</strong> — see the evaluation guide for measurement</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="causes">
+            <h2>The Four Causes (and Their Fixes)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cause</th>
+                        <th>What happens</th>
+                        <th>Fix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Wrong/missing retrieval</strong></td>
+                        <td>The right context never makes it into the prompt</td>
+                        <td>Fix chunking (<a href="rag-chunking-strategies.html">guide</a>), embeddings (<a href="top-10-embedding-models-2026.html">ranking</a>), add <a href="what-is-hybrid-search.html">hybrid search</a> and <a href="reranking-in-rag.html">reranking</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Ignored context</strong></td>
+                        <td>Context is retrieved but the model answers from trained knowledge</td>
+                        <td>Grounding prompt + "answer only from context" + low temperature</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Weak prompt</strong></td>
+                        <td>No constraints — the model freewheels and embellishes</td>
+                        <td>Explicit refusal path + citation instruction + format lock</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Contradictory context</strong></td>
+                        <td>Two chunks conflict; the model picks or merges wrongly</td>
+                        <td>Source-dated metadata, conflict handling in the prompt, citation surfacing</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>💡 The diagnostic:</strong> check retrieval quality first (<a href="rag-evaluation.html">recall@k, MRR</a>). If retrieval is solid and answers are still ungrounded, the problem is generation-side — prompt and verification. That single branching decision tells you where to spend your effort.</p>
+            </div>
+        </section>
+
+        <section id="grounding">
+            <h2>The Grounding Prompt That Works</h2>
+            <pre><code>SYSTEM = """You are a grounded document assistant.
+Rules:
+1. Answer ONLY from the provided context.
+2. If the context does not answer the question, say
+   "The documents do not contain this information."
+3. Cite the source section for every factual claim:
+   [Section 4.2, p.17].
+4. Never combine facts from different sources unless
+   the context explicitly links them.
+5. Do not use your own knowledge, even for common topics."""</code></pre>
+            <p>Rules 2, 3, and 5 are the load-bearing ones. The refusal path converts silent hallucination into an honest "I don't know" — which is the correct behavior for <a href="offline-ai-regulated-industries.html">regulated domains</a>. Citations make every claim auditable, which is what turns a RAG assistant into a <em>trustworthy</em> one.</p>
+        </section>
+
+        <section id="faithfulness">
+            <h2>The Faithfulness Check: Catching What Slips Through</h2>
+            <pre><code># LLM-as-judge: does each claim appear in the context?
+from ragas.metrics import faithfulness
+from ragas import evaluate
+
+result = evaluate(dataset, metrics=[faithfulness])
+low = result.to_pandas()
+print(low[low["faithfulness"] < 0.95])  # flag offenders</code></pre>
+            <p>A faithfulness judge compares each answer claim against the retrieved chunks. It won't stop hallucination — it <em>detects</em> it, which is the production pattern: <strong>prevent with retrieval + grounding, detect with faithfulness, escalate with a refusal or a human review queue.</strong> For legal-grade answers, this detector is the difference between a liability and a product. RAGAS runs the whole loop locally (see <a href="rag-evaluation.html">evaluation guide</a>).</p>
+        </section>
+
+        <section id="stack">
+            <h2>The Full Anti-Hallucination Stack</h2>
+            <ol>
+                <li><strong>Retrieval quality:</strong> document-aware chunking + hybrid search + reranking → the right context, ranked.</li>
+                <li><strong>Context quality:</strong> <a href="contextual-retrieval.html">contextual retrieval</a> so chunks are self-describing → fewer ambiguous matches.</li>
+                <li><strong>Grounding prompt:</strong> refusal path + citations → constrained generation.</li>
+                <li><strong>Verification:</strong> faithfulness check + citation surfacing in the UI → detected failures.</li>
+                <li><strong>Evaluation:</strong> a fixed eval set with recall + faithfulness targets → regression protection.</li>
+            </ol>
+            <p>Each layer is covered by its own guide in this blog — this stack is the same one behind <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a>, where a hallucinated clause is not a bug report but a professional-liability event.</p>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Why does RAG still hallucinate?</h3>
+            <p>Four causes, in order of frequency: retrieval returns the wrong or missing context; the retrieved context is relevant but the model ignores it and uses trained knowledge; the prompt doesn't enforce grounding; or the context is contradictory. Hallucination in RAG is almost never "the model making things up" — it's a pipeline failure upstream of generation.</p>
+
+            <h3>How do I stop my RAG system from hallucinating?</h3>
+            <p>Fix in order: (1) measure recall@k — if the right chunks aren't retrieved, nothing downstream works; (2) strengthen the grounding prompt with explicit "answer only from context / say you don't know" instructions; (3) add citations so answers are traceable; (4) add a faithfulness check that flags ungrounded claims; (5) measure with an eval set.</p>
+
+            <h3>What is a grounding prompt?</h3>
+            <p>A grounding prompt constrains the model to answer only from the retrieved context, with an explicit refusal path ("if the context doesn't answer, say so") and citation instructions. It doesn't eliminate hallucination by itself — if the context is wrong, a grounded answer is wrong — but it stops the model from freewheeling beyond the context.</p>
+
+            <h3>Does "answer only from context" actually work?</h3>
+            <p>It works much better than no instruction, but it is not a guarantee — strong models can still leak trained knowledge into answers, especially for common topics. Pair it with retrieval quality, citations, and a faithfulness check. The combination is what makes regulated-domain RAG trustworthy.</p>
+
+            <h3>What is a faithfulness check?</h3>
+            <p>A faithfulness check verifies that each claim in the answer is supported by the retrieved context — usually an LLM-as-judge that compares answer claims against source chunks. It catches residual hallucination at the output stage. RAGAS implements it; see the evaluation guide for setup.</p>
+
+            <h3>What is the difference between hallucination and a wrong retrieval?</h3>
+            <p>Wrong retrieval means the system found the wrong context — the answer may be perfectly faithful to that context, but the context doesn't answer the question. Hallucination means the answer isn't grounded in the provided context at all. Fixing wrong retrieval is chunking/embedding/reranking work; fixing hallucination is prompt and verification work.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="rag-evaluation.html">RAG Evaluation: How to Measure Retrieval Quality</a></li>
+                <li><a href="reranking-in-rag.html">Reranking in RAG: Why Retrieval Order Matters</a></li>
+                <li><a href="what-is-hybrid-search.html">What Is Hybrid Search? BM25 + Semantic Retrieval</a></li>
+                <li><a href="rag-chunking-strategies.html">Advanced RAG: Chunking Strategies Compared</a></li>
+                <li><a href="contextual-retrieval.html">Contextual Retrieval: Chunking That Carries Context</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+                <li><a href="https://docs.ragas.io" target="_blank" rel="noopener">RAGAS documentation (faithfulness metrics)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GGUF Model Sizes Explained: Why Same Model, Different Files (2026)</title>
+    <meta name="description" content="Why the same LLM ships as many different GGUF files: quantization math, bits-per-weight, file-size tables, and how to read a model repo at a glance.">
+    <meta name="keywords" content="gguf model sizes, gguf file size, quantization bits per weight, q4_k_m file size, why multiple gguf files, gguf naming, model repo files, llama.cpp quantization, gguf vs safetensors size">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/gguf-model-sizes-explained.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="GGUF Model Sizes Explained: Why Same Model, Different Files (2026)">
+    <meta property="og:description" content="Quantization math, bits-per-weight, file-size tables, and how to read a model repo at a glance.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/gguf-model-sizes-explained.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GGUF Model Sizes Explained: Why Same Model, Different Files (2026)">
+    <meta name="twitter:description" content="Quantization math, bits-per-weight, file-size tables, and how to read a model repo at a glance.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "GGUF Model Sizes Explained: Why Same Model, Different Files (2026)",
+          "description": "Quantization math, bits-per-weight, file-size tables, and how to read a model repo at a glance.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/gguf-model-sizes-explained.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Why does one model have so many GGUF files?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Each file is the same model at a different quantization level — how many bits each weight is stored in. More bits = bigger file = higher quality; fewer bits = smaller file = faster and lighter. Model repos publish the full ladder so you can pick the exact size/quality trade-off for your hardware."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I calculate a GGUF file's size?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Roughly: parameters × bits-per-weight ÷ 8. A 7B model at 4 bits ≈ 7e9 × 4 / 8 ≈ 3.5GB. Add ~5-10% for quantization metadata and tensors that stay at higher precision. The Q4_K_M file for a 7B is typically ~4.4GB in practice."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What do the GGUF names mean (Q4_K_M, Q8_0, F16)?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The prefix is the bit level (Q4 = 4-bit, Q8 = 8-bit, F16 = half float). The suffix is the scheme: _K_M means the K-quant 'medium' mixture (most layers at 4-bit, a few at higher), _0 is a uniform scheme, and _S/_L are small/large K-quant variants. Q4_K_M is the popular default because it packs quality into size."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which GGUF file should I download?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Start with Q4_K_M: the best quality-per-GB in the ladder. Choose Q5_K_M or Q6_K if you have spare memory and want more quality; Q8_0 for near-lossless; Q3_K_M or Q2_K only when hardware forces it. The RAM-ranked guide in this blog maps each quant to hardware tiers."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why is the Q4 file bigger than parameters × 4 bits suggests?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Because not everything is 4-bit: K-quant schemes keep some weights and tensors at higher precision (the 'K' mixture), plus the file stores tokenizer data, metadata, and attention tensors at 6/8 bits. The result is a Q4_K_M file running ~30-60% above the naive 4-bit estimate."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I change a model's quantization after downloading?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — llama.cpp's quantize tool converts GGUF between levels offline: ./llama-quantize model-f16.gguf model-q4_k_m.gguf Q4_K_M. Start from F16 or Q8_0 for best results; re-quantizing an already-quantized file compounds quality loss. The conversion guide covers the full workflow."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GGUF Model Sizes Explained: Why Same Model, Different Files (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Open any GGUF model repo and you're greeted by a ladder of files: <code>Q2_K, Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0, F16…</code> Same model, wildly different sizes. <strong>The difference is quantization — how many bits each weight is stored in.</strong> This guide decodes the naming, the size math, and how to read any repo at a glance so you always download the right file for your hardware.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Same model, many files</strong> = the quantization ladder: bits-per-weight vs quality vs size</li>
+                <li><strong>Q4_K_M is the default pick</strong> — the best quality-per-GB in the ladder</li>
+                <li><strong>Rough size math:</strong> parameters × bits ÷ 8, plus ~30–60% overhead for K-quant mixtures</li>
+                <li><strong>Start from F16/Q8_0 when converting</strong> — re-quantizing quantized files compounds loss</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="ladder">
+            <h2>The Quantization Ladder, Decoded</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Bits/weight</th>
+                        <th>Size for 7B</th>
+                        <th>Quality</th>
+                        <th>Use case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>F16</strong></td>
+                        <td>16</td>
+                        <td>~13GB</td>
+                        <td>Full</td>
+                        <td>Source for conversions; exactness</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q8_0</strong></td>
+                        <td>8</td>
+                        <td>~7.2GB</td>
+                        <td>Near-lossless</td>
+                        <td>Quality-critical local runs — see <a href="q4-km-vs-q8-0.html">the comparison</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q6_K</strong></td>
+                        <td>6</td>
+                        <td>~5.5GB</td>
+                        <td>Very good</td>
+                        <td>Spare-memory quality bump</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q5_K_M</strong></td>
+                        <td>5</td>
+                        <td>~4.8GB</td>
+                        <td>Good</td>
+                        <td>Quality + size balance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q4_K_M</strong> ⭐</td>
+                        <td>4 (mixed)</td>
+                        <td>~4.4GB</td>
+                        <td>Good (default)</td>
+                        <td><strong>The standard pick</strong> — best quality-per-GB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q3_K_M</strong></td>
+                        <td>3</td>
+                        <td>~3.5GB</td>
+                        <td>Noticeable loss</td>
+                        <td>Small GPUs, CPU laptops</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q2_K</strong></td>
+                        <td>2</td>
+                        <td>~2.8GB</td>
+                        <td>Significant loss</td>
+                        <td>Last-resort memory fits</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="names">
+            <h2>Reading the Names: Q4_K_M, Q8_0, F16</h2>
+            <ul>
+                <li><strong>Q = quantized.</strong> The number is the bit level (Q4 = 4-bit average, Q8 = 8-bit).</li>
+                <li><strong>_K = K-quant scheme.</strong> A smart mixture: most layers at the target bits, a few sensitive layers at higher precision. <strong>_S</strong> (small) and <strong>_L</strong> (large) vary the mix; <strong>_M</strong> (medium) is the balanced default.</li>
+                <li><strong>_0 = uniform scheme.</strong> All weights at the same bits (Q8_0 is the common one) — simpler, predictable.</li>
+                <li><strong>F16 = half float, unquantized</strong> — the full model, used as the conversion source.</li>
+            </ul>
+            <p>Why the mixture matters: not all weights are equal. Attention and output layers are more sensitive to precision than feedforward layers, so K-quants protect the sensitive ones — which is why <strong>Q4_K_M routinely outperforms a naive uniform 4-bit</strong> at the same size.</p>
+        </section>
+
+        <section id="math">
+            <h2>The Size Math (and Why It's Fuzzy)</h2>
+            <pre><code>Naive estimate:  parameters × bits ÷ 8
+  7B at 4 bits   →  7,000,000,000 × 4 / 8 ≈ 3.5GB
+
+Reality for Q4_K_M:  ≈ 4.4GB  (+26%)
+Reasons: mixed-precision layers (K-quant keeps some
+tensors at 6/8 bits), tokenizer + metadata, and
+attention tensors stored at higher precision.</code></pre>
+            <p>So the rule of thumb: <strong>compute the naive number, then add ~30–60% for K-quant files.</strong> The exact size is on the repo page — the math is for planning. The <a href="top-10-gguf-models-by-ram.html">RAM-ranked guide</a> does this planning for you across hardware tiers.</p>
+        </section>
+
+        <section id="pick">
+            <h2>How to Pick: The 30-Second Decision</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Your hardware</th>
+                        <th>Pick</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>8GB VRAM / 16GB RAM laptop</td>
+                        <td><strong>Q4_K_M</strong> (Q3_K_M if it must co-run apps)</td>
+                    </tr>
+                    <tr>
+                        <td>12–16GB VRAM</td>
+                        <td><strong>Q4_K_M</strong> → Q5_K_M / Q6_K if memory allows</td>
+                    </tr>
+                    <tr>
+                        <td>24GB+ VRAM / 32GB+ unified</td>
+                        <td><strong>Q6_K or Q8_0</strong> — quality now matters more than size</td>
+                    </tr>
+                    <tr>
+                        <td>CPU-only, slow RAM</td>
+                        <td><strong>Q4_K_M</strong> (or Q3_K_M for speed) — see <a href="speed-up-local-llms.html">the speed guide</a></td>
+                    </tr>
+                    <tr>
+                        <td>Converting your own model</td>
+                        <td>Start from <strong>F16</strong>, convert to target quant</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="toolbox">
+                <h3>🚀 The rule that never changes</h3>
+                <p><strong>Start at Q4_K_M.</strong> It's the best quality-per-GB in the ladder, which is why it's the community default everywhere — including this blog's <a href="top-10-gguf-models-by-ram.html">RAM-ranked download tables</a> and the <a href="how-to-convert-huggingface-model-to-gguf.html">conversion tutorial</a>. Only move up (Q5/Q6/Q8) with spare memory, or down (Q3/Q2) when hardware forces it.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Why does one model have so many GGUF files?</h3>
+            <p>Each file is the same model at a different quantization level — how many bits each weight is stored in. More bits = bigger file = higher quality; fewer bits = smaller file = faster and lighter. Model repos publish the full ladder so you can pick the exact size/quality trade-off for your hardware.</p>
+
+            <h3>How do I calculate a GGUF file's size?</h3>
+            <p>Roughly: parameters × bits-per-weight ÷ 8. A 7B model at 4 bits ≈ 7e9 × 4 / 8 ≈ 3.5GB. Add ~5–10% for quantization metadata and tensors that stay at higher precision. The Q4_K_M file for a 7B is typically ~4.4GB in practice.</p>
+
+            <h3>What do the GGUF names mean (Q4_K_M, Q8_0, F16)?</h3>
+            <p>The prefix is the bit level (Q4 = 4-bit, Q8 = 8-bit, F16 = half float). The suffix is the scheme: _K_M means the K-quant "medium" mixture (most layers at 4-bit, a few at higher), _0 is a uniform scheme, and _S/_L are small/large K-quant variants. Q4_K_M is the popular default because it packs quality into size.</p>
+
+            <h3>Which GGUF file should I download?</h3>
+            <p>Start with Q4_K_M: the best quality-per-GB in the ladder. Choose Q5_K_M or Q6_K if you have spare memory and want more quality; Q8_0 for near-lossless; Q3_K_M or Q2_K only when hardware forces it. The RAM-ranked guide in this blog maps each quant to hardware tiers.</p>
+
+            <h3>Why is the Q4 file bigger than parameters × 4 bits suggests?</h3>
+            <p>Because not everything is 4-bit: K-quant schemes keep some weights and tensors at higher precision (the "K" mixture), plus the file stores tokenizer data, metadata, and attention tensors at 6/8 bits. The result is a Q4_K_M file running ~30–60% above the naive 4-bit estimate.</p>
+
+            <h3>Can I change a model's quantization after downloading?</h3>
+            <p>Yes — llama.cpp's quantize tool converts GGUF between levels offline: ./llama-quantize model-f16.gguf model-q4_k_m.gguf Q4_K_M. Start from F16 or Q8_0 for best results; re-quantizing an already-quantized file compounds quality loss. The conversion guide covers the full workflow.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="what-is-gguf.html">What Is GGUF and Why Did It Become the Standard?</a></li>
+                <li><a href="q4-km-vs-q8-0.html">Q4_K_M vs Q8_0: Which Quantization Should You Use?</a></li>
+                <li><a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models Ranked by RAM Size</a></li>
+                <li><a href="how-to-convert-huggingface-model-to-gguf.html">How to Convert a Hugging Face Model to GGUF</a></li>
+                <li><a href="gguf-vs-awq-vs-gptq.html">GGUF vs AWQ vs GPTQ: Which Format Should You Use?</a></li>
+                <li><a href="how-to-run-gguf-models-locally-2026-guide.html">How to Run GGUF Models Locally</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

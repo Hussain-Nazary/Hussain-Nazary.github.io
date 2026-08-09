@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Private AI: What to Look for in an Offline AI Engineer</title>
+    <meta name="description" content="What to look for in an offline AI engineer: the skills that separate engineers who can ship private, on-premise AI from API-wrapper developers.">
+    <meta name="keywords" content="offline ai engineer, private ai engineer, on-premise ai developer, local llm engineer, air-gapped ai, hire ai engineer private">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/what-to-look-for-offline-ai-engineer.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Building Private AI: What to Look for in an Offline AI Engineer">
+    <meta property="og:description" content="What to look for in an offline AI engineer: the skills that separate engineers who can ship private, on-premise AI from API-wrapper developers.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/what-to-look-for-offline-ai-engineer.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta property="og:image:alt" content="Artificial intelligence illustration">
+    <meta property="article:published_time" content="2026-08-09T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-09T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Building Private AI: What to Look for in an Offline AI Engineer">
+    <meta name="twitter:description" content="What to look for in an offline AI engineer: the skills that separate engineers who can ship private, on-premise AI from API-wrapper developers.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:image:alt" content="Artificial intelligence illustration">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Building Private AI: What to Look for in an Offline AI Engineer",
+          "description": "What to look for in an offline AI engineer: the skills that separate engineers who can ship private, on-premise AI from API-wrapper developers.",
+          "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
+          "datePublished": "2026-08-09",
+          "dateModified": "2026-08-09",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/what-to-look-for-offline-ai-engineer.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does an offline AI engineer do?",
+              "acceptedAnswer": {"@type": "Answer", "text": "An offline (or on-premise) AI engineer builds AI systems that run entirely inside your network boundary: model selection, hardware sizing, quantization, serving, retrieval, and evaluation — with no data ever sent to a third-party API. It is a systems-engineering role first and an AI role second."}
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between an AI developer and an offline AI engineer?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Most AI developers build on third-party APIs — the model lives in someone else's data center and your data crosses their network. An offline AI engineer runs models on hardware you own: they must size GPUs and RAM, quantize models, operate serving engines, handle updates without internet, and keep everything inside your security boundary."}
+            },
+            {
+              "@type": "Question",
+              "name": "What skills should I look for when hiring for private AI?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Look for: model selection and quantization (GGUF/GPTQ/AWQ), GPU and RAM sizing math, local serving engines, RAG and vector databases deployed on-premise, evaluation on your own documents, security and access control, and experience running systems without internet access. A candidate should be able to talk about a model they actually deployed, not just a prompt they wrote."}
+            },
+            {
+              "@type": "Question",
+              "name": "Why can't I just use an API-based AI developer for private AI?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Because the core constraint is inverted. API developers optimize for tokens and costs of a service; private AI optimizes for hardware, quantization, and staying inside your network. Sending confidential data to a third-party API can violate legal privilege, HIPAA, GDPR, or corporate policy — the whole point is that the data never leaves."}
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need an offline AI engineer if I already have an IT team?",
+              "acceptedAnswer": {"@type": "Answer", "text": "An IT team can host servers; private AI additionally needs LLM-specific expertise: which model fits your hardware, how to quantize it, how to serve it reliably, how to build retrieval that cites sources, and how to evaluate accuracy. If your IT team has no LLM deployment experience, the engineer fills that gap."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        .warning { background-color: #fff3cd; border-color: #ffc107; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        .downloads { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .downloads h3 { color: white; margin-top: 0; }
+        .downloads a { color: #fff; font-weight: 600; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Building Private AI: What to Look for in an Offline AI Engineer</h1>
+        <p><strong>Published: August 9, 2026</strong> — "AI developer" is not one job. Most build on third-party APIs — your data crosses their network, and your model lives in their data center. Building <em>private</em> AI is a different discipline with an inverted skill set. Here's what separates an engineer who can ship it from one who can only wrap an API.</p>
+        <div class="highlight-box success">
+            <p><strong>🔍 Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Private AI is a systems-engineering role first, an AI role second</strong></li>
+                <li><strong>Look for hardware math:</strong> GPU/VRAM sizing, quantization (GGUF/GPTQ/AWQ), local serving</li>
+                <li><strong>Look for on-prem retrieval:</strong> RAG and vector databases inside your boundary, with cited answers</li>
+                <li><strong>The test question:</strong> "Tell me about a model you actually deployed" — not a prompt you wrote</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section id="the-difference">
+            <h2>The Difference That Changes Everything</h2>
+            <p>An API-based AI developer optimizes for <strong>tokens and service costs</strong> — their model runs in someone else's data center, and your confidential documents travel to reach it. An offline AI engineer optimizes for <strong>hardware and boundaries</strong> — the model runs on machines you own, inside your network, and your data never leaves.</p>
+            <p>That inversion changes the entire skill set. If your use case is confidential — legal work, healthcare, finance, or anything under GDPR or corporate policy — the second profile isn't a luxury. It's the only one that can legally build it. (For the legal stakes, see <a href="ai-waived-attorney-client-privilege-court.html">what happened when a court found AI-generated legal documents unprotected</a>.)</p>
+        </section>
+        <section id="skills">
+            <h2>The Five Skills That Matter</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🧮 Hardware sizing math</h4>
+                    <p>Can they size VRAM and RAM from a model's parameter count and quantization level? A 7B model fits one 24 GB GPU; a 70B model needs multiple 80 GB GPUs. If they can't do this math from memory, they've never deployed.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🗜️ Quantization fluency</h4>
+                    <p>GGUF, GPTQ, AWQ — which to use when, and the quality/size trade-off of each. This is the difference between "the model won't fit" and "here's the 8-bit version that does." See <a href="gguf-vs-awq-vs-gptq.html">GGUF vs AWQ vs GPTQ</a>.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔌 Local serving and operations</h4>
+                    <p>Experience running a serving engine (vLLM, llama.cpp, NVIDIA NIM) on your own infrastructure — plus updates and model swaps without internet access. Air-gapped operation is a whole skill of its own; see <a href="air-gapped-ai.html">Air-Gapped AI</a>.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📚 On-premise RAG</h4>
+                    <p>Retrieval pipelines and vector databases deployed <em>inside</em> your boundary, with answers that cite their sources — not a cloud vector store that sends your documents somewhere else.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🧪 Evaluation on your data</h4>
+                    <p>They test on <em>your</em> documents, score faithfulness and relevance separately, and set thresholds before calling it done. If they only show demos, they haven't evaluated anything.</p>
+                </div>
+            </div>
+        </section>
+        <section id="interview">
+            <h2>How to Test for It: The Interview Questions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ask</th>
+                        <th>What a strong answer sounds like</th>
+                        <th>Red flag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"Tell me about a model you actually deployed on your own hardware."</td>
+                        <td>A specific model, specific hardware, quantization choice, and what broke</td>
+                        <td>Only mentions API calls or tutorials</td>
+                    </tr>
+                    <tr>
+                        <td>"Which model fits a 16 GB MacBook for document Q&amp;A, and why?"</td>
+                        <td>A concrete model + quantization + context-length trade-off</td>
+                        <td>"You should use the cloud for that"</td>
+                    </tr>
+                    <tr>
+                        <td>"How do you update a model in an air-gapped environment?"</td>
+                        <td>Offline artifact transfer, checksums, staged rollout</td>
+                        <td>No answer — updates never crossed their mind</td>
+                    </tr>
+                    <tr>
+                        <td>"How do you prove the answers are correct?"</td>
+                        <td>Test set, faithfulness/relevance scores, thresholds, citations</td>
+                        <td>"The model is very accurate"</td>
+                    </tr>
+                    <tr>
+                        <td>"What happens when your system hallucinates a legal or medical answer?"</td>
+                        <td>Grounding, refusal strategy, human-in-the-loop, monitoring</td>
+                        <td>"That won't happen"</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight-box primary">
+                <p><strong>💡 The one-question shortcut:</strong> ask them to walk through a project where data <em>could not</em> leave the building. The candidate who has done this will light up; the API-wrapper developer will go quiet. Everything else is detail.</p>
+            </div>
+        </section>
+        <section id="mindsets">
+            <h2>The Mindsets That Predict Success</h2>
+            <ul>
+                <li><strong>Security by default.</strong> They mention access control, audit logs, and encryption before you ask — not as an add-on.</li>
+                <li><strong>Honesty about limits.</strong> They tell you what a local model <em>can't</em> do on your hardware before selling you what it can. (See <a href="how-much-ram-local-ai.html">How Much RAM Do You Need to Run Local AI?</a> for the honest baseline.)</li>
+                <li><strong>Ownership of the last 20%.</strong> Production hardening, monitoring, and maintenance are part of their pitch, not a change order.</li>
+                <li><strong>Plain-language communication.</strong> They can explain quantization or retrieval to a non-technical decision-maker without jargon.</li>
+            </ul>
+            <p>The broader hiring context — pricing, scope, red flags, pilots — is in <a href="hiring-ai-developer-10-questions.html">Hiring an AI Developer? 10 Questions to Ask Before You Start</a>.</p>
+        </section>
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <h3>What does an offline AI engineer do?</h3>
+            <p>An offline (or on-premise) AI engineer builds AI systems that run entirely inside your network boundary: model selection, hardware sizing, quantization, serving, retrieval, and evaluation — with no data ever sent to a third-party API. It is a systems-engineering role first and an AI role second.</p>
+            <h3>What is the difference between an AI developer and an offline AI engineer?</h3>
+            <p>Most AI developers build on third-party APIs — the model lives in someone else's data center and your data crosses their network. An offline AI engineer runs models on hardware you own: they must size GPUs and RAM, quantize models, operate serving engines, handle updates without internet, and keep everything inside your security boundary.</p>
+            <h3>What skills should I look for when hiring for private AI?</h3>
+            <p>Look for: model selection and quantization (GGUF/GPTQ/AWQ), GPU and RAM sizing math, local serving engines, RAG and vector databases deployed on-premise, evaluation on your own documents, security and access control, and experience running systems without internet access. A candidate should be able to talk about a model they actually deployed, not just a prompt they wrote.</p>
+            <h3>Why can't I just use an API-based AI developer for private AI?</h3>
+            <p>Because the core constraint is inverted. API developers optimize for tokens and costs of a service; private AI optimizes for hardware, quantization, and staying inside your network. Sending confidential data to a third-party API can violate legal privilege, HIPAA, GDPR, or corporate policy — the whole point is that the data never leaves.</p>
+            <h3>Do I need an offline AI engineer if I already have an IT team?</h3>
+            <p>An IT team can host servers; private AI additionally needs LLM-specific expertise: which model fits your hardware, how to quantize it, how to serve it reliably, how to build retrieval that cites sources, and how to evaluate accuracy. If your IT team has no LLM deployment experience, the engineer fills that gap.</p>
+        </section>
+        <section id="cta">
+            <div class="downloads">
+                <h3>🔍 Building private AI and need the right engineer?</h3>
+                <p>I design and deploy privacy-first local AI systems — on-premise LLMs, private RAG with cited answers, and multilingual assistants — through <a href="https://haal-lab.solutions" target="_blank" rel="noopener">Haal Lab</a>. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> for a scoping conversation, no obligation.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

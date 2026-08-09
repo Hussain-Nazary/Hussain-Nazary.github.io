@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pashto and Dari in AI: What Works in 2026</title>
+    <meta name="description" content="Pashto and Dari in AI in 2026: which models handle them, translation quality, RAG in local languages, and how to build a Dari/Pashto assistant locally.">
+    <meta name="keywords" content="pashto ai, dari ai, pashto llm, dari llm, pashto translation ai, dari translation, afghanistan languages ai, pashto nlp, multilingual llm pashto, local llm dari pashto, qwen pashto">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/pashto-ai.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Pashto and Dari in AI: What Works in 2026">
+    <meta property="og:description" content="Which models handle them, translation quality, RAG in local languages, and how to build a Dari/Pashto assistant locally.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/pashto-ai.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pashto and Dari in AI: What Works in 2026">
+    <meta name="twitter:description" content="Which models handle them, translation quality, RAG in local languages, and how to build a Dari/Pashto assistant locally.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Pashto and Dari in AI: What Works in 2026",
+          "description": "Which models handle them, translation quality, RAG in local languages, and how to build a Dari/Pashto assistant locally.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/pashto-ai.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Which AI models handle Pashto and Dari well in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Qwen-family models are the standout — Qwen's multilingual training covers Dari and Pashto with usable quality, and Qwen3.5-9B is the practical local pick. For translation specifically, test NLLB and Google's models for Pashto. Frontier cloud models handle both languages competently; local 8-9B models are surprisingly good."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I build a Dari/Pashto assistant that runs locally?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — Qwen3.5-9B (or Qwen3-8B) via Ollama answers in Dari and Pashto, and combined with a local RAG pipeline it can answer questions over Dari/Pashto documents. The multilingual-translation post in this blog is the step-by-step build."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How good is machine translation for Pashto in 2026?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Much better than a few years ago, but Pashto remains a low-resource language: formal text translates well, while dialectal, idiomatic, and region-specific Pashto still needs human review. Dari (close to Persian/Farsi) translates more reliably. The best practice: LLM translation with glossary constraints and human review for anything official."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the challenge with RAG in Pashto and Dari?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Embedding models must actually understand the languages — many general embeddings are weak in Dari/Pashto. BGE-M3 is the strong local choice for multilingual retrieval; test retrieval quality before trusting it. Chunking follows the same rules as any language, but tokenizers vary in efficiency on Arabic-script text."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I evaluate a Dari/Pashto model?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Build a small test set of real tasks in each language (translation, Q&A, summarization) and have native speakers score them — generic benchmarks barely cover these languages. For retrieval, use the recall@k method from the RAG evaluation guide with Dari/Pashto questions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What about speech for Dari and Pashto?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Whisper-family models support both languages for speech-to-text, with quality that improves at larger sizes. TTS voices for Dari/Pashto are sparse — check Piper's community voices and newer multilingual TTS; expect to test multiple options."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pashto and Dari in AI: What Works in 2026</h1>
+        <p><strong>Published: August 8, 2026</strong> — Two languages spoken by tens of millions, both historically neglected by AI — and 2026 is the year that changed. <strong>Qwen-family models now handle Dari and Pashto with genuinely usable quality, local RAG works in both languages, and translation is good enough for real work with human review.</strong> This guide covers what works, what doesn't, and how to build a local Dari/Pashto assistant.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Qwen3.5-9B is the practical local pick</strong> for Dari and Pashto — it answers both natively</li>
+                <li><strong>Dari translates more reliably than Pashto</strong> — Pashto is the true low-resource case</li>
+                <li><strong>BGE-M3 is the embedding choice</strong> for multilingual RAG; test retrieval before trusting it</li>
+                <li><strong>Speech works via Whisper</strong> (both languages); TTS voices are sparse — test early</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="models">
+            <h2>Which Models Handle Dari and Pashto</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Dari</th>
+                        <th>Pashto</th>
+                        <th>Local?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Qwen3.5-9B / Qwen3-8B</strong></td>
+                        <td>Good</td>
+                        <td>Usable–good</td>
+                        <td>✅ 16GB RAM — the practical pick</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Qwen 3.6 27B</strong></td>
+                        <td>Better</td>
+                        <td>Good</td>
+                        <td>24GB GPU</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frontier cloud (GPT/Claude/Gemini)</strong></td>
+                        <td>Strong</td>
+                        <td>Good</td>
+                        <td>❌ Cloud only — data leaves your control</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NLLB / dedicated MT</strong></td>
+                        <td>Good</td>
+                        <td>Usable (Pashto supported)</td>
+                        <td>✅ Translation-focused models</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Why Qwen? Its multilingual training includes Dari and Pashto — something most open families skip. See the <a href="mistral-small-vs-qwen.html">Mistral vs Qwen comparison</a> for why Qwen wins the multilingual argument. For <a href="multilingual-translation-local-llm.html">translation pipelines</a>, LLM-based translation with glossaries beats generic MT for formal register.</p>
+        </section>
+
+        <section id="translation">
+            <h2>Translation Reality Check</h2>
+            <ul>
+                <li><strong>Dari ≈ Persian/Farsi</strong> — benefits from the large Persian training footprint; formal and technical text translates well.</li>
+                <li><strong>Pashto is genuinely low-resource</strong> — formal text is workable, but dialectal, idiomatic, and region-specific Pashto still needs native review.</li>
+                <li><strong>Best practice in 2026:</strong> LLM translation with glossary constraints (terminology locked), human review for anything official, and <a href="rag-hallucination.html">faithfulness-style checks</a> for consistency.</li>
+                <li><strong>Direction matters:</strong> Dari/Pashto → English is usually better than English → Dari/Pashto. Test both before promising anything.</li>
+            </ul>
+        </section>
+
+        <section id="rag">
+            <h2>RAG in Dari and Pashto</h2>
+            <p>The pipeline is the same as any language — with one critical difference: <strong>the embedding model must understand the languages, and many don't.</strong> The <a href="how-to-build-rag-system-30-minutes.html">30-minute RAG pipeline</a> with <strong>BGE-M3</strong> is the right local stack:</p>
+            <ul>
+                <li><strong>BGE-M3</strong> — dense + sparse + multi-vector, strong multilingual coverage including Dari/Pashto-adjacent languages. It's the embedding workhorse in <a href="top-10-embedding-models-2026.html">the ranking</a>.</li>
+                <li><strong>Test retrieval, don't assume it:</strong> build Dari/Pashto questions and measure <a href="rag-evaluation.html">recall@k</a> before trusting answers.</li>
+                <li><strong>Tokenizer note:</strong> Arabic-script text tokenizes inefficiently in some models — a Dari chunk may consume 1.5–2x the tokens of the same English text. Budget context accordingly.</li>
+                <li><strong>Generation:</strong> Qwen3.5-9B answers in Dari/Pashto natively; pair with <a href="rag-hallucination.html">grounding prompts</a> for document Q&amp;A.</li>
+            </ul>
+        </section>
+
+        <section id="speech">
+            <h2>Speech: STT Works, TTS Is Thin</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Capability</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Speech-to-text</strong></td>
+                        <td>Whisper-family supports Dari and Pashto — quality improves with model size (large is best, small is usable)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Text-to-speech</strong></td>
+                        <td>Sparse — check Piper community voices and newer multilingual TTS; expect to test several options</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Full voice assistant</strong></td>
+                        <td>Buildable — see <a href="local-voice-assistant.html">local voice assistants</a>; budget extra tuning for Pashto</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="build">
+            <h2>Building a Local Dari/Pashto Assistant</h2>
+            <ol>
+                <li><strong>Model:</strong> <code>ollama pull qwen3.5:9b</code> (or qwen3:8b for smaller hardware).</li>
+                <li><strong>Embeddings:</strong> <code>ollama pull bge-m3</code> — index your Dari/Pashto documents (see <a href="langchain-ollama-rag.html">LangChain RAG</a>).</li>
+                <li><strong>Grounding prompt</strong> in Dari/Pashto with an English fallback note — the <a href="rag-hallucination.html">grounding rules</a> apply identically.</li>
+                <li><strong>Glossary for translation:</strong> lock domain terms (legal, medical) so they survive translation — this is the <a href="multilingual-translation-local-llm.html">glossary technique</a>.</li>
+                <li><strong>Evaluate with native speakers:</strong> generic benchmarks barely cover these languages — your own test set is the only honest metric.</li>
+            </ol>
+            <div class="toolbox">
+                <h3>🚀 Why this matters</h3>
+                <p>Language support isn't a feature — it's access. For Dari and Pashto speakers, a local assistant means legal documents, medical info, and government forms explained in their own language, with their data staying on their machine. This is the same motivation behind <a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant</a> — domain AI in the language and privacy posture the user actually needs.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Which AI models handle Pashto and Dari well in 2026?</h3>
+            <p>Qwen-family models are the standout — Qwen's multilingual training covers Dari and Pashto with usable quality, and Qwen3.5-9B is the practical local pick. For translation specifically, test NLLB and Google's models for Pashto. Frontier cloud models handle both languages competently; local 8–9B models are surprisingly good.</p>
+
+            <h3>Can I build a Dari/Pashto assistant that runs locally?</h3>
+            <p>Yes — Qwen3.5-9B (or Qwen3-8B) via Ollama answers in Dari and Pashto, and combined with a local RAG pipeline it can answer questions over Dari/Pashto documents. The multilingual-translation post in this blog is the step-by-step build.</p>
+
+            <h3>How good is machine translation for Pashto in 2026?</h3>
+            <p>Much better than a few years ago, but Pashto remains a low-resource language: formal text translates well, while dialectal, idiomatic, and region-specific Pashto still needs human review. Dari (close to Persian/Farsi) translates more reliably. The best practice: LLM translation with glossary constraints and human review for anything official.</p>
+
+            <h3>What is the challenge with RAG in Pashto and Dari?</h3>
+            <p>Embedding models must actually understand the languages — many general embeddings are weak in Dari/Pashto. BGE-M3 is the strong local choice for multilingual retrieval; test retrieval quality before trusting it. Chunking follows the same rules as any language, but tokenizers vary in efficiency on Arabic-script text.</p>
+
+            <h3>How do I evaluate a Dari/Pashto model?</h3>
+            <p>Build a small test set of real tasks in each language (translation, Q&amp;A, summarization) and have native speakers score them — generic benchmarks barely cover these languages. For retrieval, use the recall@k method from the RAG evaluation guide with Dari/Pashto questions.</p>
+
+            <h3>What about speech for Dari and Pashto?</h3>
+            <p>Whisper-family models support both languages for speech-to-text, with quality that improves at larger sizes. TTS voices for Dari/Pashto are sparse — check Piper's community voices and newer multilingual TTS; expect to test multiple options.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="multilingual-translation-local-llm.html">Building a Multilingual Translation Pipeline with Local LLMs</a></li>
+                <li><a href="mistral-small-vs-qwen.html">Mistral Small vs Qwen: Local Model Showdown</a></li>
+                <li><a href="top-10-models-under-12b-2026.html">Top 10 AI Models Under 12B Parameters</a></li>
+                <li><a href="top-10-embedding-models-2026.html">Top 10 Embedding Models for RAG in 2026</a></li>
+                <li><a href="local-voice-assistant.html">Voice Assistants You Can Build with Local AI</a></li>
+                <li><a href="lawyer-assistant-rag-pipeline-privacy-first-legal-ai.html">Lawyer Assistant: privacy-first legal RAG</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

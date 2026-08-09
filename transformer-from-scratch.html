@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Transformers Actually Work: From-Scratch Walkthrough (2026)</title>
+    <meta name="description" content="How transformers actually work: tokens, embeddings, attention, multi-head, and the transformer block explained with diagrams, analogies, and minimal PyTorch.">
+    <meta name="keywords" content="how transformers work, transformer architecture explained, attention mechanism, self attention, multi head attention, transformer block, embeddings, positional encoding, llm internals, attention is all you need explained">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/transformer-from-scratch.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="How Transformers Actually Work: From-Scratch Walkthrough (2026)">
+    <meta property="og:description" content="Tokens, embeddings, attention, multi-head, and the transformer block explained with diagrams, analogies, and minimal PyTorch.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/transformer-from-scratch.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How Transformers Actually Work: From-Scratch Walkthrough (2026)">
+    <meta name="twitter:description" content="Tokens, embeddings, attention, multi-head, and the transformer block explained with diagrams, analogies, and minimal PyTorch.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How Transformers Actually Work: From-Scratch Walkthrough (2026)",
+          "description": "Tokens, embeddings, attention, multi-head, and the transformer block explained with diagrams, analogies, and minimal PyTorch.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/transformer-from-scratch.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is a transformer?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A transformer is the neural network architecture behind modern LLMs, introduced in the 2017 paper 'Attention Is All You Need'. Its core innovation is self-attention: every token in a sequence can directly attend to every other token, in parallel, which lets models learn relationships across long texts far better than the recurrent networks they replaced."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is self-attention in plain terms?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Self-attention answers, for every token, the question: 'which other tokens matter most to understanding me?' Each token creates a Query, Key, and Value; a token's Query is matched against every other token's Key, and the resulting weights mix the Values. In 'the cat sat on the mat because it was tired', 'it' attends most strongly to 'cat'."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why is attention better than RNNs?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "RNNs process sequences step-by-step, so long-range dependencies decay and training is inherently sequential. Attention lets every token see every other token in one parallel step — no distance decay, and the whole sequence trains in parallel, which is why transformers scale so dramatically with data and compute."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does a transformer block contain?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Each block contains two sub-layers: multi-head self-attention (the communication layer, where tokens exchange information) followed by a feed-forward network (the computation layer, where each token thinks independently), each wrapped with residual connections and layer normalization. LLMs stack dozens to hundreds of these blocks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why is multi-head attention multi-head?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "One attention pass learns one kind of relationship (syntax, reference, proximity). Multiple heads run parallel attention with different learned projections, so the model can track several relationship types simultaneously — one head tracking grammar, another tracking entity references, another tracking position."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do transformers understand language?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No — and that's the honest answer. They learn statistical patterns over tokens: which tokens follow which tokens. What looks like understanding is extremely sophisticated pattern matching at scale. This matters practically: it's why grounding (RAG), verification, and eval are necessary, and why hallucination happens."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How Transformers Actually Work: From-Scratch Walkthrough (2026)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Every LLM you've ever used — Qwen, Llama, Gemma, GPT — is a stack of transformer blocks. <strong>Understanding the transformer is understanding how all of local AI actually thinks:</strong> why it hallucinates, why context matters, why quantization works. This walkthrough builds the architecture from zero — tokens → embeddings → attention → blocks — with the math and minimal PyTorch.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Transformer = pattern matcher at scale, not understanding</strong> — which explains both its power and its failures</li>
+                <li><strong>Self-attention = every token asking "who matters to me?"</strong> — in parallel, no distance decay</li>
+                <li><strong>Block = attention (communicate) + feed-forward (think)</strong>, wrapped in residuals</li>
+                <li><strong>Multi-head = several relationship types tracked simultaneously</strong></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="big-picture">
+            <h2>The Big Picture: What a Transformer Does</h2>
+            <p>A transformer takes a sequence of tokens and outputs a probability distribution for the next token. That's literally it — and it's why the "just predict the next word" framing is both accurate and underrated. To predict well, the model must learn grammar, facts, reasoning patterns, and style — all as statistical structure. The architecture has three conceptual stages:</p>
+            <ol>
+                <li><strong>Tokenize</strong> — text becomes numbers (<a href="bpe-tokenizer-explained.html">BPE explained here</a>).</li>
+                <li><strong>Embed</strong> — each token becomes a vector; position gets added.</li>
+                <li><strong>Transform</strong> — N blocks of attention + feed-forward progressively refine the representations, and the final vector predicts the next token.</li>
+            </ol>
+        </section>
+
+        <section id="embeddings">
+            <h2>Step 1: Tokens → Vectors</h2>
+            <pre><code># Conceptual: token IDs → embedding vectors
+import torch
+
+VOCAB, D_MODEL = 32000, 768
+embed = torch.nn.Embedding(VOCAB, D_MODEL)
+
+tokens = torch.tensor([42, 17, 9031, 5])   # "the cat sat on"
+x = embed(tokens)      # shape (4, 768): one vector per token
+
+# Position matters — add a positional signal (RoPE in modern LLMs)
+# (simplified): x = x + positional_encoding(seq_len)</code></pre>
+            <p>The embedding table is learned: during training, tokens that behave alike end up with similar vectors. "cat" and "dog" end up closer than "cat" and "tax". This is the same machinery that powers <a href="embeddings-explained.html">semantic embeddings</a> — just trained for prediction rather than similarity.</p>
+        </section>
+
+        <section id="attention">
+            <h2>Step 2: Self-Attention — the Core Idea</h2>
+            <p>For every token, attention answers: <strong>"which other tokens should I pay attention to, and how much?"</strong> Each token builds three vectors:</p>
+            <ul>
+                <li><strong>Query (Q):</strong> "what am I looking for?"</li>
+                <li><strong>Key (K):</strong> "what do I offer?"</li>
+                <li><strong>Value (V):</strong> "what do I actually contain?"</li>
+            </ul>
+            <pre><code>def attention(Q, K, V):
+    # Q, K, V: (seq, d) — scores: how well each query matches each key
+    scores = Q @ K.T / (K.shape[-1] ** 0.5)   # scaled dot product
+    weights = torch.softmax(scores, dim=-1)   # probabilities
+    return weights @ V                        # weighted mix of values
+
+# In "the cat sat on the mat because IT was tired":
+#   IT's query strongly matches CAT's key → CAT's value dominates</code></pre>
+            <p>The scaling (<code>√d</code>) keeps the softmax from saturating. The result: every token's new representation is a weighted blend of all tokens' values — <strong>context in the literal sense.</strong> This is why long context matters and why the <a href="kv-cache-quantization.html">KV cache</a> (storing K and V) exists.</p>
+        </section>
+
+        <section id="multihead">
+            <h2>Step 3: Multi-Head Attention</h2>
+            <p>One attention pass learns one kind of relationship. Multi-head runs several in parallel, each with its own projections — one head tracking syntax, another pronouns, another positions:</p>
+            <pre><code>class MultiHeadAttention(torch.nn.Module):
+    def __init__(self, d_model, n_heads):
+        super().__init__()
+        self.heads = torch.nn.ModuleList([
+            AttentionHead(d_model, d_model // n_heads)
+            for _ in range(n_heads)])
+
+    def forward(self, x):
+        return torch.cat([h(x) for h in self.heads], dim=-1)</code></pre>
+            <p>The outputs of all heads concatenate back into the full width. It's the same compute, organized — and it's why "multi-head" appears in every architecture discussion, from <a href="llm-inference-optimization.html">inference</a> to MoE designs.</p>
+        </section>
+
+        <section id="block">
+            <h2>Step 4: The Transformer Block</h2>
+            <pre><code>class TransformerBlock(torch.nn.Module):
+    def __init__(self, d_model, n_heads, d_ff):
+        super().__init__()
+        self.attn = MultiHeadAttention(d_model, n_heads)
+        self.ff   = torch.nn.Sequential(          # feed-forward
+            torch.nn.Linear(d_model, d_ff),
+            torch.nn.GELU(),
+            torch.nn.Linear(d_ff, d_model))
+
+    def forward(self, x):
+        x = x + self.attn(norm(x))   # attention: communicate
+        x = x + self.ff(norm(x))     # feed-forward: think
+        return x</code></pre>
+            <p>The two sub-layers have distinct roles: <strong>attention is where tokens exchange information</strong> (the communication layer), and <strong>the feed-forward is where each token processes what it learned independently</strong> (the computation layer). The residual connections (<code>x + ...</code>) give gradients a highway — which is what makes hundreds of stacked blocks trainable. A 7B model stacks ~28 such blocks with 28–32 heads.</p>
+        </section>
+
+        <section id="why">
+            <h2>Why This Architecture Won</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>What it enables</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Parallel training</strong></td>
+                        <td>Whole sequences train in one step — the scale that RNNs couldn't reach</td>
+                    </tr>
+                    <tr>
+                        <td><strong>No distance decay</strong></td>
+                        <td>Token 1 can attend to token 100,000 directly — long-range dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stackable</strong></td>
+                        <td>More blocks = more abstraction layers; scale just works</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Predictable scaling</strong></td>
+                        <td>Loss falls smoothly with data + compute — the basis of the scaling laws that drive 2026's model releases</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>And the honest downside, directly from the architecture: <strong>the model is predicting tokens, not verifying facts.</strong> Everything this blog does — <a href="rag-vs-fine-tuning.html">RAG</a>, <a href="rag-evaluation.html">evaluation</a>, <a href="rag-hallucination.html">grounding</a> — exists because a next-token predictor, however powerful, needs external structure to be trustworthy.</p>
+        </section>
+
+        <section id="next">
+            <h2>From Understanding to Building</h2>
+            <ul>
+                <li><strong>Build one:</strong> the <a href="minigpt-pytorch-tutorial.html">mini-GPT in raw PyTorch</a> tutorial implements every piece here, tokenizer to training loop.</li>
+                <li><strong>Understand the vocab:</strong> <a href="bpe-tokenizer-explained.html">BPE tokenizers</a> are the front door of the whole pipeline.</li>
+                <li><strong>See it in deployment:</strong> the architecture's memory profile is exactly what <a href="kv-cache-quantization.html">KV cache</a>, <a href="q4-km-vs-q8-0.html">quantization</a>, and <a href="speculative-decoding.html">speculative decoding</a> optimize.</li>
+                <li><strong>Skip the transformer entirely:</strong> the <a href="lfm-models-guide-2026.html">LFM family</a> exists because some teams bet the attention architecture isn't the only path.</li>
+            </ul>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is a transformer?</h3>
+            <p>A transformer is the neural network architecture behind modern LLMs, introduced in the 2017 paper "Attention Is All You Need". Its core innovation is self-attention: every token in a sequence can directly attend to every other token, in parallel, which lets models learn relationships across long texts far better than the recurrent networks they replaced.</p>
+
+            <h3>What is self-attention in plain terms?</h3>
+            <p>Self-attention answers, for every token, the question: "which other tokens matter most to understanding me?" Each token creates a Query, Key, and Value; a token's Query is matched against every other token's Key, and the resulting weights mix the Values. In "the cat sat on the mat because it was tired", "it" attends most strongly to "cat".</p>
+
+            <h3>Why is attention better than RNNs?</h3>
+            <p>RNNs process sequences step-by-step, so long-range dependencies decay and training is inherently sequential. Attention lets every token see every other token in one parallel step — no distance decay, and the whole sequence trains in parallel, which is why transformers scale so dramatically with data and compute.</p>
+
+            <h3>What does a transformer block contain?</h3>
+            <p>Each block contains two sub-layers: multi-head self-attention (the communication layer, where tokens exchange information) followed by a feed-forward network (the computation layer, where each token thinks independently), each wrapped with residual connections and layer normalization. LLMs stack dozens to hundreds of these blocks.</p>
+
+            <h3>Why is multi-head attention multi-head?</h3>
+            <p>One attention pass learns one kind of relationship (syntax, reference, proximity). Multiple heads run parallel attention with different learned projections, so the model can track several relationship types simultaneously — one head tracking grammar, another tracking entity references, another tracking position.</p>
+
+            <h3>Do transformers understand language?</h3>
+            <p>No — and that's the honest answer. They learn statistical patterns over tokens: which tokens follow which tokens. What looks like understanding is extremely sophisticated pattern matching at scale. This matters practically: it's why grounding (RAG), verification, and eval are necessary, and why hallucination happens.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="minigpt-pytorch-tutorial.html">Build a Mini GPT in Raw PyTorch: Tokenizer to Fine-Tuning</a></li>
+                <li><a href="bpe-tokenizer-explained.html">How Tokenizers Work: BPE Explained Simply</a></li>
+                <li><a href="embeddings-explained.html">Embeddings Explained: How Semantic Search Actually Works</a></li>
+                <li><a href="kv-cache-quantization.html">KV Cache Quantization: What It Is and Why It Matters</a></li>
+                <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need (arXiv, 2017)</a></li>
+                <li><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">The Illustrated Transformer (Jay Alammar)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

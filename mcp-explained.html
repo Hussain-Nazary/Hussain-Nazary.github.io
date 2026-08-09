@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Explained: Model Context Protocol for Local AI (2026 Guide)</title>
+    <meta name="description" content="MCP (Model Context Protocol) explained: the standard that connects AI apps to tools and data, how to run MCP servers locally, and what it means for private agents.">
+    <meta name="keywords" content="model context protocol, mcp explained, mcp servers, anthropic mcp, mcp local ai, mcp tools, mcp architecture, mcp vs api, mcp claude cursor, mcp stdio">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/mcp-explained.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="MCP Explained: Model Context Protocol for Local AI (2026 Guide)">
+    <meta property="og:description" content="The standard that connects AI apps to tools and data, how to run MCP servers locally, and what it means for private agents.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/mcp-explained.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta property="og:image:alt" content="AI technology illustration">
+    <meta property="article:published_time" content="2026-08-08T00:00:00Z">
+    <meta property="article:modified_time" content="2026-08-08T00:00:00Z">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MCP Explained: Model Context Protocol for Local AI (2026 Guide)">
+    <meta name="twitter:description" content="The standard that connects AI apps to tools and data, how to run MCP servers locally, and what it means for private agents.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/AI_Technology.png">
+    <meta name="twitter:image:alt" content="AI technology illustration">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "MCP Explained: Model Context Protocol for Local AI (2026 Guide)",
+          "description": "The standard that connects AI apps to tools and data, how to run MCP servers locally, and what it means for private agents.",
+          "image": [
+            "https://Hussain-Nazary.github.io/AI_Technology.png"
+          ],
+          "datePublished": "2026-08-08",
+          "dateModified": "2026-08-08",
+          "inLanguage": "en",
+          "author": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "Hussain Nazary"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://Hussain-Nazary.github.io/mcp-explained.html"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the Model Context Protocol (MCP)?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MCP is an open standard (introduced by Anthropic in late 2024) that gives AI applications a uniform way to connect to tools, data sources, and services. Instead of every app building a custom integration per service, services expose MCP servers once, and any MCP client can use them."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does MCP work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Three parts: the MCP host (an AI app like Claude Desktop, Cursor, or your own), MCP servers (wrappers exposing tools/resources/context), and MCP clients (in-app connectors that manage the connection). Servers run over stdio for local processes or Streamable HTTP for remote services, and advertise their capabilities via JSON-RPC."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is MCP only for Claude?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No — MCP is vendor-neutral. Anthropic created it, but by 2026 it's supported across Claude, Cursor, Windsurf, VS Code (Copilot), many IDEs, and open-source tools like Open WebUI and Continue. Any model, including local Ollama models, can drive MCP tools through a client."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use MCP with local AI?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — and this is where MCP shines for privacy. Local stdio servers run as child processes on your machine, so tools and data never leave it. An MCP server wrapping ChromaDB or your file system gives a local agent powerful tools with zero cloud dependency."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "MCP vs API: what's the difference?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "An API is a one-way contract a service publishes for others to call. MCP is a two-way standard where servers expose capabilities and clients connect to many servers uniformly. One MCP server works with every MCP client; one API integration works only with that app's client code."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I build an MCP server?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The official SDKs (Python and TypeScript) make it ~50 lines: define tools with names, descriptions, and schemas, register handlers, and run the server. The example in this post builds a working local server in minutes."
+              }
+            }
+          ]
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .highlight-box {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .primary {
+            background-color: #e8f4fd;
+            border-color: #3498db;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .toolbox {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .toolbox h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .toolbox a {
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MCP Explained: Model Context Protocol for Local AI (2026 Guide)</h1>
+        <p><strong>Published: August 8, 2026</strong> — Before MCP, every AI app built its own integration for every service — a thousand custom one-offs. <strong>MCP (Model Context Protocol) is the universal connector:</strong> services expose an MCP server once, and any MCP client — Claude, Cursor, VS Code, your own app — can use it. For local AI, MCP is the missing layer that turns a chat model into an agent with real tools, without giving anything to the cloud. This guide explains the architecture, the security model, and how to build your first local server.</p>
+
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>MCP = USB-C for AI tools</strong> — one standard, every client, every service</li>
+                <li><strong>Three parts:</strong> host (app), server (tools/data), client (connector)</li>
+                <li><strong>Local stdio servers keep data on your machine</strong> — the private-agent enabler</li>
+                <li><strong>By 2026 it's vendor-neutral</strong> — Claude, Cursor, VS Code, Open WebUI, Continue all speak MCP</li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="what">
+            <h2>What MCP Actually Is</h2>
+            <p>Anthropic open-sourced MCP in November 2024, and the analogy they used stuck: <strong>MCP is to AI apps what USB-C is to peripherals.</strong> Before it, connecting an AI assistant to your calendar, database, or files meant bespoke code per app per service. MCP standardizes the connection so:</p>
+            <ul>
+                <li>A service implements <strong>one MCP server</strong>, and every MCP client can use it.</li>
+                <li>An app implements <strong>one client</strong>, and every MCP server plugs in.</li>
+                <li>Tools, data resources, and context prompts all travel over the same protocol.</li>
+            </ul>
+            <p>By 2026, the ecosystem is genuinely cross-vendor — the "Anthropic thing" label no longer applies.</p>
+        </section>
+
+        <section id="arch">
+            <h2>The Architecture: Host, Client, Server</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Role</th>
+                        <th>Examples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MCP Host</strong></td>
+                        <td>The AI application the user talks to</td>
+                        <td>Claude Desktop, Cursor, VS Code, your app</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MCP Client</strong></td>
+                        <td>In-app connector — manages one server connection</td>
+                        <td>One per connected server, inside the host</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MCP Server</strong></td>
+                        <td>Exposes tools, resources, and prompts</td>
+                        <td>Filesystem, GitHub, Slack, ChromaDB, databases</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Servers speak JSON-RPC over two transports: <strong>stdio</strong> (local child process — the privacy-friendly mode) and <strong>Streamable HTTP</strong> (remote services). Capabilities are advertised at connection time, so clients know what a server offers without guessing.</p>
+        </section>
+
+        <section id="local">
+            <h2>Why MCP Matters for Local AI</h2>
+            <div class="highlight-box primary">
+                <p><strong>💡 The local-AI angle:</strong> a stdio MCP server is a child process on <em>your</em> machine. It can touch your files, your vector store, your local tools — and nothing leaves. That's the architecture for a <a href="private-llm-for-business.html">private AI assistant</a>: local model (Ollama) + local MCP tools, with the data path contained entirely on-device.</p>
+            </div>
+            <ul>
+                <li><strong>Open WebUI and Continue both act as MCP hosts</strong> — your local chat UI can drive any MCP tool.</li>
+                <li><strong>Local models don't need MCP-native support</strong> — the host handles the protocol; the model just calls tools like any <a href="tool-calling-local-llm.html">tool-calling model</a>.</li>
+                <li><strong>One server, many consumers</strong> — wrap your RAG store as an MCP server once; Claude, Cursor, and your agent all use it.</li>
+                <li><strong>Auditability</strong> — every tool call is explicit and loggable, which matters for <a href="offline-ai-regulated-industries.html">regulated use cases</a>.</li>
+            </ul>
+        </section>
+
+        <section id="build">
+            <h2>Build Your First Local MCP Server</h2>
+            <pre><code># pip install mcp
+from mcp.server.fastmcp import FastMCP
+import sqlite3
+
+mcp = FastMCP("kb")
+
+@mcp.tool()
+def search_kb(query: str, limit: int = 5) -> str:
+    """Search the local knowledge base (SQLite) for matching rows."""
+    conn = sqlite3.connect("kb.db")
+    rows = conn.execute(
+        "SELECT title, snippet FROM docs "
+        "WHERE title LIKE ? OR snippet LIKE ? LIMIT ?",
+        (f"%{query}%", f"%{query}%", limit),
+    ).fetchall()
+    conn.close()
+    return "\n".join(f"{t}: {s}" for t, s in rows)
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")   # local child process</code></pre>
+            <p>Run it: <code>python server.py</code>. Point an MCP client at it — Claude Desktop's config, Cursor's MCP settings, or Open WebUI — and the model can query your knowledge base as a first-class tool. In a real deployment, swap the SQLite search for <a href="chromadb-vs-faiss.html">ChromaDB</a> retrieval and you've built the tool layer of a private assistant.</p>
+        </section>
+
+        <section id="security">
+            <h2>MCP Security: The Honest Version</h2>
+            <p>MCP is a protocol, not a security boundary. A server with filesystem access is powerful — and dangerous if misconfigured. The rules that matter:</p>
+            <ul>
+                <li><strong>Least privilege:</strong> give servers only the access the task needs (a read-only ChromaDB server, not a root filesystem server).</li>
+                <li><strong>Human approval for risky tools:</strong> hosts increasingly support permission prompts — keep them on for anything destructive.</li>
+                <li><strong>Don't run untrusted servers with broad scopes:</strong> a "fun" MCP server that can also read your SSH keys is a backdoor.</li>
+                <li><strong>Log tool calls:</strong> for <a href="local-ai-gdpr.html">GDPR</a> and AI-Act style accountability, the tool-call log is your audit trail.</li>
+            </ul>
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>What is the Model Context Protocol (MCP)?</h3>
+            <p>MCP is an open standard (introduced by Anthropic in late 2024) that gives AI applications a uniform way to connect to tools, data sources, and services. Instead of every app building a custom integration per service, services expose MCP servers once, and any MCP client can use them.</p>
+
+            <h3>How does MCP work?</h3>
+            <p>Three parts: the MCP host (an AI app like Claude Desktop, Cursor, or your own), MCP servers (wrappers exposing tools/resources/context), and MCP clients (in-app connectors that manage the connection). Servers run over stdio for local processes or Streamable HTTP for remote services, and advertise their capabilities via JSON-RPC.</p>
+
+            <h3>Is MCP only for Claude?</h3>
+            <p>No — MCP is vendor-neutral. Anthropic created it, but by 2026 it's supported across Claude, Cursor, Windsurf, VS Code (Copilot), many IDEs, and open-source tools like Open WebUI and Continue. Any model, including local Ollama models, can drive MCP tools through a client.</p>
+
+            <h3>Can I use MCP with local AI?</h3>
+            <p>Yes — and this is where MCP shines for privacy. Local stdio servers run as child processes on your machine, so tools and data never leave it. An MCP server wrapping ChromaDB or your file system gives a local agent powerful tools with zero cloud dependency.</p>
+
+            <h3>MCP vs API: what's the difference?</h3>
+            <p>An API is a one-way contract a service publishes for others to call. MCP is a two-way standard where servers expose capabilities and clients connect to many servers uniformly. One MCP server works with every MCP client; one API integration works only with that app's client code.</p>
+
+            <h3>How do I build an MCP server?</h3>
+            <p>The official SDKs (Python and TypeScript) make it ~50 lines: define tools with names, descriptions, and schemas, register handlers, and run the server. The example in this post builds a working local server in minutes.</p>
+        </section>
+
+        <section id="sources">
+            <h2>Sources &amp; Further Reading</h2>
+            <ul>
+                <li><a href="tool-calling-local-llm.html">Tool Calling with Local LLMs: A Practical Guide</a></li>
+                <li><a href="build-ai-agent-langgraph-ollama.html">How to Build an AI Agent with LangGraph + Ollama</a></li>
+                <li><a href="multi-agent-systems.html">Multi-Agent Systems: When One Agent Isn't Enough</a></li>
+                <li><a href="agentic-rag.html">Agentic RAG: Combining Agents with Retrieval</a></li>
+                <li><a href="private-llm-for-business.html">Can You Run a Private LLM for Your Business?</a></li>
+                <li><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Model Context Protocol — official docs</a></li>
+                <li><a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">Introducing the Model Context Protocol (Anthropic, 2024)</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

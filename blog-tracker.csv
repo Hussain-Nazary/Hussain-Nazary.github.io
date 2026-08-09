@@ -49,3 +49,92 @@ id,cluster,title,primary_keyword,status,date,url
 48,coding,"Top 10 AI Models Under 12B for Coding in 2026 (Ranked by Benchmarks)","top 10 coding models under 12b 2026",published,2026-08-08,top-10-coding-models-under-12b-2026.html
 49,local-ai,"Ant Lab AI Models: The Ling Family Behind Ant Group (2026 Guide)","ant lab ai models",published,2026-08-08,ant-lab-ai-models-2026.html
 50,local-ai,"LFM Models: Liquid Foundation Models Explained (2026 Guide)","lfm models",published,2026-08-08,lfm-models-guide-2026.html
+51,gguf,"GGUF vs AWQ vs GPTQ: Which Quantization Format Should You Use?","gguf vs awq vs gptq",planned,,
+52,local-ai,"How to Install Ollama on Windows (Step by Step)","install ollama windows",planned,,
+53,local-ai,"How to Install Ollama on macOS (Step by Step)","install ollama mac",planned,,
+54,rag,"Local RAG on 8GB RAM: The Complete Guide","rag 8gb ram",planned,,
+55,rag,"RAG vs Fine-Tuning: When to Use Which","rag vs fine tuning",planned,,
+56,local-ai,"How to Speed Up Local LLMs: CPU vs GPU vs NPU","speed up local llm",planned,,
+57,local-ai,"Speculative Decoding: How Local AI Gets Faster","speculative decoding",planned,,
+58,local-ai,"KV Cache Quantization: What It Is and Why It Matters","kv cache quantization",planned,,
+59,rag,"Advanced RAG: Chunking Strategies Compared","rag chunking strategies",planned,,
+60,rag,"GraphRAG Explained: Knowledge Graphs Meet RAG","graphrag explained",planned,,
+61,rag,"RAG Evaluation: How to Measure Retrieval Quality","rag evaluation",planned,,
+62,privacy,"Data Privacy vs Cloud AI: The Real Risks in 2026","data privacy cloud ai",planned,,
+63,privacy,"How to Build a Fully Offline AI Workspace","offline ai workspace",planned,,
+64,privacy,"Local AI for GDPR Compliance","local ai gdpr",planned,,
+65,privacy,"Air-Gapped AI: Running Models with No Internet","air gapped ai",planned,,
+66,agents,"How to Build an AI Agent with LangGraph + Ollama","build ai agent langgraph",planned,,
+67,agents,"MCP Explained: Model Context Protocol for Local AI","mcp explained",planned,,
+68,agents,"Tool Calling with Local LLMs: A Practical Guide","tool calling local llm",planned,,
+69,agents,"Multi-Agent Systems: When One Agent Isn't Enough","multi agent systems",planned,,
+70,news,"GLM vs DeepSeek: Which Open Model Family in 2026?","glm vs deepseek",planned,,
+71,news,"Mistral Small vs Qwen: Local Model Showdown","mistral small vs qwen",planned,,
+72,news,"Latest AI Model Releases: August 2026 Roundup","latest ai models august 2026",planned,,
+73,news,"Open Models That Beat Closed Ones: 2026 Edition","open models beat closed",planned,,
+74,local-ai,"How to Run LLMs on a Raspberry Pi","run llm raspberry pi",planned,,
+75,local-ai,"Best Local AI Models for a 16GB MacBook","local ai 16gb macbook",planned,,
+76,local-ai,"Running AI Models on Your Phone: On-Device LLMs 2026","on device llm phone",planned,,
+77,local-ai,"How to Run Local AI on a Budget: $500 Setup Guide","budget local ai setup",planned,,
+78,local-ai,"Ollama vs vLLM: When to Upgrade Your Local Stack","ollama vs vllm",planned,,
+79,gguf,"GGUF Model Sizes Explained: Why Same Model, Different Files","gguf model sizes explained",planned,,
+80,rag,"Multimodal RAG: Images and PDFs in Your Pipeline","multimodal rag",planned,,
+81,rag,"Contextual Retrieval: Chunking That Carries Context","contextual retrieval",planned,,
+82,rag,"How to Build RAG with LangChain + Ollama Locally","langchain ollama rag",planned,,
+83,rag,"RAG Hallucination: Why It Happens and How to Fix It","rag hallucination",planned,,
+84,mobile,"Voice Assistants You Can Build with Local AI","local voice assistant",planned,,
+85,mobile,"On-Device AI Apps: Architecture Patterns That Work","on device ai apps",planned,,
+86,enterprise,"Local AI for Small Business: A Practical Checklist","local ai small business",planned,,
+87,enterprise,"On-Premise LLM Deployment: A Practical Checklist","on-premise llm deployment",planned,,
+88,seo,"How to Make Your Website Get Cited by AI Assistants","answer engine optimization",planned,,
+89,seo,"Structured Data for AI Engines: JSON-LD Cheat Sheet","structured data json-ld",planned,,
+90,seo,"How to Optimize Your Portfolio Website for AI Search","portfolio ai search optimization",planned,,
+91,multilingual,"Pashto and Dari in AI: What Works in 2026","pashto ai",planned,,
+92,multilingual,"Building a Multilingual Translation Pipeline with Local LLMs","multilingual translation local llm",planned,,
+93,tutorial,"How Transformers Actually Work: From-Scratch Walkthrough","transformer from scratch",planned,,
+94,tutorial,"Build a Mini GPT in Raw PyTorch: Tokenizer to Fine-Tuning","minigpt pytorch tutorial",planned,,
+95,tutorial,"How Tokenizers Work: BPE Explained Simply","bpe tokenizer explained",planned,,
+96,tutorial,"Fine-Tuning a Local LLM: LoRA for Beginners","lora fine tuning local llm",planned,,
+97,product,"From Idea to AI MVP: Lessons from Shipping Smart Calendar","ai mvp lessons",planned,,
+98,product,"AI Product Pricing: How to Charge for Local AI","ai product pricing",planned,,
+99,agents,"Agentic RAG: Combining Agents with Retrieval","agentic rag",planned,,
+100,quick-wins,"Best GUI for Local LLMs in 2026","best gui local llm",planned,,
+101,legal-ai,AI Just Waived Attorney–Client Privilege in Court: What Every Lawyer Must Know,ai attorney client privilege,published,2026-08-09,ai-waived-attorney-client-privilege-court.html
+102,legal-ai,"Is It Ethical to Use ChatGPT for Contract Review? The 2026 Guidance, Explained","chatgpt contract review ethics",published,2026-08-09,is-it-ethical-to-use-chatgpt-for-contract-review.html
+103,legal-ai,Attorney–Client Privilege and AI: A Plain-English Guide,attorney client privilege ai,published,2026-08-09,attorney-client-privilege-and-ai-plain-english-guide.html
+104,privacy,GDPR-Compliant AI in 2026: Why Cloud LLMs Still Fail the Test,gdpr compliant ai,published,2026-08-09,gdpr-compliant-ai-2026-cloud-llms-fail.html
+105,legal-ai,AI Contract Review for Lawyers: What It Can and Can't Do,ai contract review lawyers,published,2026-08-09,ai-contract-review-for-lawyers.html
+106,legal-ai,The Complete Guide to Private Legal Research With Local AI,private legal research ai,published,2026-08-09,private-legal-research-local-ai.html
+107,legal-ai,How to Build a Document Q&A System That Cites Its Sources (for Law Firms),document qa with citations,published,2026-08-09,document-qa-with-citations-law-firms.html
+108,legal-ai,Can Lawyers Use AI Without Breaking Confidentiality? The 5 Rules That Matter,ai confidentiality lawyers,published,2026-08-09,lawyers-ai-confidentiality-5-rules.html
+109,legal-ai,How to Review 100 Contracts in a Day Without Leaking Client Data,ai contract review volume,published,2026-08-09,review-100-contracts-ai.html
+110,privacy,On-Premise AI Is Now 60% of the Market: What That Means for Your Compliance Team,on-premise ai market share,published,2026-08-09,on-premise-ai-60-percent-market.html
+111,privacy,US Cloud Act vs EU GDPR: Where Your AI Data Actually Lives,cloud act gdpr ai,published,2026-08-09,cloud-act-vs-gdpr-ai-data.html
+112,privacy,Private RAG for Regulated Industries: The 2026 Deployment Playbook,private rag regulated industries,published,2026-08-09,private-rag-regulated-industries-playbook.html
+113,privacy,"What Is On-Premise LLM Deployment? Costs, Hardware, and When It's Worth It",on-premise llm deployment cost,published,2026-08-09,what-is-on-premise-llm-deployment.html
+114,privacy,How to Deploy an LLM Inside Your Own Security Boundary,deploy llm on premises,published,2026-08-09,deploy-llm-security-boundary.html
+115,privacy,"AI for Regulated Industries: HIPAA, SOC 2, and GDPR Explained Simply",ai hipaa soc2 gdpr,published,2026-08-09,ai-regulated-industries-hipaa-soc2-gdpr.html
+116,privacy,Data Sovereignty: Why Your AI Should Run Where Your Data Lives,data sovereignty ai,published,2026-08-09,data-sovereignty-local-ai.html
+117,local-ai,Local AI Without a CLI: How Non-Technical Teams Run LLMs in 2026,local ai no cli,published,2026-08-09,local-ai-without-cli.html
+118,local-ai,Your Laptop Is Now an AI Workstation: What You Can Run Offline in 2026,laptop ai workstation,published,2026-08-09,laptop-ai-workstation-2026.html
+119,local-ai,Stop Paying Per-Seat AI Fees: The Case for On-Premise in 2026,on-premise ai cost savings,published,2026-08-09,stop-paying-per-seat-ai-fees.html
+120,local-ai,How to Run AI on Your Own Computer: A Beginner's Guide,run ai on your computer,published,2026-08-09,run-ai-own-computer-beginners.html
+121,local-ai,Local LLMs for Small Business: 10 Practical Use Cases,local llm small business use cases,published,2026-08-09,local-llm-small-business-10-use-cases.html
+122,local-ai,How Much RAM Do You Need to Run Local AI? (An Honest Guide),local ai ram requirements,published,2026-08-09,how-much-ram-local-ai.html
+123,local-ai,8GB vs 16GB RAM for Local LLMs: What Actually Fits,local llm 8gb vs 16gb,published,2026-08-09,8gb-vs-16gb-ram-local-llm.html
+124,multilingual,Why AI Still Ignores Pashto and Dari — and What to Do About It,pashto ai,published,2026-08-09,why-ai-ignores-pashto-dari.html
+125,multilingual,Persian AI in 2026: The Best Local Models for Farsi Speakers,persian ai models,published,2026-08-09,persian-ai-2026-local-models.html
+126,multilingual,How to Run an AI Assistant in Pashto on Your Own Device,pashto ai assistant,published,2026-08-09,pashto-ai-assistant-own-device.html
+127,multilingual,"AI Translation for Dari, Pashto, Persian, and Urdu: A Practical Guide",dari pashto translation ai,published,2026-08-09,ai-translation-dari-pashto-persian-urdu.html
+128,multilingual,Why Most AI Fails Low-Resource Languages (and How to Fix It),low-resource language ai,published,2026-08-09,why-ai-fails-low-resource-languages.html
+129,multilingual,Build a Multilingual AI Assistant for an Underrepresented Language,multilingual ai assistant,published,2026-08-09,multilingual-assistant-underrepresented-language.html
+130,rag,RAG With Citations Is Now Table Stakes: How to Make AI Show Its Sources,rag citations,published,2026-08-09,rag-citations-table-stakes.html
+131,agents,Agentic AI in 2026: When 'AI Agents' Are Worth Building (and When Not),agentic ai 2026,published,2026-08-09,agentic-ai-2026-worth-building.html
+132,rag,How to Build a RAG System That Answers From Your Documents — and Proves It,rag document answers,published,2026-08-09,rag-answers-from-documents-proves-it.html
+133,rag,Hybrid Search Explained: Why Keyword + Semantic Beats Either Alone,hybrid search explained,published,2026-08-09,hybrid-search-keyword-semantic.html
+134,rag,The RAG vs Fine-Tuning Decision: A Practical Framework,rag vs fine tuning,published,2026-08-09,rag-vs-fine-tuning-decision.html
+135,rag,How to Evaluate a RAG System Before You Trust It,evaluate rag,published,2026-08-09,evaluate-rag-system.html
+136,enterprise,How Much Does a Custom Local AI System Cost in 2026?,custom ai system cost,published,2026-08-09,custom-local-ai-system-cost-2026.html
+137,enterprise,Hiring an AI Developer? 10 Questions to Ask Before You Start,hire ai developer,published,2026-08-09,hiring-ai-developer-10-questions.html
+138,enterprise,Building Private AI: What to Look for in an Offline AI Engineer,offline ai engineer,published,2026-08-09,what-to-look-for-offline-ai-engineer.html
+139,enterprise,AI Consulting for Regulated Businesses: What the Process Actually Looks Like,ai consulting regulated industries,published,2026-08-09,ai-consulting-regulated-businesses.html
