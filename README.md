@@ -1,32 +1,36 @@
-<!-- Profile Image -->
-![Profile Picture](https://avatars.githubusercontent.com/u/15266891?v=4)
+# Hussain Nazary
 
-## 👋 About Me:
-- I'm a passionate developer focused on building clean, efficient, and scalable code.
-- Interested in collaborating on C++, Python, and open-source projects.
-- Ask me about programming, development tools, or learning strategies.
-- 📧 Contact: [hussain.nazary.dev@gmail.com](mailto:hussain.nazary.dev@gmail.com)
+**Offline AI engineer building privacy-first LLM systems** — legal AI, multilingual NLP for
+low-resource languages, and inference tooling that runs on the hardware people actually own.
 
-## 🌐 Socials:
-- [Twitter](https://twitter.com/HussainNazary )
-- [Instagram](https://www.instagram.com/hussainnazary/ )
-- [Portfolio](https://hussainnazary.github.io )
+## What I build
 
-## 💻 Tech Stack:
-- 💻 C++
-- 🐍 Python
-- 📐 Algorithms
-- 🔧 Linux
-- 💾 Git & GitHub
+- **[Lawyer Assistant](https://lawyers-assistant.github.io)** — open-source, local-first legal research. Answers questions from a firm's own documents with inline citations, via a fully on-device RAG pipeline: BGE-M3 embeddings, ChromaDB, BM25 hybrid search, Ollama. Windows, macOS, Linux; no account, no cloud, no telemetry.
+- **[GPT Calendar](https://gpt-calendar.github.io)** — voice-first Android assistant that replaces calendar, reminders, expense tracking, location alerts, and tasks in one app. SMS transactions parse straight into the expense log; AI runs on-device.
+- **[GGUFLoader](https://ggufloader.github.io)** — zero-CLI inference engine that turns any laptop into a multilingual AI workstation: drag-and-drop GGUF loading, live RAM/VRAM dashboard, and a plugin architecture for custom chat, translation, and document pipelines.
+- **[raw-pytorch-minigpt](https://github.com/hussainnazary2/raw-pytorch-minigpt)** — a GPT-style LLM built from scratch: custom BPE tokenizer, decoder-only transformer, SwiGLU ablations, two-stage fine-tuning. No framework abstractions between the math and the training loop.
+- **[LLM-Toolkit](https://github.com/hussainnazary2/LLM-Toolkit)** — MIT-licensed Python toolkit for local LLM workflows and model tooling.
+- **Mobile AI Assistant** — Kotlin/Android assistant built for on-device dialogue in underserved languages.
 
-## 📊 GitHub Stats:
+## How I work
+
+- **Local-first by default.** Data stays on the device; privacy is architecture, not a policy page.
+- **Multilingual from the start.** Pashto, Dari, Persian, and Urdu get glossaries, context, and evaluation — not a tokenizer afterthought.
+- **Benchmarked, not vibed.** Every system is evaluated on accuracy, latency, and resource use before it ships. "Works in a demo" is not a standard.
+- **Discovery is engineered.** Every product site ships with technical SEO, structured data, and content built to be ranked *and cited* by search, generative, and answer engines.
+
+## Stack
+
+Python · PyTorch · C++ · Kotlin · llama.cpp · GGUF · Ollama · vLLM · LangChain · LangGraph ·
+ChromaDB · FAISS · PySide6 · JSON-LD / structured data
+
+## Contact
+
+- Portfolio: [Hussain-Nazary.github.io](https://Hussain-Nazary.github.io)
+- GitHub: [hussainnazary2](https://github.com/hussainnazary2)
+- X: [@HussainNazary](https://twitter.com/HussainNazary)
+- Email: hussainnazary475@gmail.com
+
+## GitHub stats
+
 ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=HussainNazary2&show_icons=true&theme=radical)
-
-## 🏆 GitHub Trophies:
-![GitHub Trophies]( https://github-profile-trophy.vercel.app/?username=HussainNazary2&theme=dark&row=1&column=6)
-
-## 🧑‍💻 Most Used Languages:
-![Top Langs]( https://github-readme-stats.vercel.app/api/top-langs/?username=HussainNazary2&layout=compact&theme=onedark)
-
-## 💬 Random Dev Quote:
-> Should array indices start at 0 or 1? My compromise of 0.5 was rejected without, I thought, proper consideration.

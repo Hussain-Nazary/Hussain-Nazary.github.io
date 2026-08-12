@@ -513,6 +513,14 @@ body {
     margin-top: 1.5rem;
 }
 
+.stats-note {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    opacity: 0.85;
+}
+
 .websites-intro {
     text-align: center;
     max-width: 850px;
