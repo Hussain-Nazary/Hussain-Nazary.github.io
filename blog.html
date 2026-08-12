@@ -146,6 +146,40 @@
         ]
     }
     </script>
+
+    <!-- FAQ JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What does this blog cover?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Local AI, private RAG, GGUF tooling, on-premise LLM deployment, legal AI, and multilingual NLP for Pashto, Dari, Persian, and Urdu — written while building the systems themselves."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Who writes the blog?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hussain Nazary, an offline AI engineer who builds local-first LLM systems including Lawyer Assistant, GPT Calendar, and GGUFLoader."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are the blog posts technical?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Posts range from plain-English guides for lawyers and compliance teams to deep technical walkthroughs of RAG, deployment, and local inference — each article is self-contained on its own page."
+                }
+            }
+        ]
+    }
+    </script>
     <link rel="stylesheet" href="simple-styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -675,7 +709,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Speculative Decoding: How Local AI Gets Faster (2026 Guide)</h3>
-                        <p>A small draft model guesses, the big model approves — speculative decoding buys 1.5–3× on local hardware. How it works, when it falls apart, and how to enable it in llama.cpp, Ollama, and vLLM.</p>
+                        <p>A small draft model guesses; the big model approves. That two-model split buys 1.5–3× on local hardware when acceptance rates hold — and it's a config flag in llama.cpp, Ollama, and vLLM, not a rewrite.</p>
                         <a href="speculative-decoding.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -719,7 +753,7 @@
                     </div>
                     <div class="post-content">
                         <h3>RAG Evaluation: How to Measure Retrieval Quality (2026 Guide)</h3>
-                        <p>Recall@k, MRR, NDCG, faithfulness, answer relevance — the metrics that tell you whether retrieval or generation is the weak link, and how to build an eval set locally.</p>
+                        <p>Recall@k, MRR, NDCG, faithfulness, answer relevance — each metric isolates a different failure. A small local eval set tells you which side is the weak link, and the thresholds that say ready versus risky.</p>
                         <a href="rag-evaluation.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -785,7 +819,7 @@
                     </div>
                     <div class="post-content">
                         <h3>MCP Explained: Model Context Protocol for Local AI (2026 Guide)</h3>
-                        <p>The Model Context Protocol is becoming AI's USB-C: a standard way to connect apps to tools and data. How to run MCP servers locally and why it matters for private agents.</p>
+                        <p>The Model Context Protocol is becoming AI's USB-C — one standard plug for tools and data instead of per-app integrations. Run the servers on your own machine and every private agent you build shares the same wiring without anything leaving the device.</p>
                         <a href="mcp-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -796,7 +830,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Tool Calling with Local LLMs: A Practical Guide (2026)</h3>
-                        <p>Function calling works on local models — until the model returns malformed JSON. How tool calling works, which models support it, a working Ollama example, and the failure-mode fixes.</p>
+                        <p>Function calling works on local models — until the model returns malformed JSON. Which models handle it, a working Ollama example, and fixes for each failure mode that breaks a tool call.</p>
                         <a href="tool-calling-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -807,7 +841,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Multi-Agent Systems: When One Agent Isn't Enough (2026 Guide)</h3>
-                        <p>One agent stalls; several agents argue. Coordinator, supervisor, and swarm patterns — when more agents genuinely beat one, and how to build them locally with LangGraph.</p>
+                        <p>One agent stalls; several agents argue. Coordinator, supervisor, and swarm patterns each add a different kind of complexity — and most of the time one agent with better tools wins. The LangGraph builds where more agents genuinely earn their keep.</p>
                         <a href="multi-agent-systems.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -917,7 +951,7 @@
                     </div>
                     <div class="post-content">
                         <h3>GGUF Model Sizes Explained: Why Same Model, Different Files (2026)</h3>
-                        <p>One model, a dozen files: the quantization math behind GGUF variants, bits-per-weight explained, and how to read a model repo in seconds instead of trial-downloading.</p>
+                        <p>One model, a dozen files — because each GGUF variant stores a different number of bits per weight. The quantization math behind them, and how to read a model repo in seconds instead of trial-downloading.</p>
                         <a href="gguf-model-sizes-explained.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1049,7 +1083,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Pashto and Dari in AI: What Works in 2026</h3>
-                        <p>What actually works for Pashto and Dari in 2026: the models with real coverage, translation quality you can rely on, RAG in local languages, and building an assistant on your own device.</p>
+                        <p>Pashto and Dari in 2026 have working models, translation quality you can rely on, RAG in local languages, and an assistant that runs on your own device.</p>
                         <a href="pashto-ai.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1071,7 +1105,7 @@
                     </div>
                     <div class="post-content">
                         <h3>How Transformers Actually Work: From-Scratch Walkthrough (2026)</h3>
-                        <p>Tokens, embeddings, attention, and the transformer block — the architecture behind every LLM explained from first principles with minimal PyTorch and no hand-waving.</p>
+                        <p>Tokens, embeddings, attention, and the transformer block — the four pieces every LLM is made of, built from first principles in minimal PyTorch, no hand-waving.</p>
                         <a href="transformer-from-scratch.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1148,7 +1182,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Best GUI for Local LLMs in 2026 (Ranked by Use Case)</h3>
-                        <p>Open WebUI, AnythingLLM, LM Studio, Jan, Msty, KoboldCPP, GPT4All — ranked by use case with a comparison table, because the right GUI depends on who's using it.</p>
+                        <p>Open WebUI, AnythingLLM, LM Studio, Jan, Msty, KoboldCPP, GPT4All — seven interfaces, very different jobs. A comparison table that matches each GUI to the person actually using it.</p>
                         <a href="best-gui-local-llm.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1203,7 +1237,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Top 10 RAG Tools in 2026 (Ranked by Use Case)</h3>
-                        <p>LlamaIndex, LangChain, Haystack, RAGFlow, Dify, txtai, RAGAS — the 2026 landscape ranked by use case, with a comparison table for when frameworks beat hand-rolled pipelines.</p>
+                        <p>LlamaIndex, LangChain, Haystack, RAGFlow, Dify, txtai, RAGAS — the 2026 landscape split by what you're wiring together, with a comparison table for when a framework beats a hand-rolled pipeline.</p>
                         <a href="top-10-rag-tools-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1258,7 +1292,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Top 10 AI Models You Can Run Locally in 2026 (Ranked by Hardware)</h3>
-                        <p>Qwen3, GPT-OSS, GLM, Gemma, DeepSeek — ranked by use case and matched to the hardware you actually own, not the rig a vendor wants to sell you.</p>
+                        <p>Qwen3, GPT-OSS, GLM, Gemma, DeepSeek — ranked by the hardware you actually own, not the rig a vendor wants to sell you.</p>
                         <a href="top-10-local-ai-models-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1280,7 +1314,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Can You Run a Private LLM for Your Business? The Honest Guide</h3>
-                        <p>The honest private-LLM case: real costs, the threshold where on-premise beats cloud APIs, what you give up by going local, and a start that doesn't overcommit.</p>
+                        <p>Private LLMs are finally worth the math: real costs, the threshold where on-premise beats cloud APIs, what you give up by going local, and a start that doesn't overcommit.</p>
                         <a href="private-llm-for-business.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1302,7 +1336,7 @@
                     </div>
                     <div class="post-content">
                         <h3>Reranking in RAG: Why Retrieval Order Matters</h3>
-                        <p>Top-10 retrieval is only a candidate list — reranking decides what the model actually reads. Cross-encoders explained, with code to add them to your RAG pipeline.</p>
+                        <p>Top-10 retrieval is only a candidate list — reranking decides what the model actually reads. Cross-encoders re-score that shortlist, and the code to drop them into your RAG pipeline is included.</p>
                         <a href="reranking-in-rag.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1357,7 +1391,7 @@
                     </div>
                     <div class="post-content">
                         <h3>8 Best Local LLM Tools in 2026 (Ranked by Use Case)</h3>
-                        <p>Ollama, LM Studio, llama.cpp, GGUF Loader, Jan, GPT4All, text-generation-webui, vLLM — ranked by use case, because the tool that fits a tinkerer is wrong for a team.</p>
+                        <p>Ollama, LM Studio, llama.cpp, GGUF Loader, Jan, GPT4All, text-generation-webui, vLLM — eight runtimes with genuinely different trade-offs: the tool that fits a tinkerer is wrong for a team.</p>
                         <a href="best-local-llm-tools-2026.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -1401,7 +1435,7 @@
                     </div>
                     <div class="post-content">
                         <h3>How to Run GGUF Models Locally in 2026: The Complete Beginner's Guide</h3>
-                        <p>Ollama, llama.cpp, LM Studio, or GGUF Loader on your own machine: model picks for 8–16GB RAM, quantization explained, and the first chat in under an hour.</p>
+                        <p>Ollama, llama.cpp, LM Studio, or GGUF Loader on your own machine: model picks for 8–16GB RAM, the quantized file that fits each machine, and the first chat in under an hour.</p>
                         <a href="how-to-run-gguf-models-locally-2026-guide.html" class="post-link">Read more <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
