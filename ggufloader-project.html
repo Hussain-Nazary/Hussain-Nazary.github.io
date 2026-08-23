@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Case study: GGUFLoader — private AI deployment and local inference engineering. A desktop engine that runs language models entirely on local hardware, no cloud required.">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <title>GGUFLoader — Private AI Deployment Case Study | Hussain Nazary</title>
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/ggufloader-project.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:title" content="GGUFLoader — Private AI Deployment Case Study | Hussain Nazary">
+    <meta property="og:description" content="Private AI deployment, engineered: a desktop engine that runs language models entirely on local hardware — drag-and-drop model loading, no terminal, no cloud.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/ggufloader-project.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GGUFLoader — Private AI Deployment Case Study | Hussain Nazary">
+    <meta name="twitter:description" content="Private AI deployment, engineered: a desktop engine that runs language models entirely on local hardware — drag-and-drop model loading, no terminal, no cloud.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="simple-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><h2>Hussain <span>Nazary</span></h2></a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html#automate" class="nav-link">What I Automate</a></li>
+                <li><a href="index.html#work" class="nav-link active">Work</a></li>
+                <li><a href="index.html#process" class="nav-link">How It Works</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="mailto:hussainnazary475@gmail.com?subject=Describe%20a%20repetitive%20workflow" class="nav-cta">Describe Your Workflow</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Case hero -->
+    <section class="case-hero">
+        <div class="container">
+            <a href="index.html#work" class="back-link"><i class="fas fa-arrow-left"></i> All work</a>
+            <p class="eyebrow">Case Study &middot; Private AI Infrastructure</p>
+            <h1>Private AI deployment, engineered from the ground up</h1>
+            <p class="case-tagline">GGUFLoader is an open-source desktop engine that runs language models entirely on local hardware — proof that I can engineer the deployment layer behind automation that must never touch the cloud.</p>
+            <div class="case-actions">
+                <a href="https://ggufloader.github.io" target="_blank" rel="noopener" class="btn btn-primary"><i class="fas fa-globe"></i> Visit Website</a>
+                <a href="https://github.com/GGUFloader/gguf-loader" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View Source</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why it exists -->
+    <section class="case-section">
+        <div class="container">
+            <div class="about-body">
+                <h2>The problem it solves</h2>
+                <ul class="challenge-list" style="margin-top:20px;">
+                    <li><strong>Steep learning curves:</strong> running local models has traditionally demanded terminal fluency, manual configuration, and format knowledge.</li>
+                    <li><strong>Hardware uncertainty:</strong> teams hesitate because they can't tell whether their machines can run a given model at usable speed.</li>
+                    <li><strong>The privacy requirement:</strong> businesses with sensitive data need AI inside their own walls — but shouldn't need a DevOps team to get there.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- What it demonstrates -->
+    <section class="case-section">
+        <div class="container">
+            <h2>What it demonstrates</h2>
+            <p style="max-width:46rem;color:var(--muted);margin-bottom:28px;">GGUFLoader isn't the service itself — it's evidence of the engineering underneath it. When a workflow demands that data never leaves your infrastructure, this is the layer that makes it possible.</p>
+            <div class="feature-grid">
+                <div class="feature">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <h4>Local Model Execution</h4>
+                    <p>Fully graphical, drag-and-drop model loading — GGUF weights running on-device with zero CLI involvement.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h4>Hardware-Aware Inference</h4>
+                    <p>A live dashboard of RAM, VRAM, and active threads, so model choice matches what the machine can actually deliver.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Privacy by Architecture</h4>
+                    <p>Prompts and files never leave the machine — stated in the open-source repo docs and verifiable in source.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h4>Extensible Pipelines</h4>
+                    <p>A plugin architecture for custom chat UIs, translators, and document processors — the building blocks of private automation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- By the numbers -->
+    <section class="case-section">
+        <div class="container">
+            <h2>By the numbers</h2>
+            <div class="numbers-grid">
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>100% Local Inference</h4>
+                    <p>Prompts and files never leave the machine — stated in the open-source repo docs.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-memory"></i>
+                    <h4>4 GB RAM Minimum</h4>
+                    <p>Runs on modest hardware; 8 GB recommended (repo system requirements).</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-desktop"></i>
+                    <h4>Windows &middot; Linux &middot; macOS</h4>
+                    <p>Cross-platform desktop app, including Apple Silicon.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-microchip"></i>
+                    <h4>CPU or GPU</h4>
+                    <p>CUDA on Windows/Linux, Metal on macOS.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Positioning note -->
+    <section class="case-section">
+        <div class="container">
+            <div class="about-body">
+                <h2>Where it fits</h2>
+                <p style="margin-top:18px;">Most workflows don't need this — a well-run cloud or hybrid setup is often the pragmatic choice. But when regulation, client contracts, or sensitivity require automation to run entirely inside your infrastructure, GGUFLoader shows the deployment layer is already engineered, tested, and open source.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-band">
+        <div class="container">
+            <h2>Need automation that never touches the cloud?</h2>
+            <p>If your workflow involves sensitive data that must stay inside your walls, tell me about it — local and on-premise options are my specialty.</p>
+            <a href="mailto:hussainnazary475@gmail.com?subject=Describe%20a%20repetitive%20workflow" class="btn btn-primary"><i class="fas fa-envelope"></i> Describe Your Workflow</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Hussain Nazary — Document &amp; Knowledge Workflow Automation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        var navbar = document.getElementById('navbar');
+        var toggle = document.getElementById('navToggle');
+        toggle.addEventListener('click', function () {
+            var open = navbar.classList.toggle('nav-open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                navbar.classList.remove('nav-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+</html>

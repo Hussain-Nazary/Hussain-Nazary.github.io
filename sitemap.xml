@@ -4,19 +4,37 @@
     <loc>https://Hussain-Nazary.github.io/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-22</lastmod>
   </url>
   <url>
     <loc>https://Hussain-Nazary.github.io/index.html</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-22</lastmod>
   </url>
   <url>
     <loc>https://Hussain-Nazary.github.io/simple-portfolio.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
     <lastmod>2026-08-08</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/lawyer-assistant-project.html</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/gpt-calendar-project.html</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-08-22</lastmod>
+  </url>
+  <url>
+    <loc>https://Hussain-Nazary.github.io/ggufloader-project.html</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-08-22</lastmod>
   </url>
   <url>
     <loc>https://Hussain-Nazary.github.io/ai-ide-comparison-github-copilot-vs-cursor-vs-jetbrains-ai-vs-amazon-kiro.html</loc>
@@ -718,7 +736,7 @@
     <loc>https://Hussain-Nazary.github.io/blog.html</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-08-09</lastmod>
+    <lastmod>2026-08-22</lastmod>
   </url>
   <url>
     <loc>https://Hussain-Nazary.github.io/the-665-dollar-ai-machine.html</loc>

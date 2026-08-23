@@ -1,24 +1,24 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blog of Hussain Nazary — field notes on local AI: RAG, GGUF tooling, private deployment, and multilingual AI for Pashto, Dari, Persian, Urdu.">
-    <meta name="keywords" content="local AI blog, private RAG, offline LLM, GGUF models, multilingual NLP, Pashto AI, Dari AI, Persian AI, Urdu AI, legal AI, on-premise LLM, AI tutorials">
+    <meta name="description" content="Blog of Hussain Nazary — practical notes on automating document-heavy and knowledge-intensive work: identifying repetitive workflows worth automating, evaluating AI systems honestly, plus deep dives on RAG, agents, and local AI.">
+    <meta name="keywords" content="AI workflow automation blog, business process automation, automate repetitive work, private RAG, offline LLM, GGUF models, multilingual NLP, legal AI, on-premise LLM, AI tutorials">
     <meta name="author" content="Hussain Nazary">
     <meta name="robots" content="index, follow">
-    <title>Blog — Hussain Nazary | Local AI, Private RAG & Multilingual NLP</title>
+    <title>Blog — Hussain Nazary | Document & Knowledge Workflow Automation</title>
     <link rel="canonical" href="https://Hussain-Nazary.github.io/blog.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hussain Nazary">
     <meta property="og:locale" content="en_US">
-    <meta property="og:title" content="Blog — Hussain Nazary | Local AI, Private RAG & Multilingual NLP">
-    <meta property="og:description" content="Field notes on local AI from someone building it: RAG, GGUF tooling, private deployment, and multilingual AI for Pashto, Dari, Persian, and Urdu.">
+    <meta property="og:title" content="Blog — Hussain Nazary | Document & Knowledge Workflow Automation">
+    <meta property="og:description" content="Practical writing on automating document-heavy and knowledge-intensive work: identifying repetitive workflows, evaluating AI honestly, plus deep dives on RAG, agents, and local deployment.">
     <meta property="og:url" content="https://Hussain-Nazary.github.io/blog.html">
     <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Blog — Hussain Nazary | Local AI, Private RAG & Multilingual NLP">
-    <meta name="twitter:description" content="Field notes on local AI from someone building it: RAG, GGUF tooling, private deployment, and multilingual AI for Pashto, Dari, Persian, and Urdu.">
+    <meta name="twitter:title" content="Blog — Hussain Nazary | Document & Knowledge Workflow Automation">
+    <meta name="twitter:description" content="Practical writing on automating document-heavy and knowledge-intensive work: identifying repetitive workflows, evaluating AI honestly, plus deep dives on RAG, agents, and local deployment.">
     <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
     <script type="application/ld+json">
     {
@@ -158,7 +158,7 @@
                 "name": "What does this blog cover?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Local AI, private RAG, GGUF tooling, on-premise LLM deployment, legal AI, and multilingual NLP for Pashto, Dari, Persian, and Urdu — written while building the systems themselves."
+                    "text": "AI workflow automation in practice: identifying repetitive work worth automating, evaluating AI systems before trusting them, and technical deep dives on RAG, agents, private deployment, and multilingual AI."
                 }
             },
             {
@@ -166,7 +166,7 @@
                 "name": "Who writes the blog?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Hussain Nazary, an offline AI engineer who builds local-first LLM systems including Lawyer Assistant, GPT Calendar, and GGUFLoader."
+                    "text": "Hussain Nazary, an AI workflow automation engineer who builds and evaluates automation systems including Lawyer Assistant, GPT Calendar, and GGUFLoader."
                 }
             },
             {
@@ -174,7 +174,7 @@
                 "name": "Are the blog posts technical?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Posts range from plain-English guides for lawyers and compliance teams to deep technical walkthroughs of RAG, deployment, and local inference — each article is self-contained on its own page."
+                    "text": "Posts range from plain-English guides for business owners on automating repetitive work to deep technical walkthroughs of RAG, evaluation, deployment, and local inference — each article is self-contained on its own page."
                 }
             }
         ]
@@ -186,17 +186,20 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h2>Hussain <span>Nazary</span></h2>
-            </div>
+            <a href="index.html" class="nav-logo"><h2>Hussain <span>Nazary</span></h2></a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
             <ul class="nav-menu">
-                <li><a href="index.html#home" class="nav-link">Home</a></li>
-                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
-                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="index.html#automate" class="nav-link">What I Automate</a></li>
+                <li><a href="index.html#work" class="nav-link">Work</a></li>
+                <li><a href="index.html#process" class="nav-link">How It Works</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
                 <li><a href="blog.html" class="nav-link active">Blog</a></li>
                 <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="mailto:hussainnazary475@gmail.com?subject=Describe%20a%20repetitive%20workflow" class="nav-cta">Describe Your Workflow</a></li>
             </ul>
         </div>
     </nav>
@@ -205,7 +208,7 @@
     <section id="blog" class="blog">
         <div class="container">
             <h1>Blog</h1>
-            <p>Written while building the systems they describe: field notes on RAG, GGUF tooling, private deployment, and multilingual AI for Pashto, Dari, Persian, and Urdu.</p>
+            <p>Practical writing from someone who builds these systems: identifying repetitive document and knowledge work worth automating, evaluating AI honestly before trusting it, and deep dives on RAG, agents, and private deployment — including multilingual AI for Pashto, Dari, Persian, and Urdu.</p>
             <div class="blog-grid">
 <div class="blog-post">
                     <div class="post-header">
@@ -1478,8 +1481,23 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Hussain Nazary – Local AI Tools Developer. All rights reserved.</p>
+            <p>&copy; 2026 Hussain Nazary — Document &amp; Knowledge Workflow Automation. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        var navbar = document.getElementById('navbar');
+        var toggle = document.getElementById('navToggle');
+        toggle.addEventListener('click', function () {
+            var open = navbar.classList.toggle('nav-open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                navbar.classList.remove('nav-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
 </body>
 </html>

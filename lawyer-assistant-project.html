@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How a document-heavy legal workflow was automated: Lawyer Assistant searches a firm's own documents, verifies citations, and produces evidence-backed answers — evaluated at 96% citation accuracy, 100% offline.">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <title>Lawyer Assistant — Automated Legal Research with Evidence-Backed Answers | Hussain Nazary</title>
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/lawyer-assistant-project.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:title" content="Lawyer Assistant — Legal Research Automation Case Study | Hussain Nazary">
+    <meta property="og:description" content="An AI research system for a firm's own documents: ask a question in plain English, get an evidence-backed answer with verified citations — 100% on your machine.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/lawyer-assistant-project.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/lawyer-assistant-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lawyer Assistant — Legal Research Automation Case Study | Hussain Nazary">
+    <meta name="twitter:description" content="An AI research system for a firm's own documents: ask a question in plain English, get an evidence-backed answer with verified citations — 100% on your machine.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/lawyer-assistant-screenshot.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="simple-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo"><h2>Hussain <span>Nazary</span></h2></a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html#automate" class="nav-link">What I Automate</a></li>
+                <li><a href="index.html#work" class="nav-link active">Work</a></li>
+                <li><a href="index.html#process" class="nav-link">How It Works</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="mailto:hussainnazary475@gmail.com?subject=Describe%20a%20repetitive%20workflow" class="nav-cta">Describe Your Workflow</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Case hero -->
+    <section class="case-hero">
+        <div class="container">
+            <a href="index.html#work" class="back-link"><i class="fas fa-arrow-left"></i> All work</a>
+            <p class="eyebrow">Case Study &middot; Research Automation</p>
+            <h1>Automating legal research inside the firm's own walls</h1>
+            <p class="case-tagline">Lawyer Assistant is an AI research system that searches a law firm's own documents, verifies citations, and produces evidence-backed answers — so legal professionals spend their time on judgment, not page-turning.</p>
+            <div class="case-actions">
+                <a href="https://lawyers-assistant.github.io" target="_blank" rel="noopener" class="btn btn-primary"><i class="fas fa-globe"></i> Visit Website</a>
+                <a href="https://github.com/hussainnazary2/Lawyer-Assistant" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View Source</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshot -->
+    <section class="case-section">
+        <div class="container">
+            <figure class="case-shot">
+                <img src="lawyer-assistant-screenshot.png" alt="Lawyer Assistant — private AI legal research app interface">
+            </figure>
+        </div>
+    </section>
+
+    <!-- Problem + existing workflow -->
+    <section class="case-section">
+        <div class="container">
+            <div class="case-cols">
+                <div>
+                    <h2>The problem</h2>
+                    <ul class="challenge-list">
+                        <li><strong>Hours lost to searching:</strong> legal professionals spend significant time locating precedents, clauses, and facts across large collections of case files and contracts.</li>
+                        <li><strong>Verification burden:</strong> every answer must be traceable to a source — an unattributed claim is worthless in legal work.</li>
+                        <li><strong>Confidentiality:</strong> client data cannot be sent to cloud AI tools without risking privilege.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>The existing workflow</h2>
+                    <ul class="challenge-list">
+                        <li>A question arrives — from a partner, a client matter, or a review task.</li>
+                        <li>An associate searches folders and databases by hand, then reads dozens of pages to find relevant passages.</li>
+                        <li>Facts get extracted into notes, cross-checked, and written up with citations — slow, inconsistent, and easy to get wrong under deadline pressure.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Automated workflow + architecture -->
+    <section class="case-section">
+        <div class="container">
+            <div class="case-cols">
+                <div>
+                    <h2>The automated workflow</h2>
+                    <ul class="challenge-list">
+                        <li>The lawyer asks a question in plain English.</li>
+                        <li>The system retrieves the most relevant passages from the firm's own corpus using hybrid semantic and keyword search.</li>
+                        <li>Every citation is verified against the source document before it reaches the answer.</li>
+                        <li>An evidence-backed answer comes back with inline citations the lawyer can check — the lawyer, not the system, makes the call.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>How it's built</h2>
+                    <ul class="challenge-list">
+                        <li><strong>Retrieval:</strong> BGE-M3 embeddings (ChromaDB) fused with BM25 keyword search, re-ranked for relevance.</li>
+                        <li><strong>Inference:</strong> local language models served via Ollama — quantized GGUF weights, no account, no cloud path, no telemetry.</li>
+                        <li><strong>Deployment:</strong> a desktop application for Windows, macOS, and Linux that runs entirely on hardware the firm owns.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evaluation -->
+    <section class="case-section">
+        <div class="container">
+            <h2>Evaluation — measured before trusted</h2>
+            <p style="max-width:46rem;color:var(--muted);margin-bottom:28px;">The system was tested against its own benchmark suite before being presented as dependable: a 200-question runner, a golden evaluation set, and CUAD-based contract tasks measuring retrieval quality and citation correctness.</p>
+            <div class="stat-chart" style="max-width:560px;">
+                <div class="stat-bar">
+                    <span class="stat-label">Citation accuracy</span>
+                    <div class="stat-visual"><div class="stat-fill" style="width:96%"></div></div>
+                    <span class="stat-value">96%</span>
+                </div>
+                <div class="stat-bar">
+                    <span class="stat-label">Search recall</span>
+                    <div class="stat-visual"><div class="stat-fill" style="width:94%"></div></div>
+                    <span class="stat-value">94%</span>
+                </div>
+                <div class="stat-bar">
+                    <span class="stat-label">Data privacy</span>
+                    <div class="stat-visual"><div class="stat-fill" style="width:100%"></div></div>
+                    <span class="stat-value">100%</span>
+                </div>
+            </div>
+            <p class="stats-note">Figures from the project's own evaluation suite — see backend/benchmark in the GitHub repository. Data privacy is architectural: offline mode has no cloud path.</p>
+        </div>
+    </section>
+
+    <!-- Result -->
+    <section class="case-section">
+        <div class="container">
+            <div class="about-body">
+                <h2>The result</h2>
+                <p style="margin-top:18px;">Research that used to consume an afternoon of manual reading becomes a cited answer a lawyer verifies in minutes — on hardware the firm owns, with privilege intact. The lawyer stays the decision-maker; the automation does the legwork.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-band">
+        <div class="container">
+            <h2>Have a research workflow like this?</h2>
+            <p>If your team spends hours searching and reviewing documents, tell me about it — I'll give you an honest assessment of whether it can be automated.</p>
+            <a href="mailto:hussainnazary475@gmail.com?subject=Describe%20a%20repetitive%20workflow" class="btn btn-primary"><i class="fas fa-envelope"></i> Describe Your Workflow</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Hussain Nazary — Document &amp; Knowledge Workflow Automation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        var navbar = document.getElementById('navbar');
+        var toggle = document.getElementById('navToggle');
+        toggle.addEventListener('click', function () {
+            var open = navbar.classList.toggle('nav-open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                navbar.classList.remove('nav-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+</html>
