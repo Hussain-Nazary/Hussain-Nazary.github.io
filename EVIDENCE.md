@@ -60,6 +60,24 @@ claims" rejects a piece).
    replaced with a sourced facts panel (100% local inference, 4GB RAM minimum, cross-platform,
    CPU/GPU) drawn from the public repo README.
 
+## persian-ai-2026-local-models.html — Persian benchmark figures (added Oct 7, 2026)
+
+All figures quoted from a public, peer-reviewed benchmark. Status: VERIFIED.
+
+| Claim | Value | Source / method | Action |
+|---|---|---|---|
+| Gemma 2 — overall few-shot Persian avg | 0.61 | Cherakhloo et al. (2025), arXiv:2510.12807, Table 5 | Cited inline + sources note |
+| GLM-4 — overall few-shot | 0.53 | same | same |
+| Qwen2.5 — overall few-shot | 0.50 | same | same |
+| Qwen2 — overall few-shot / NER | 0.48 / 0.82 | same (Table 5 / Table 1) | same |
+| Llama 3.1 / 3.2 — overall few-shot | 0.30 / 0.21 | same | same |
+| Gemma 2 — PersianQA / Persian-SQuAD | 0.67 / 0.58 | same, Table 2 | same |
+| Aya Expanse 32B — cultural alignment | up to ~94 across MELAC categories | MELAC, arXiv:2508.00673 | Cited inline |
+| Gemma 3 — included in MELAC recent-model set | qualitative (tested, 41-model study) | MELAC, arXiv:2508.00673 | Cited inline |
+| Qwen3 / Llama 4 / GPT-OSS — Persian numbers | "thinner verified Persian-specific numbers" | no dedicated Persian benchmark found in review | Flagged in post, not asserted |
+
+Note: the benchmark paper labels models as "gemma2", "glm4", "qwen2.5", "qwen2" without size suffixes; the post follows that naming and mentions 7–9B only as a local-sizing guideline, not a claim about the tested model size. MELAC scores for Aya Expanse were read from the paper's results; the post phrases them as "up to ~94" rather than a full ranking because the complete table was not reproduced.
+
 ## Rules going forward
 
 - Any new metric added to any page gets a row here **in the same edit** — no orphan claims.

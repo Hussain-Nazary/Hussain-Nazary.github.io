@@ -1860,3 +1860,106 @@ h1, h2, h3, h4 {
         max-width: 480px;
     }
 }
+
+/* =========================================================
+   ABOUT PAGE — NAME VARIATIONS & ENTITY RECOGNITION
+   ========================================================= */
+
+.name-note {
+    background: var(--paper);
+    border: 1px solid rgba(14, 116, 144, 0.3);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 28px 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+.name-note-lead {
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.variant-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.variant-chip {
+    font-size: 0.78rem;
+    padding: 7px 15px;
+    color: var(--accent-deep);
+    border-color: rgba(14, 116, 144, 0.3);
+    background: var(--accent-wash);
+}
+
+.name-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    margin-top: 36px;
+}
+
+.name-col {
+    background: var(--mist);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 26px 28px;
+}
+
+.name-col h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.name-col p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.variant-list {
+    list-style: none;
+}
+
+.variant-list li {
+    position: relative;
+    padding: 9px 0 9px 26px;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.95rem;
+    color: var(--slate);
+}
+
+.variant-list li:first-child {
+    border-top: 0;
+}
+
+.variant-list li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 17px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+}
+
+.name-explainer {
+    margin-top: 32px;
+    max-width: 820px;
+    font-size: 0.97rem;
+    color: var(--muted);
+}
+
+.name-explainer strong {
+    color: var(--ink);
+}
+
+@media (max-width: 640px) {
+    .name-note {
+        padding: 22px 20px;
+    }
+}
