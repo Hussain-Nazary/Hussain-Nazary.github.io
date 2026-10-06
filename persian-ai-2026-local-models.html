@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Persian AI in 2026: The Best Local Models for Farsi Speakers</title>
-    <meta name="description" content="Which open models actually perform well in Persian? A 2025 benchmark found Gemma 2 leads, followed by GLM-4 and Qwen2.5 — and the newer Gemma 3 and Aya Expanse have verified Persian results. Plus Persian-specific models and how to choose.">
-    <meta name="keywords" content="persian ai models, farsi llm, persian llm local, gemma 2 persian, gemma 3 persian, glm-4 persian, qwen2.5 persian, qwen3 persian, aya expanse persian, persianmind, maral llm, persianllama, farsi ai, persian language ai, local llm persian">
+    <meta name="description" content="The 2026-state of Persian AI: what current-generation models — Qwen3.5, Gemma 3, gpt-oss-20b, Tiny-Aya-Global — actually score on Persian benchmarks (DivanBench, Parse, PMWP, MEA), plus Persian-specific models and how to choose.">
+    <meta name="keywords" content="persian ai models 2026, farsi llm 2026, qwen3.5 persian, gemma 3 persian, gpt-oss persian, tiny-aya-global, persian llm local, divanbench, parse benchmark persian, local llm persian">
     <meta name="author" content="Hussain Nazary">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://Hussain-Nazary.github.io/persian-ai-2026-local-models.html">
@@ -13,7 +13,7 @@
     <meta property="og:site_name" content="Hussain Nazary">
     <meta property="og:locale" content="en_US">
     <meta property="og:title" content="Persian AI in 2026: The Best Local Models for Farsi Speakers">
-    <meta property="og:description" content="Which open models actually perform well in Persian? A 2025 benchmark found Gemma 2 leads, followed by GLM-4 and Qwen2.5 — plus the newer Gemma 3 and Aya Expanse.">
+    <meta property="og:description" content="What current-generation models — Qwen3.5, Gemma 3, gpt-oss-20b, Tiny-Aya-Global — actually score on the 2026 Persian benchmarks.">
     <meta property="og:url" content="https://Hussain-Nazary.github.io/persian-ai-2026-local-models.html">
     <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
     <meta property="og:image:alt" content="Artificial intelligence illustration">
@@ -21,7 +21,7 @@
     <meta property="article:modified_time" content="2026-10-07T00:00:00Z">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Persian AI in 2026: The Best Local Models for Farsi Speakers">
-    <meta name="twitter:description" content="Which open models actually perform well in Persian? A 2025 benchmark found Gemma 2 leads, followed by GLM-4 and Qwen2.5 — plus the newer Gemma 3 and Aya Expanse.">
+    <meta name="twitter:description" content="What current-generation models — Qwen3.5, Gemma 3, gpt-oss-20b, Tiny-Aya-Global — actually score on the 2026 Persian benchmarks.">
     <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
     <meta name="twitter:image:alt" content="Artificial intelligence illustration">
     <script type="application/ld+json">
@@ -29,7 +29,7 @@
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           "headline": "Persian AI in 2026: The Best Local Models for Farsi Speakers",
-          "description": "Which open models actually perform well in Persian? A 2025 benchmark of 11 open-weight models found Gemma 2 leads, followed by GLM-4 and Qwen2.5, with the newer Gemma 3 and Aya Expanse also verified, plus the Persian-specific models worth knowing.",
+          "description": "The 2026 state of Persian AI: what current-generation models (Qwen3.5, Gemma 3, gpt-oss-20b, Tiny-Aya-Global) actually score on Persian benchmarks such as DivanBench, Parse, PMWP and MEA, plus Persian-specific models and how to choose.",
           "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
           "datePublished": "2026-08-09",
           "dateModified": "2026-10-07",
@@ -46,28 +46,28 @@
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Are there Persian-specific LLMs?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Yes. Open-source Persian-specific models include PersianMind, Maral, PersianLLaMA, and Llama 2 7B Persian, and the Awesome-Persian-LLM repository curates the ecosystem. Multilingual bases like Gemma 2, Gemma 3, GLM-4, and Qwen2.5 also perform well in Persian."}
+              "name": "Which model is best for Persian in 2026?",
+              "acceptedAnswer": {"@type": "Answer", "text": "It depends on the task. On DivanBench (2026), Gemma 3 12B led factual Persian knowledge (87%) and cultural reasoning (66%) among 7-12B models. On the MEA multilingual benchmark (2026, 24 languages including Persian), Qwen3.5-9B was the strongest model overall. For Persian math word problems (PMWP, 2026), Gemini 2.5 Flash scored highest (72.02%)."}
             },
             {
               "@type": "Question",
-              "name": "Which model is best for Persian AI in 2026?",
-              "acceptedAnswer": {"@type": "Answer", "text": "On a 2025 benchmark of 11 open models across Persian tasks (arXiv:2510.12807), Gemma 2 led overall, followed by GLM-4 and Qwen2.5. For the newer generation, Gemma 3 (Gemma 2's successor) and Aya Expanse 32B have verified Persian results via the MELAC cultural benchmark. Qwen2 was strongest at Persian named-entity recognition."}
+              "name": "Are there 2026 models built specifically for Persian?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Persian-specialized open models continue to be developed and adapted — Dorna2 is a current Persian-optimized model evaluated in 2026 research, alongside Maral, PersianMind and Hormoz. Most 2026 progress, however, comes from general multilingual models like Qwen3.5 and Gemma 3 whose Persian capability improves with each generation."}
             },
             {
               "@type": "Question",
-              "name": "Can I run a Persian AI model on a laptop?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Yes. 7-9B quantized models such as Gemma 2 and Qwen2.5 run on 8-16GB RAM laptops, fully offline and private. Persian-specific small models like Maral also fit."}
+              "name": "Can I run a 2026 Persian model locally?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Yes. Qwen3.5 is released in 2B and 9B sizes, and Gemma 3 in a 12B size — both fit quantized on consumer hardware (roughly 8-16GB RAM for the 7-12B class). gpt-oss-20b and Tiny-Aya-Global are also open weights. All run fully offline and private."}
             },
             {
               "@type": "Question",
-              "name": "How do I improve Persian AI quality locally?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Fine-tune a multilingual base on clean Persian data, use glossary-locked translation for terminology, and evaluate on Persian-specific benchmarks rather than English ones. Small curated datasets go a long way."}
+              "name": "How should I evaluate Persian AI in 2026?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Use Persian-native benchmarks rather than English ones. The 2026 benchmark set includes DivanBench (cultural reasoning), Parse (open-domain reasoning QA), PMWP (math word problems), APARSIN (Iranic sentiment and translation), MELAC, ParsiNLU, Persian MMLU and FaMTEB."}
             },
             {
               "@type": "Question",
               "name": "Is Persian AI better in the cloud?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Cloud APIs may have larger Persian capacity, but local models are private, free, unlimited, and offline. For sensitive or institutional Persian work — legal, medical, government — local deployment is often the only acceptable option."}
+              "acceptedAnswer": {"@type": "Answer", "text": "Cloud models such as Gemini 2.5 Flash still lead some Persian tasks, but open 2026 models like Qwen3.5 and Gemma 3 are close enough for most work — and they are private, free, unlimited and offline. For sensitive or institutional Persian work, local deployment is often the only acceptable option."}
             }
           ]
         }
@@ -100,139 +100,158 @@
 <body>
     <header>
         <h1>Persian AI in 2026: The Best Local Models for Farsi Speakers</h1>
-        <p><strong>Published: August 9, 2026 · Updated: October 7, 2026</strong> — Persian (Farsi) has a real ecosystem of dedicated models and benchmarks. But which open models actually perform well? Here's what the two most relevant 2025 benchmarks found — one on raw Persian NLP tasks and one on Persian language and culture — plus the Persian-specific models worth knowing.</p>
+        <p><strong>Published: August 9, 2026 · Updated: October 7, 2026</strong> — Persian (Farsi) used to be judged by whatever English model happened to work. In 2026 that changed: a new wave of Persian-native benchmarks — DivanBench, Parse, PMWP, APARSIN — now measure models on Persian reasoning, culture, and math directly. Here is what the current generation actually scores, and what to run on your own machine.</p>
         <div class="highlight-box success">
             <p><strong>🌍 Quick Takeaways</strong></p>
             <ul style="margin: 10px 0;">
-                <li><strong>Gemma 2 is the strongest open model for Persian overall</strong> — it led a 2025 benchmark across QA, reasoning, reading, sentiment, and generation</li>
-                <li><strong>GLM-4 and Qwen2.5 are the next-best multilingual bases</strong>, with Qwen2.5 best at zero-shot logical reasoning</li>
-                <li><strong>Newer generation:</strong> Gemma 3 (Gemma 2's successor) and Aya Expanse 32B have verified Persian results via the MELAC cultural benchmark</li>
-                <li><strong>Qwen2 is the surprise specialist</strong> at Persian named-entity recognition (0.82 F1, best in the study)</li>
-                <li><strong>Persian-specific models exist and are useful:</strong> PersianMind, Maral, PersianLLaMA, Dorna, Hormoz</li>
-                <li><strong>Popular ≠ best:</strong> Llama 3.x scored near the bottom on Persian tasks in the same benchmark</li>
+                <li><strong>Qwen3.5 (2B / 9B)</strong> — the 2026 Qwen generation, and the strongest model overall in a May 2026 multilingual benchmark covering Persian among 24 languages</li>
+                <li><strong>Gemma 3 12B</strong> — tops DivanBench (EACL 2026): 87% factual Persian knowledge and 66% cultural reasoning, the best of the 7–12B field</li>
+                <li><strong>Gemini 2.5 Flash</strong> — still the accuracy leader on Persian math word problems (PMWP 2026, 72.02%), using the cloud</li>
+                <li><strong>gpt-oss-20b and Tiny-Aya-Global</strong> — open multilingual alternatives; Tiny-Aya-Global is notably strong on low-resource languages</li>
+                <li><strong>Persian-specific models</strong> — Dorna2, Maral, PersianMind and Hormoz continue to serve dedicated Persian tasks</li>
             </ul>
         </div>
     </header>
     <main>
         <section id="landscape">
-            <h2>The Persian AI Landscape in 2026</h2>
-            <p>Persian is one of the best-served "underdog" languages in open AI: a community of researchers and builders has produced dedicated models, datasets, and benchmarks. The open-source Persian-specific models include <strong>PersianMind, Maral, and PersianLLaMA</strong> (plus the newer <strong>Dorna, Dorna2, and Hormoz-8B</strong>), and the <strong>Awesome-Persian-LLM</strong> repository curates the whole ecosystem — papers, datasets, models, tools, and evaluation benchmarks.</p>
-            <p>But the more important question in 2026 is which <em>general</em> open-weight models actually handle Persian well. The answer, per two independent 2025 benchmarks, is more specific than the usual "Qwen, Llama, and Gemma" shorthand — and it upends one common assumption.</p>
+            <h2>What Changed in 2026</h2>
+            <p>Two shifts define Persian AI this year. First, <strong>evaluation caught up with the language</strong>. Instead of translating English MMLU and hoping, researchers released Persian-native benchmarks: <strong>DivanBench</strong> for cultural reasoning (EACL 2026 SilkRoadNLP), <strong>Parse</strong> for open-domain reasoning QA (SIGIR 2026), <strong>PMWP</strong> for math word problems, and <strong>APARSIN</strong> for sentiment and translation across 14 Iranic languages and dialects.</p>
+            <p>Second, <strong>the open-weight frontier moved</strong>. The 2026 generation — Qwen3.5, Gemma 3, gpt-oss-20b, Tiny-Aya-Global — is materially better at Persian than the models that dominated 2024, and most of it runs offline on ordinary hardware. The practical question is no longer "can a local model handle Farsi?" but "which current model, for which task?"</p>
         </section>
-        <section id="benchmark">
-            <h2>What the 2025 NLP Benchmark Actually Found</h2>
-            <p>A peer-reviewed study (<a href="https://arxiv.org/abs/2510.12807" target="_blank" rel="noopener">Cherakhloo et al., 2025 — arXiv:2510.12807</a>) evaluated 11 open models in zero-shot and few-shot settings across Persian NLI, reading comprehension, sentiment, named-entity recognition, question answering (PersianQA, Persian-SQuAD), reasoning, summarization, and generation — using established datasets such as ParsiNLU, ArmanEmo, and ArmanNER. Here is the overall few-shot ranking (averaged across NLI, QA, reasoning, generation, and basic tasks):</p>
+        <section id="lineup">
+            <h2>The 2026 Model Lineup</h2>
+            <p>These are the current-generation models with Persian results reported in 2026 research. Scores are quoted from the papers cited at the bottom of this page.</p>
             <table>
                 <thead>
                     <tr>
                         <th>Model</th>
-                        <th>Overall score (few-shot)</th>
-                        <th>Standout strength</th>
+                        <th>Release</th>
+                        <th>Persian evidence (2026)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>Gemma 2</strong></td><td><strong>0.61</strong></td><td>Best overall — QA (0.67), reasoning (0.71 logical), reading, sentiment, generation</td></tr>
-                    <tr><td><strong>GLM-4</strong></td><td><strong>0.53</strong></td><td>Broad runner-up across nearly every task</td></tr>
-                    <tr><td><strong>Qwen2.5</strong></td><td><strong>0.50</strong></td><td>Best zero-shot logical reasoning (0.50)</td></tr>
-                    <tr><td><strong>Qwen2</strong></td><td><strong>0.48</strong></td><td>Best Persian NER (0.82 few-shot)</td></tr>
-                    <tr><td>Falcon 3</td><td>0.44</td><td>Solid mid-tier</td></tr>
-                    <tr><td>Marco-o1</td><td>0.40</td><td>Reasoning-focused, mid-tier</td></tr>
-                    <tr><td>Mistral</td><td>0.38</td><td>Strong-ish NER (0.66), weaker elsewhere</td></tr>
-                    <tr><td>Tülu 3</td><td>0.35</td><td>—</td></tr>
-                    <tr><td>Aya Expanse</td><td>0.33</td><td>Strong sentiment (0.58 zero-shot); excels on cultural-alignment evals</td></tr>
-                    <tr><td>Llama 3.1</td><td>0.30</td><td>Popular but weak on Persian</td></tr>
-                    <tr><td>Llama 3.2</td><td>0.21</td><td>Weakest tested</td></tr>
+                    <tr>
+                        <td><strong>Qwen3.5</strong> (2B / 9B)</td>
+                        <td>2026, open weights</td>
+                        <td>Strongest model overall in the MEA multilingual benchmark (May 2026) — 24 target languages including Persian. Qwen3.5-9B scored highest on coherence, consistency, fluency and relevance across high- and mid-resource groups.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gemma 3</strong> (12B)</td>
+                        <td>Open weights</td>
+                        <td>Leader of DivanBench (SilkRoadNLP / EACL 2026): <strong>87% factual</strong> Persian knowledge and <strong>66% cultural reasoning</strong> — best of seven 7–12B models tested.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gemini 2.5 Flash</strong></td>
+                        <td>Cloud API</td>
+                        <td>Highest accuracy on <strong>PMWP</strong>, the first Persian math-word-problem benchmark (2026): <strong>72.02%</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>gpt-oss-20b</strong></td>
+                        <td>Open weights</td>
+                        <td>Benchmarked in the MEA 2026 multilingual study. Solid and consistent, but trails Qwen3.5-9B on Persian-inclusive summarization quality.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiny-Aya-Global</strong> (3.35B)</td>
+                        <td>2026, open weights</td>
+                        <td>Built multilingual-first. In the same 2026 study it was the strongest small model on low-resource languages — useful where Persian sits alongside Dari or Pashto.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dorna2</strong> (8B)</td>
+                        <td>Persian-specific</td>
+                        <td>Persian-optimized model in the DivanBench 2026 field (73% factual / 54% scenario). A reminder that monoline pretraining boosts fluency more than reasoning.</td>
+                    </tr>
                 </tbody>
             </table>
-            <p>Two findings stand out. First, <strong>Gemma 2 is the clear leader</strong> — it wins or ties nearly every task and is especially strong on Persian reasoning and QA. Second, <strong>Llama 3.x performs poorly on Persian</strong> despite its popularity, so "just grab a Llama" is the wrong default for Farsi work.</p>
-            <p>One consistent weakness: <strong>named-entity recognition</strong>. Most models collapse to near-zero on zero-shot NER, and only Qwen2 (0.82) handles it well few-shot — a reminder to pick models per task, not per brand.</p>
+            <div class="highlight-box warning">
+                <p><strong>⚠️ A 2026 finding worth knowing:</strong> DivanBench found that most Persian models suffer an <em>acquiescence trap</em> — they accept culturally appropriate statements but fail to reject violations of the same concept. It also found the average gap between recalling a Persian cultural fact and applying it in a scenario is <strong>21 percentage points</strong>. Fluent Farsi output does not guarantee correct reasoning.</p>
+            </div>
         </section>
-        <section id="newer">
-            <h2>Newer Models (2025–2026): Gemma 3 and Aya Expanse</h2>
-            <p>The benchmark above tested the 2024 generation. Since then, two families have the clearest <em>verified</em> Persian evidence, via the <a href="https://arxiv.org/abs/2508.00673" target="_blank" rel="noopener">MELAC</a> benchmark — a 2025 study that evaluated <strong>41 models</strong> on 19 Persian datasets spanning Iranian law, Persian grammar, idioms, literature, and university entrance exams (using private test sets to reduce contamination).</p>
-            <ul>
-                <li><strong>Gemma 3</strong> (Google, 2025) — the direct successor to the benchmark-leading Gemma 2, and included in MELAC's recent-model set. It's the natural upgrade path if you liked Gemma 2's Persian results.</li>
-                <li><strong>Aya Expanse 32B</strong> (Cohere For AI) — the standout on cultural alignment. It posted strong MELAC scores (up to ~94 on several categories) even though it was mid-tier on the raw NLP benchmark above. When cultural and contextual accuracy matters more than raw task scores, Aya Expanse is worth testing.</li>
-            </ul>
-            <p>The other 2025-generation multilingual releases — <strong>Qwen3, Llama 4, and GPT-OSS</strong> — are strong candidates on paper, but they have thinner <em>verified</em> Persian-specific numbers in the public benchmarks I reviewed as of this update. So the safe, evidence-backed recommendations remain Gemma 2 → GLM-4 → Qwen2.5 for general work, with Gemma 3 and Aya Expanse 32B as the newer picks to test.</p>
+        <section id="reasoning">
+            <h2>Persian Reasoning in 2026</h2>
+            <p><strong>Parse</strong> (SIGIR 2026) is the first open-domain reasoning QA benchmark built for Persian — 10,800 questions across Boolean, multiple-choice and factoid formats, including multi-hop and unanswerable cases. Its most useful practical findings for anyone building on Persian today are about <em>method</em>, not a single leaderboard score: <strong>Persian-language prompts outperform English ones</strong>, and <strong>structured prompting helps</strong> — chain-of-thought for Boolean and multiple-choice items, few-shot for factoid questions.</p>
+            <p>The takeaway for the 2026 generation: reasoning-heavy Persian work still rewards scale and prompting discipline, and it is worth re-running Parse against whichever current model you deploy rather than assuming a ranking carries over.</p>
+        </section>
+        <section id="persian-specific">
+            <h2>Persian-Specific Models in 2026</h2>
+            <p>The dedicated Persian track is alive and still worth knowing. Current Persian-optimized open models include <strong>Dorna / Dorna2</strong> (Part AI), <strong>Maral</strong>, <strong>PersianMind</strong>, and <strong>Hormoz-8B</strong>. The <strong>Awesome-Persian-LLM</strong> repository curates the ecosystem — models, datasets, papers and tooling in one place.</p>
+            <p>Two honest caveats, both supported by 2026 research. First, Persian-specific pretraining does not automatically improve reasoning: DivanBench showed that adapting a base model to Persian raised acceptance of cultural statements while <em>cutting</em> its ability to reject violations. Second, dedicated Persian models tend to win on fluency and terminology, while general multilingual models win on reasoning breadth. Use specialists for language and format, generalists for thinking.</p>
         </section>
         <section id="choice">
-            <h2>How to Choose</h2>
+            <h2>How to Choose in 2026</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Your situation</th>
-                        <th>Best starting point</th>
+                        <th>Your task</th>
+                        <th>Start with</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>General chat &amp; writing in Persian</td>
-                        <td>Gemma 2 (or Gemma 3 as the newer successor)</td>
+                        <td>General Persian chat, writing, summarization</td>
+                        <td>Qwen3.5-9B (or Gemma 3 12B)</td>
                     </tr>
                     <tr>
-                        <td>Cultural / contextual accuracy</td>
-                        <td>Aya Expanse 32B (strong on MELAC cultural alignment)</td>
+                        <td>Persian cultural / contextual judgment</td>
+                        <td>Gemma 3 12B — the DivanBench leader — with scenario testing before you trust it</td>
                     </tr>
                     <tr>
-                        <td>Dedicated Persian tasks, limited hardware</td>
-                        <td>Persian-specific small models (Maral, Dorna, Hormoz-8B)</td>
+                        <td>Persian math and quantitative problems</td>
+                        <td>Gemini 2.5 Flash via API, or a LoRA fine-tuned open model — PMWP 2026 showed tuned small open models can exceed 91% exact equation match</td>
                     </tr>
                     <tr>
-                        <td>Named-entity extraction / information retrieval</td>
-                        <td>Qwen2 (strongest Persian NER in the benchmark)</td>
+                        <td>Hard Persian reasoning (multi-hop, negation, comparative)</td>
+                        <td>A 24B+ current model, with chain-of-thought and Persian-language prompts</td>
                     </tr>
                     <tr>
-                        <td>Translation with consistent terminology</td>
-                        <td>Gemma 2 / Gemma 3 or GLM-4 base + glossary-locked pipeline</td>
+                        <td>Small device / tight RAM</td>
+                        <td>Qwen3.5-2B, or Tiny-Aya-Global (3.35B) if you also need low-resource languages</td>
                     </tr>
                     <tr>
-                        <td>Institutional / sensitive Persian work</td>
-                        <td>Local deployment of a fine-tuned Gemma 2/3 or Qwen2.5 — private and offline</td>
+                        <td>Persian alongside Dari / Pashto</td>
+                        <td>Tiny-Aya-Global, or a multilingual base fine-tuned on your variety</td>
                     </tr>
                 </tbody>
             </table>
-            <p>The pragmatic default in 2026: <strong>Gemma 2 for general Persian work (Gemma 3 as the upgrade), Qwen2.5 as the runner-up, Qwen2 when you need entity extraction, and Aya Expanse 32B when cultural accuracy is the priority.</strong> Reach for a Persian-specific model when you want a specialist optimized for the language, and fine-tune or glossary-lock when your task has specific terminology.</p>
         </section>
         <section id="hardware">
             <h2>Running It Locally</h2>
-            <p>Persian AI fits the same hardware math as everything else: roughly <strong>0.5GB of memory per billion parameters</strong> for quantized models. A 7–9B quantized Persian-capable model — Gemma 2, GLM-4, or Qwen2.5 — runs on a modern 8–16GB laptop, fully offline. Aya Expanse 32B needs more headroom (quantized, on a 24GB+ machine). For sizing, see <a href="how-much-ram-local-ai.html">How Much RAM Do You Need to Run Local AI?</a> and <a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models Ranked by RAM</a>.</p>
+            <p>The 2026 lineup is friendlier to local hardware than the size numbers suggest. Roughly <strong>0.5GB of memory per billion parameters</strong> for quantized weights means a 9B model fits comfortably in 8GB, and a 12B model in 16GB. So <strong>Qwen3.5-9B and Gemma 3 12B both run fully offline on a modern laptop</strong>; gpt-oss-20b wants ~24GB class hardware. For sizing, see <a href="how-much-ram-local-ai.html">How Much RAM Do You Need to Run Local AI?</a> and <a href="top-10-gguf-models-by-ram.html">Top 10 GGUF Models Ranked by RAM</a>.</p>
         </section>
         <section id="improve">
             <h2>Three Techniques That Actually Improve Persian AI</h2>
             <ol>
-                <li><strong>Fine-tune on clean Persian data.</strong> A small, curated Persian dataset adapted onto a strong multilingual base (Gemma 2/3, GLM-4, or Qwen2.5) outperforms a generic model every time. LoRA makes this cheap — see <a href="lora-fine-tuning-local-llm.html">Fine-Tuning a Local LLM: LoRA for Beginners</a>.</li>
-                <li><strong>Lock the glossary.</strong> For legal, medical, or government terminology, a glossary-constrained pipeline keeps translation consistent — the single highest-leverage technique in regional languages. See <a href="multilingual-translation-local-llm.html">Building a Multilingual Translation Pipeline with Local LLMs</a>.</li>
-                <li><strong>Evaluate in Persian.</strong> Measure with Persian benchmarks (ParsiNLU, Persian MMLU, ArmanEmo, MELAC, FaMTEB), not English ones. What gets measured gets improved.</li>
+                <li><strong>Fine-tune on clean Persian data.</strong> PMWP 2026 showed the point vividly: after LoRA fine-tuning, small open models jumped past <strong>91% exact equation match</strong> on Persian math. A small, curated dataset beats a bigger generic model — see <a href="lora-fine-tuning-local-llm.html">Fine-Tuning a Local LLM: LoRA for Beginners</a>.</li>
+                <li><strong>Lock the glossary.</strong> For legal, medical or government terminology, a glossary-constrained pipeline keeps translation consistent — still the highest-leverage technique in regional languages. See <a href="multilingual-translation-local-llm.html">Building a Multilingual Translation Pipeline with Local LLMs</a>.</li>
+                <li><strong>Evaluate in Persian, with scenario tests.</strong> Use DivanBench, Parse, PMWP, APARSIN, MELAC, ParsiNLU, Persian MMLU and FaMTEB. Check both recall <em>and</em> rejection — the acquiescence trap means a model that looks accurate on facts may still fail on judgment.</li>
             </ol>
         </section>
         <section id="why-local">
-            <h2>Why Local Matters for Persian Speakers</h2>
-            <p>Cloud AI may have larger Persian capacity, but it comes with strings: subscriptions, data leaving the device, and — for speakers in restricted environments — availability problems. Local Persian AI is <strong>free, private, unlimited, and offline</strong>. For institutional work — legal, medical, government — it's often the only acceptable option, and it puts the capability in the hands of the speakers themselves rather than the platforms that under-serve them.</p>
+            <h2>Why Local Still Matters</h2>
+            <p>Cloud models keep a narrow edge on some Persian tasks, but the 2026 open generation has closed most of the gap for everyday work — and it comes without the strings: no subscription, no data leaving the device, no availability problems for speakers in restricted environments. Local Persian AI is <strong>free, private, unlimited and offline</strong>. For institutional work — legal, medical, government — it is often the only acceptable option, and it puts the capability in the hands of the speakers themselves.</p>
             <div class="highlight-box primary">
-                <p><strong>💡 The Pashto/Dari context:</strong> Persian resources are the bridge for improving neighboring languages. See <a href="pashto-ai.html">Pashto and Dari in AI: What Works in 2026</a> and <a href="why-ai-ignores-pashto-dari.html">Why AI Still Ignores Pashto and Dari</a> for the wider regional picture.</p>
+                <p><strong>💡 The wider Iranic picture:</strong> Persian resources are the bridge for Dari, Pashto and the other Iranian languages. See <a href="pashto-ai.html">Pashto and Dari in AI: What Works in 2026</a> and <a href="why-ai-ignores-pashto-dari.html">Why AI Still Ignores Pashto and Dari</a>.</p>
             </div>
         </section>
         <section id="faq">
             <h2>Frequently Asked Questions (FAQ)</h2>
-            <h3>Are there Persian-specific LLMs?</h3>
-            <p>Yes. Open-source Persian-specific models include PersianMind, Maral, PersianLLaMA, and Llama 2 7B Persian — plus the newer Dorna, Dorna2, and Hormoz-8B — and the Awesome-Persian-LLM repository curates the ecosystem. Multilingual bases like Gemma 2, Gemma 3, GLM-4, and Qwen2.5 also perform well in Persian.</p>
-            <h3>Which model is best for Persian AI in 2026?</h3>
-            <p>On a 2025 benchmark of 11 open models across Persian tasks (arXiv:2510.12807), <strong>Gemma 2 led overall</strong>, followed by GLM-4 and Qwen2.5. For the newer generation, <strong>Gemma 3</strong> (Gemma 2's successor) and <strong>Aya Expanse 32B</strong> have verified Persian results via the MELAC cultural benchmark. Qwen2 was strongest at Persian named-entity recognition.</p>
-            <h3>Can I run a Persian AI model on a laptop?</h3>
-            <p>Yes. 7–9B quantized models such as Gemma 2 and Qwen2.5 run on 8–16GB RAM laptops, fully offline and private. Persian-specific small models like Maral also fit. Aya Expanse 32B needs more RAM (24GB+ machine recommended).</p>
-            <h3>How do I improve Persian AI quality locally?</h3>
-            <p>Fine-tune a multilingual base on clean Persian data, use glossary-locked translation for terminology, and evaluate on Persian-specific benchmarks rather than English ones. Small curated datasets go a long way.</p>
+            <h3>Which model is best for Persian in 2026?</h3>
+            <p>It depends on the task. On <strong>DivanBench</strong> (2026), <strong>Gemma 3 12B</strong> led factual Persian knowledge (87%) and cultural reasoning (66%) among 7–12B models. On the <strong>MEA</strong> multilingual benchmark (2026, 24 languages including Persian), <strong>Qwen3.5-9B</strong> was the strongest model overall. For Persian math word problems (<strong>PMWP</strong>, 2026), <strong>Gemini 2.5 Flash</strong> scored highest (72.02%).</p>
+            <h3>Are there 2026 models built specifically for Persian?</h3>
+            <p>Persian-specialized open models continue to be developed and adapted — <strong>Dorna2</strong> is a current Persian-optimized model evaluated in 2026 research, alongside <strong>Maral</strong>, <strong>PersianMind</strong> and <strong>Hormoz</strong>. Most 2026 progress, however, comes from general multilingual models like Qwen3.5 and Gemma 3, whose Persian capability improves with each generation.</p>
+            <h3>Can I run a 2026 Persian model locally?</h3>
+            <p>Yes. Qwen3.5 ships in <strong>2B and 9B</strong> sizes and Gemma 3 in a <strong>12B</strong> size — both fit quantized on consumer hardware (roughly 8–16GB RAM for the 7–12B class). gpt-oss-20b and Tiny-Aya-Global are also open weights. All run fully offline and private.</p>
+            <h3>How should I evaluate Persian AI in 2026?</h3>
+            <p>Use Persian-native benchmarks rather than English ones. The 2026 set includes <strong>DivanBench</strong> (cultural reasoning), <strong>Parse</strong> (open-domain reasoning QA), <strong>PMWP</strong> (math word problems), <strong>APARSIN</strong> (Iranic sentiment and translation), plus MELAC, ParsiNLU, Persian MMLU and FaMTEB.</p>
             <h3>Is Persian AI better in the cloud?</h3>
-            <p>Cloud APIs may have larger Persian capacity, but local models are private, free, unlimited, and offline. For sensitive or institutional Persian work — legal, medical, government — local deployment is often the only acceptable option.</p>
+            <p>Cloud models such as Gemini 2.5 Flash still lead some Persian tasks, but open 2026 models like Qwen3.5 and Gemma 3 are close enough for most work — and they are private, free, unlimited and offline. For sensitive or institutional Persian work, local deployment is often the only acceptable option.</p>
         </section>
         <section id="cta">
             <div class="downloads">
                 <h3>🌍 Building Persian AI?</h3>
-                <p>I build multilingual AI for Persian, Dari, and Pashto — fine-tuned local models, glossary-locked translation, and private deployment. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> — this is exactly the kind of work I specialize in.</p>
+                <p>I build multilingual AI for Persian, Dari and Pashto — fine-tuned local models, glossary-locked translation and private deployment. <a href="https://Hussain-Nazary.github.io#contact" target="_blank" rel="noopener">Contact me</a> — this is exactly the kind of work I specialize in.</p>
             </div>
         </section>
-        <p class="sources"><strong>Sources:</strong> Cherakhloo, M., Abbasi, A., Sarafraz, M. S., &amp; Vosoughi Vahdat, B. (2025). <em>Benchmarking Open-Source Large Language Models for Persian in Zero-Shot and Few-Shot Learning</em>, arXiv:2510.12807 (11 open models on ParsiNLU, ArmanEmo, ArmanNER, Persian MMLU, PersianQA, Persian-SQuAD, and summarization). Farsi, F. et al. (2025). <em>MELAC: Massive Evaluation of Large Language Models with Alignment of Culture in Persian Language</em>, arXiv:2508.00673 (41 models on 19 Persian cultural/linguistic datasets, including Gemma 3 and Aya Expanse). All scores are quoted directly from those papers.</p>
+        <p class="sources"><strong>Sources (all 2026 unless noted):</strong> Sakhaeirad, A., Ma'manpoosh, A., &amp; Hemmat, A. — <em>Unmasking the Factual-Conceptual Gap in Persian Language Models</em> (DivanBench), SilkRoadNLP @ EACL 2026, arXiv:2602.17623. Mozafari, J., Mousavinasab, S. P., &amp; Jatowt, A. — <em>Parse: An Open-Domain Reasoning Question Answering Benchmark for Persian</em>, SIGIR 2026, arXiv:2602.01246. Ryu, S. et al. — <em>Understanding LLM Behavior in Multi-Target Cross-Lingual Summarization</em> (MEA benchmark; Qwen3.5, Tiny-Aya-Global, gpt-oss-20b), arXiv:2606.01252, May 2026. Abdolmaleki, M. et al. — <em>PMWP: A Benchmark for Math Word Problem Solving in Persian</em>, SilkRoadNLP @ EACL 2026. Jafari, S. et al. — <em>APARSIN: A Multi-Variety Sentiment and Translation Benchmark for Iranic Languages</em>, SilkRoadNLP @ EACL 2026. All scores are quoted directly from those papers; full proceedings at <a href="https://github.com/SilkRoadNLP/SilkRoadNLP-Workshop-Papers-2026" target="_blank" rel="noopener">SilkRoadNLP 2026</a>.</p>
     </main>
 </body>
 </html>

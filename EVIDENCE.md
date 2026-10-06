@@ -60,23 +60,35 @@ claims" rejects a piece).
    replaced with a sourced facts panel (100% local inference, 4GB RAM minimum, cross-platform,
    CPU/GPU) drawn from the public repo README.
 
-## persian-ai-2026-local-models.html — Persian benchmark figures (added Oct 7, 2026)
+## persian-ai-2026-local-models.html — 2026 Persian benchmark figures (rewritten Oct 7, 2026)
 
-All figures quoted from a public, peer-reviewed benchmark. Status: VERIFIED.
+Post was fully rewritten to cover the 2026 model generation only. All figures quoted from 2026
+peer-reviewed sources. Status: VERIFIED.
 
 | Claim | Value | Source / method | Action |
 |---|---|---|---|
-| Gemma 2 — overall few-shot Persian avg | 0.61 | Cherakhloo et al. (2025), arXiv:2510.12807, Table 5 | Cited inline + sources note |
-| GLM-4 — overall few-shot | 0.53 | same | same |
-| Qwen2.5 — overall few-shot | 0.50 | same | same |
-| Qwen2 — overall few-shot / NER | 0.48 / 0.82 | same (Table 5 / Table 1) | same |
-| Llama 3.1 / 3.2 — overall few-shot | 0.30 / 0.21 | same | same |
-| Gemma 2 — PersianQA / Persian-SQuAD | 0.67 / 0.58 | same, Table 2 | same |
-| Aya Expanse 32B — cultural alignment | up to ~94 across MELAC categories | MELAC, arXiv:2508.00673 | Cited inline |
-| Gemma 3 — included in MELAC recent-model set | qualitative (tested, 41-model study) | MELAC, arXiv:2508.00673 | Cited inline |
-| Qwen3 / Llama 4 / GPT-OSS — Persian numbers | "thinner verified Persian-specific numbers" | no dedicated Persian benchmark found in review | Flagged in post, not asserted |
+| Gemma 3 12B — DivanBench factual Persian knowledge | 87% | Sakhaeirad et al. (2026), arXiv:2602.17623, Table 2 (leader of 7 models, 7–12B) | Cited inline + sources note |
+| Gemma 3 12B — DivanBench cultural reasoning (scenario) | 66% | same, Table 2 | same |
+| Dorna2 8B — DivanBench factual / scenario | 73% / 54% | same, Table 2 | same |
+| DivanBench factual→scenario gap (average) | 21 percentage points | same | Cited inline |
+| Parse — Persian Boolean QA, 24B+ models (negation/simple) | ~0.88–0.96 zero-shot | Mozafari et al. (2026), SIGIR 2026, arXiv:2602.01246, Table 4 | Cited inline |
+| Parse — comparative multi-hop | ~0.57 | same, Table 4 | same |
+| Qwen3.5 9B — MEA multilingual benchmark (incl. Persian) | strongest model overall | Ryu et al. (2026), arXiv:2606.01252, Table 1 | Cited inline |
+| gpt-oss-20b / Tiny-Aya-Global — MEA | benchmarked; Tiny-Aya-Global strongest small model on low-resource | same, Table 1 | same |
+| Gemini 2.5 Flash — PMWP Persian math accuracy | 72.02% (highest) | Abdolmaleki et al. (2026), SilkRoadNLP @ EACL 2026 | Cited inline |
+| LLaMA-3-8B / Qwen-2.5-7B — PMWP after LoRA | >91% exact equation match | same | Cited inline |
 
-Note: the benchmark paper labels models as "gemma2", "glm4", "qwen2.5", "qwen2" without size suffixes; the post follows that naming and mentions 7–9B only as a local-sizing guideline, not a claim about the tested model size. MELAC scores for Aya Expanse were read from the paper's results; the post phrases them as "up to ~94" rather than a full ranking because the complete table was not reproduced.
+Notes / limits of what is asserted:
+
+- DivanBench models are labelled unsized in prose but sized in Table 2 ("Gemma3-12B", "Dorna2-8B");
+  the post uses those sizes.
+- MEA covers 24 target languages including Persian (fa), but Table 1 aggregates by *resource level*,
+  not per language. The post therefore says Qwen3.5-9B was "strongest overall" on that benchmark and
+  does **not** claim a Persian-only score.
+- Parse Table 4 reports per-subtype Boolean accuracy; the post quotes ranges (~0.88–0.96, ~0.57)
+  rather than presenting a fabricated single Persian score.
+- The superseded 2025 figures (Cherakhloo arXiv:2510.12807; MELAC arXiv:2508.00673) were removed from
+  the post in this rewrite and are no longer cited anywhere on the site.
 
 ## Rules going forward
 
