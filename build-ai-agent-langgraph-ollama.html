@@ -416,6 +416,7 @@ app.invoke({"messages": [HumanMessage("Email the draft to the client")]}, config
                 <li><strong>Expose it over MCP.</strong> Wrap your tools as <a href="mcp-explained.html">Model Context Protocol</a> servers so any MCP client (Claude Desktop, Cursor, or your own UI) can use them.</li>
                 <li><strong>Split into specialist agents.</strong> When one agent juggles too many tools, it degrades — see <a href="multi-agent-systems.html">Multi-Agent Systems</a> for the coordinator pattern.</li>
                 <li><strong>Watch the memory.</strong> Long agent runs grow the context; <a href="kv-cache-quantization.html">KV cache management</a> and <a href="speculative-decoding.html">speculative decoding</a> keep local agents fast.</li>
+                <li><strong>Skip the code entirely.</strong> If you want the loop already built — routing, tools, diff-gated writes, and verification — see <a href="lfm3-harness-local-ai-workspace.html">LFM3 Workspace v0.1.1</a>, a fully local desktop harness that ships exactly this.</li>
             </ul>
             <div class="toolbox">
                 <h3>🚀 Why local agents matter</h3>

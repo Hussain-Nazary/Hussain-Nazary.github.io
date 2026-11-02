@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcing LFM3 Workspace v0.1.1: Run Liquid AI's LFM3 Models Fully Locally</title>
+    <meta name="description" content="LFM3 Workspace v0.1.1 is out: a fully local, chat-first AI workspace for Liquid AI's LFM3 models. What's new, install steps for Windows and Linux, and who it's for.">
+    <meta name="keywords" content="lfm3 workspace, lfm3 harness, liquid ai lfm3 local, run lfm3 locally, local ai desktop app, offline ai workspace, llama.cpp desktop app, tauri ai app, local ai agent, no cloud ai">
+    <meta name="author" content="Hussain Nazary">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://Hussain-Nazary.github.io/lfm3-harness-local-ai-workspace.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hussain Nazary">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Announcing LFM3 Workspace v0.1.1: Run Liquid AI's LFM3 Models Fully Locally">
+    <meta property="og:description" content="LFM3 Workspace v0.1.1 is out: a fully local, chat-first AI workspace for Liquid AI's LFM3 models. What's new, install steps for Windows and Linux, and who it's for.">
+    <meta property="og:url" content="https://Hussain-Nazary.github.io/lfm3-harness-local-ai-workspace.html">
+    <meta property="og:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta property="og:image:alt" content="Artificial intelligence illustration">
+    <meta property="article:published_time" content="2026-11-02T00:00:00Z">
+    <meta property="article:modified_time" content="2026-11-02T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Announcing LFM3 Workspace v0.1.1: Run Liquid AI's LFM3 Models Fully Locally">
+    <meta name="twitter:description" content="LFM3 Workspace v0.1.1 is out: a fully local, chat-first AI workspace for Liquid AI's LFM3 models. What's new, install steps for Windows and Linux, and who it's for.">
+    <meta name="twitter:image" content="https://Hussain-Nazary.github.io/Artificial_Intelligence.png">
+    <meta name="twitter:image:alt" content="Artificial intelligence illustration">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Announcing LFM3 Workspace v0.1.1: Run Liquid AI's LFM3 Models Fully Locally",
+          "description": "LFM3 Workspace v0.1.1 is out: a fully local, chat-first AI workspace for Liquid AI's LFM3 models. What's new, install steps for Windows and Linux, and who it's for.",
+          "image": ["https://Hussain-Nazary.github.io/Artificial_Intelligence.png"],
+          "datePublished": "2026-11-02",
+          "dateModified": "2026-11-02",
+          "inLanguage": "en",
+          "author": {"@type": "Person", "name": "Hussain Nazary"},
+          "publisher": {"@type": "Person", "name": "Hussain Nazary"},
+          "mainEntityOfPage": {"@type": "WebPage", "@id": "https://Hussain-Nazary.github.io/lfm3-harness-local-ai-workspace.html"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is LFM3 Workspace?",
+              "acceptedAnswer": {"@type": "Answer", "text": "LFM3 Workspace is a fully local, chat-first desktop app for running Liquid AI's LFM3 model family on your own machine. It is built with Rust, React, Tauri 2, and pinned llama.cpp, and offers two surfaces: open-ended Chat and Verified tasks with deterministic checks. It needs no account and makes no cloud calls."}
+            },
+            {
+              "@type": "Question",
+              "name": "Does LFM3 Workspace need an internet connection or an account?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Only for setup. You download the installer and the models once; after that the app runs completely offline. There is no account, no cloud calls, and no telemetry — conversations persist in a local chat.db on your machine."}
+            },
+            {
+              "@type": "Question",
+              "name": "What hardware do I need to run it?",
+              "acceptedAnswer": {"@type": "Answer", "text": "A Windows 10/11 x64 machine or a Linux x86_64 machine with a recent glibc. Inference is CPU-only, so no GPU is required: 8GB of RAM covers chat with the text role, and about 4.9GB of disk fits all four model roles plus the workspace. Linux desktop additionally needs WebKitGTK 4.1 and GTK 3."}
+            },
+            {
+              "@type": "Question",
+              "name": "How is it different from Ollama or a local chat GUI?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Ollama and llama.cpp are model runtimes; most GUIs are chat shells on top of them. LFM3 Workspace is a harness: it routes each turn to a specialized model, confines tools to a workspace folder, shows every tool call, keeps file writes behind exact-diff approval, and never reports unverified work as finished."}
+            },
+            {
+              "@type": "Question",
+              "name": "What are Verified Tasks?",
+              "acceptedAnswer": {"@type": "Answer", "text": "A second surface for machine-certified work. Each mission runs against a frozen acceptance contract with independent, deterministic checks and provenance-bound evidence — the system refuses to mark work finished unless the checks pass. Three semantic missions stay human-review-only by design."}
+            },
+            {
+              "@type": "Question",
+              "name": "Is v0.1.1 production-ready?",
+              "acceptedAnswer": {"@type": "Answer", "text": "It is an experimental early release. The Windows installer and Linux packages are unsigned, inference is CPU-only (slower than GPU builds), and Linux has no system-voice fallback. For chat, file work, and verified missions it already runs fully offline — try it, and report issues on GitHub."}
+            }
+          ]
+        }
+    </script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 1200px; padding: 20px; color: #333; background-color: #fff; }
+        h1, h2, h3 { color: #2c3e50; }
+        h1 { border-bottom: 3px solid #3498db; padding-bottom: 10px; font-size: 2.5em; margin-bottom: 0.5em; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; font-size: 1.8em; }
+        h3 { font-size: 1.3em; margin-top: 20px; }
+        .highlight-box { margin: 15px 0; padding: 15px; border-left: 4px solid; border-radius: 4px; }
+        .success { background-color: #d4edda; border-color: #28a745; }
+        .info { background-color: #d1ecf1; border-color: #17a2b8; }
+        .primary { background-color: #e8f4fd; border-color: #3498db; }
+        .warning { background-color: #fff3cd; border-color: #ffc107; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
+        .feature-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        ul, ol { margin: 10px 0; padding-left: 20px; }
+        .downloads { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .downloads h3 { color: white; margin-top: 0; }
+        .downloads a { color: #fff; font-weight: 600; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 15px 0; }
+        pre code { background: transparent; padding: 0; color: inherit; }
+
+        /* Instagram Floating Button */
+        .instagram-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 1000;
+        }
+        .instagram-float:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            color: white;
+        }
+        .instagram-float svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        @media (max-width: 600px) {
+            .instagram-float {
+                padding: 12px 18px;
+                font-size: 0.85rem;
+                bottom: 15px;
+                right: 15px;
+            }        }
+        </style>
+</head>
+<body>
+    <header>
+        <h1>Announcing LFM3 Workspace v0.1.1: Run Liquid AI's LFM3 Models Fully Locally</h1>
+        <p><strong>Published: November 2, 2026</strong> — LFM3 Workspace v0.1.1 launched yesterday with native Linux desktop support. The fully local, chat-first cowork harness for Liquid AI's LFM3 model family is now available for Windows and Linux: four small models that read your folder, draft your files, look at your images, and hear your voice — entirely on your machine. No account, no cloud calls, no telemetry. Here's what it is, what's new in this release, how to install it, and the honest limitations.</p>
+        <div class="highlight-box success">
+            <p><strong>⚡ Quick Takeaways</strong></p>
+            <ul style="margin: 10px 0;">
+                <li><strong>Fully local:</strong> after one-time setup it works completely offline — chat, files, images, and voice; no account, no telemetry, conversations persist in a local <code>chat.db</code></li>
+                <li><strong>Four models, one team:</strong> LFM3-1.7B acts and writes, LFM3-VL-2B looks at images, LFM3-Audio-2B hears and speaks, d1-2B routes each turn and checks evidence</li>
+                <li><strong>Two surfaces:</strong> open-ended Chat, and Verified tasks that never report unverified work as finished</li>
+                <li><strong>New in v0.1.1:</strong> native Linux desktop (.deb and .AppImage), process containment, deterministic shutdown, XDG data directory</li>
+                <li><strong>Runs on modest hardware:</strong> 8GB RAM, CPU-only (no GPU needed), about 4.9GB of disk for all four roles</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <section id="why">
+            <h2>Why a Local Cowork Harness Matters</h2>
+            <p>Most AI assistants in 2026 still assume your work belongs in someone else's datacenter. You upload the documents, accept the telemetry, manage the per-seat subscription, and hope the vendor's privacy policy holds. For casual questions that's fine. For real work — the folder of client notes, the drafts you're being paid to write, the images you can't paste into a web form — it's a dealbreaker. This blog has covered <a href="data-privacy-vs-cloud-ai.html">the privacy gap between cloud and local AI</a> and <a href="on-premise-llm-deployment.html">what on-premise deployment actually requires</a> before.</p>
+            <p>The local side has the opposite problem. Runtimes like Ollama and llama.cpp are excellent, but they're developer-shaped: terminals, model files, config flags. And the GUIs built on top of them are mostly chat shells — a text box, a model picker, and no story for what happens when the model touches your files.</p>
+            <p>LFM3-Harness fills that gap. It's an independent, community-built, MIT-licensed desktop harness around Liquid AI's LFM3 model family — not a Liquid AI product, but an app built to make those models genuinely usable for everyday work. Its premise is simple: <strong>an app that behaves like a careful coworker</strong>. It reads the folder you point it at, summarizes and drafts, inspects images, takes voice messages — and before it changes a single file, it shows you the exact diff and waits for your approval. (For the background on the models themselves, start with <a href="lfm-models-guide-2026.html">LFM Models: Liquid Foundation Models Explained</a>.)</p>
+        </section>
+        <section id="what">
+            <h2>What LFM3 Workspace Actually Is</h2>
+            <p>The primary interface is a conversation. You type a message, attach an image, or record a voice note. The models respond by doing work: mapping a folder's structure, finding and summarizing files, tracing which notes relate to which, inspecting a screenshot, or proposing a Markdown report or a file edit. Conversations persist in a local <code>chat.db</code>, so closing the app doesn't lose your thread, and a Stop button cancels streams and any pending approvals immediately.</p>
+            <p>Two design rules run through everything. First, <strong>every tool call is visible</strong> — you see what the app did, not just what it said. Second, <strong>all writes sit behind exact-diff approval</strong>: the app proposes a precise change to a file, and nothing executes until you accept it. It never reports unverified work as finished.</p>
+            <p>The tools themselves are workspace-confined: <code>list_files</code>, <code>read_file</code>, <code>search_files</code>, and the write/edit operations can only touch the workspace folder you chose — nothing else on your disk is reachable. Image attachments (PNG, JPEG, WebP, GIF up to 20MB) go to the vision model; voice messages are transcribed locally, and replies can be synthesized back as speech.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>💬 Chat</h4>
+                    <p>The open-ended surface: ask, attach, dictate. Map a folder, summarize documents, draft a report, inspect an image — with every tool call shown and every write behind an approval gate.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>✅ Verified tasks</h4>
+                    <p>The machine-certified surface: missions with frozen acceptance contracts, independent deterministic checks, and provenance-bound evidence. "Done" means the checks passed — not that the model felt confident.</p>
+                </div>
+            </div>
+        </section>
+        <section id="models">
+            <h2>The Four-Model Team</h2>
+            <p>LFM3 Workspace doesn't ask one model to do everything. Each turn is routed to whichever small, specialized model fits the job — the same <a href="multi-agent-systems.html">specialist pattern behind multi-agent systems</a>, except all the specialists live on your CPU. Here's the roster:</p>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>Role</th>
+                    <th>What it does</th>
+                </tr>
+                <tr>
+                    <td><strong>LFM3-1.7B</strong></td>
+                    <td>Text</td>
+                    <td>Acts and writes: conversation, planning, drafting reports and file edits</td>
+                </tr>
+                <tr>
+                    <td><strong>LFM3-VL-2B</strong></td>
+                    <td>Vision</td>
+                    <td>Looks at the images you attach — screenshots, photos, diagrams</td>
+                </tr>
+                <tr>
+                    <td><strong>LFM3-Audio-2B</strong></td>
+                    <td>Audio</td>
+                    <td>Hears and speaks: transcribes your voice messages and synthesizes spoken replies locally through <code>llama-tts</code></td>
+                </tr>
+                <tr>
+                    <td><strong>d1-2B</strong></td>
+                    <td>Decision</td>
+                    <td>Routes each turn to the right model and checks evidence before anything is called "done"</td>
+                </tr>
+            </table>
+            <p>Why small models instead of one big one? Because they have to fit a CPU budget. A 1.7B–2B class model leaves room on an 8GB machine for the runtime, the UI, and your actual work — see <a href="8gb-vs-16gb-ram-local-llm.html">what 8GB vs 16GB RAM actually fits</a>. And because the decision model gates every step — which tool to call, whether the evidence is good enough — you get <a href="tool-calling-local-llm.html">tool calling</a> with a checkpoint, not a free-running loop.</p>
+        </section>
+        <section id="verified">
+            <h2>Verified Tasks: Work That Certifies Itself</h2>
+            <p>Chat is honest about being a conversation. But when an AI touches files, "it said it's done" isn't good enough — that's the failure mode behind most disappointing agent projects, and it's why <a href="agentic-ai-2026-worth-building.html">agents are only worth building when success is measurable</a>.</p>
+            <p>Verified tasks are the app's answer to that failure mode. A mission runs against a <strong>frozen acceptance contract</strong> — the success criteria are written down before the work starts and don't move mid-run. Independent <strong>deterministic checks</strong> grade the output; the model never grades itself. And the checks consume <strong>provenance-bound evidence</strong>: proof tied to where the claim came from, not a summary of vibes. If a check doesn't pass, the mission doesn't report done — full stop.</p>
+            <p>Three semantic missions stay <strong>human-review-only</strong> by design, because no trustworthy deterministic check exists for them yet. The app shows an honest "needs your review" rather than a confident green checkmark. Operation is also bounded: context limits and turn boundaries stop a mission from wandering, and every mission keeps its workspace separate.</p>
+        </section>
+        <section id="v011">
+            <h2>What's New in v0.1.1</h2>
+            <p>v0.1.0 was Windows-first. v0.1.1, released November 1, 2026, makes the app a genuine cross-platform desktop citizen. The headline is native Linux support — and underneath it, a batch of reliability work that matters more than it sounds:</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🐧 Native Linux desktop</h4>
+                    <p>Real packages: a 37.1 MB <code>.deb</code> and a 99.6 MB <code>AppImage</code>, with a Linux icon set and platform config. Windows stays covered by the 15.2 MB NSIS installer.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔒 Process containment</h4>
+                    <p>On Linux, external processes run under process groups — containment you can reason about, not a hopeful <code>kill</code>.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🕯️ Deterministic shutdown</h4>
+                    <p>Both platforms now shut down deterministically — no orphaned inference processes left behind when you close the app.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📁 Linux data directory</h4>
+                    <p>Data lives under <code>$XDG_DATA_HOME/LFM3Harness</code>, where Linux packages expect it. Resources are found where packages put them, and bundled shared libraries resolve first.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📦 One release workflow</h4>
+                    <p>A single release workflow produces every asset — installers, packages, CLI archive, and a <code>SHA256SUMS.txt</code> so you can verify what you download.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔧 Packaging fixes</h4>
+                    <p>The small stuff that breaks real installs: resources resolving to the right paths, libraries loading in the right order, icons landing in the right places.</p>
+                </div>
+            </div>
+            <p>Every release asset is listed below in the download section, including a 22.2 MB headless CLI archive for Linux if you want the missions without the desktop UI.</p>
+        </section>
+        <section id="architecture">
+            <h2>Under the Hood</h2>
+            <p>The stack: a <strong>Rust</strong> core engine, a <strong>React/TypeScript</strong> UI, <strong>Tauri 2</strong> as the desktop shell, and <strong>pinned llama.cpp</strong> processes for inference — pinned, so the behavior you get today is the behavior you get next month. <strong>SQLite</strong> backs the chat history and the journals that Verified tasks write. The engine spawns external llama.cpp processes rather than embedding inference in the UI process, which is what makes the deterministic shutdown and process containment from v0.1.1 possible. If you're weighing runtimes yourself, the trade-offs are laid out in <a href="ollama-vs-llamacpp-2026.html">Ollama vs llama.cpp</a>.</p>
+            <p>Models are managed in the app: you pick what you need and download it through the UI. All four roles plus a workspace fit in roughly <strong>4.9GB</strong> of disk. Inference is <strong>CPU-only</strong> in this release — deliberately, so the app works on any x64 laptop without a GPU. That's a real speed trade-off, and it's covered honestly in the limitations below.</p>
+            <p>Privacy is structural, not a policy: no account exists, no cloud calls are made, no telemetry is collected, and after setup the app runs <strong>completely offline</strong>. Your conversations live in <code>chat.db</code> on your disk.</p>
+        </section>
+        <section id="install">
+            <h2>How to Install LFM3 Workspace v0.1.1</h2>
+            <p>Requirements first:</p>
+            <table>
+                <tr>
+                    <th>Requirement</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Operating system</strong></td>
+                    <td>Windows 10 or 11 (x64), or Linux x86_64 with a recent glibc</td>
+                </tr>
+                <tr>
+                    <td><strong>Linux desktop dependencies</strong></td>
+                    <td>WebKitGTK 4.1 and GTK 3</td>
+                </tr>
+                <tr>
+                    <td><strong>RAM</strong></td>
+                    <td>8GB for chat with the text role</td>
+                </tr>
+                <tr>
+                    <td><strong>Disk</strong></td>
+                    <td>About 4.9GB for all four model roles plus a workspace</td>
+                </tr>
+                <tr>
+                    <td><strong>GPU</strong></td>
+                    <td>Not required — inference is CPU-only</td>
+                </tr>
+            </table>
+            <h3>Windows (x64)</h3>
+            <ol>
+                <li>Download <code>LFM3.Workspace_0.1.1_x64-setup.exe</code> (15.2 MB) from the release page — ideally verify it against <code>SHA256SUMS.txt</code>.</li>
+                <li>Run the installer. Because it's unsigned, SmartScreen will warn you; choose "More info" → "Run anyway" if you're comfortable.</li>
+                <li>Launch the app and download the models you want from the model manager. For chat, you need the text role at minimum.</li>
+            </ol>
+            <h3>Linux (x64)</h3>
+            <ol>
+                <li>Install WebKitGTK 4.1 and GTK 3 from your distribution's repositories if they're not already present.</li>
+                <li>Either install the <code>.deb</code> with your package manager (for example <code>sudo apt install ./LFM3.Workspace_0.1.1_amd64.deb</code>), or download the <code>.AppImage</code>, make it executable with <code>chmod +x</code>, and run it.</li>
+                <li>Launch the app, pick your models, and go. Your data lands under <code>$XDG_DATA_HOME/LFM3Harness</code>.</li>
+            </ol>
+            <h3>First run</h3>
+            <p>Start in Chat: point the workspace at a folder of real files and ask it to map the structure or summarize a document. Attach an image to see the vision model work; hold the mic button to send a voice message. Approvals appear as exact diffs — accept or reject each one.</p>
+            <p>If you prefer the terminal, the headless CLI exposes the same engine:</p>
+            <pre><code># health-check the installation
+lfm3-cli doctor
+
+# list missions and probe local models
+lfm3-cli missions
+lfm3-cli models --probe
+
+# run an agent-style job against a workspace
+lfm3-cli job --goal "Read notes/ and write out/report.md, one section per note" --workspace ./demo --minutes 30 --events -
+
+# or a plan-first general task
+lfm3-cli task --goal "Summarise demo/notes.md into out/summary.md" --workspace ./demo</code></pre>
+            <div class="highlight-box info">
+                <p><strong>💡 Going deeper:</strong> for the models behind the app, read <a href="lfm-models-guide-2026.html">LFM Models: Liquid Foundation Models Explained</a>. If your machine is tight on memory, <a href="8gb-vs-16gb-ram-local-llm.html">8GB vs 16GB RAM for Local LLMs</a> tells you what to expect, and <a href="how-much-ram-local-ai.html">How Much RAM Do You Need to Run Local AI?</a> covers the full range. And if you'd rather build the agent loop yourself, start with <a href="build-ai-agent-langgraph-ollama.html">How to Build an AI Agent with LangGraph + Ollama</a>.</p>
+            </div>
+        </section>
+        <section id="limits">
+            <h2>The Honest Limitations</h2>
+            <p>This is an experimental early release, and anyone evaluating it should know exactly where the edges are:</p>
+            <ul>
+                <li><strong>Unsigned packages.</strong> The Windows installer and the Linux packages aren't code-signed, so your OS or browser will warn you. Check the SHA256 sums against <code>SHA256SUMS.txt</code> before trusting them.</li>
+                <li><strong>CPU-only inference.</strong> No GPU path in this release. Chat and file work are comfortable; long batch jobs are slower than a GPU build would be.</li>
+                <li><strong>Three missions are human-review-only.</strong> The semantic checks don't exist yet, so the app refuses to auto-certify them — by design.</li>
+                <li><strong>Linux voice fallback.</strong> Linux has no system-voice fallback, so audio output depends on the local synthesis path.</li>
+            </ul>
+            <p>None of these are hidden: the release notes state them, and the app states them where they apply. That's the point of a harness — trust is earned by showing work, including its limits. The project is MIT-licensed on GitHub, and issue reports genuinely shape the roadmap.</p>
+        </section>
+        <section id="faq">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <h3>What is LFM3 Workspace?</h3>
+            <p>LFM3 Workspace is a fully local, chat-first desktop app for running Liquid AI's LFM3 model family on your own machine. It is built with Rust, React, Tauri 2, and pinned llama.cpp, and offers two surfaces: open-ended Chat and Verified tasks with deterministic checks. It needs no account and makes no cloud calls.</p>
+            <h3>Does LFM3 Workspace need an internet connection or an account?</h3>
+            <p>Only for setup. You download the installer and the models once; after that the app runs completely offline. There is no account, no cloud calls, and no telemetry — conversations persist in a local <code>chat.db</code> on your machine.</p>
+            <h3>What hardware do I need to run it?</h3>
+            <p>A Windows 10/11 x64 machine or a Linux x86_64 machine with a recent glibc. Inference is CPU-only, so no GPU is required: 8GB of RAM covers chat with the text role, and about 4.9GB of disk fits all four model roles plus the workspace. Linux desktop additionally needs WebKitGTK 4.1 and GTK 3.</p>
+            <h3>How is it different from Ollama or a local chat GUI?</h3>
+            <p>Ollama and llama.cpp are model runtimes; most GUIs are chat shells on top of them. LFM3 Workspace is a harness: it routes each turn to a specialized model, confines tools to a workspace folder, shows every tool call, keeps file writes behind exact-diff approval, and never reports unverified work as finished.</p>
+            <h3>What are Verified Tasks?</h3>
+            <p>A second surface for machine-certified work. Each mission runs against a frozen acceptance contract with independent, deterministic checks and provenance-bound evidence — the system refuses to mark work finished unless the checks pass. Three semantic missions stay human-review-only by design.</p>
+            <h3>Is v0.1.1 production-ready?</h3>
+            <p>It is an experimental early release. The Windows installer and Linux packages are unsigned, inference is CPU-only (slower than GPU builds), and Linux has no system-voice fallback. For chat, file work, and verified missions it already runs fully offline — try it, and report issues on GitHub.</p>
+        </section>
+        <section id="cta">
+            <div class="downloads">
+                <h3>📦 Download LFM3 Workspace v0.1.1</h3>
+                <p>All assets are on the <a href="https://github.com/LFM3-Harness/LFM3-Harness/releases/tag/v0.1.1" target="_blank" rel="noopener">release page</a>, with SHA256 sums in <a href="https://github.com/LFM3-Harness/LFM3-Harness/releases/download/v0.1.1/SHA256SUMS.txt" target="_blank" rel="noopener">SHA256SUMS.txt</a>: <a href="https://github.com/LFM3-Harness/LFM3-Harness/releases/download/v0.1.1/LFM3.Workspace_0.1.1_x64-setup.exe" target="_blank" rel="noopener">Windows installer</a> · <a href="https://github.com/LFM3-Harness/LFM3-Harness/releases/download/v0.1.1/LFM3.Workspace_0.1.1_amd64.deb" target="_blank" rel="noopener">Linux .deb</a> · <a href="https://github.com/LFM3-Harness/LFM3-Harness/releases/download/v0.1.1/LFM3.Workspace_0.1.1_amd64.AppImage" target="_blank" rel="noopener">Linux AppImage</a> · <a href="https://github.com/LFM3-Harness/LFM3-Harness/releases/download/v0.1.1/LFM3-Workspace_0.1.1_linux-x64_cli.tar.gz" target="_blank" rel="noopener">Linux CLI</a>. Source and issues live in the <a href="https://github.com/LFM3-Harness/LFM3-Harness" target="_blank" rel="noopener">LFM3-Harness repository</a> (MIT).</p>
+                <p>LFM3-Harness is an independent, community-built project — try it, break it, and file issues. Feedback is what shapes the roadmap.</p>
+            </div>
+        </section>
+    </main>
+
+<!-- Instagram Floating Button -->
+<a href="https://www.instagram.com/nazary.ai" target="_blank" rel="noopener noreferrer" class="instagram-float" aria-label="Connect with me on Instagram">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+    Connect on Instagram
+</a>
+</body>
+</html>
